@@ -1065,4 +1065,13 @@
         </div>
     </div>
 </section>
+
+
+<section class="container pt-lg-4 mb-4 mb-md-5">
+
+    {% for photo in photos %}
+    <img src="/media/{{ photo.images }}" alt="">
+    {% endfor %}
+
+</section>
 {% endblock %}

@@ -37,7 +37,6 @@ class Product(models.Model):
     )
 
     name = models.CharField(max_length=250, unique=True)
-    image = models.ImageField(upload_to="products-img", null=True, blank=True)
     category = models.ForeignKey(to='Category', on_delete=models.CASCADE)
     gender = models.CharField(
         max_length=30, choices=Gender_Choices, null=True, blank=True)
@@ -51,6 +50,15 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(
+        'Product', default=None, on_delete=models.CASCADE)
+    images = models.FileField(upload_to=str(product.name) + '-images/')
+
+    def __str__(self):
+        return self.product.name
 
 
 # function to create a slug using the function (unique_slug_generator) that exist in the module (utils.py)
