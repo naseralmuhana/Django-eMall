@@ -1,8 +1,8 @@
 from django.contrib import admin
 from core import models as core_models
 
-class ProductImageAdmin(admin.StackedInline):
-    model = core_models.ProductImage
+# class ProductImageAdmin(admin.StackedInline):
+#     model = core_models.ProductImage
  
 
 class StoreAdmin(admin.ModelAdmin):
@@ -16,7 +16,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    inlines = [ProductImageAdmin]
+    # inlines = [ProductImageAdmin]
     list_display = ['name', 'category']
     list_filter = ['category']
     readonly_fields = ('slug',)
