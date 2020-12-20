@@ -1,0 +1,83 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8" />
+  <meta name="description" content="Cartzilla - E-commerce Template" />
+  <meta name="author" content="Naser AlMuhana" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="msapplication-TileColor" content="#ffffff" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Favicon and Touch Icons-->
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/base/apple-touch-icon.png' %}" />
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/base/favicon-32x32.png' %}" />
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/base/favicon-16x16.png' %}" />
+  <link rel="manifest" href="{% static 'vendor/extra/site.webmanifest' %}" />
+  <link rel="mask-icon" color="#fe6a6a" href="{% static 'vendor/extra/safari-pinned-tab.svg' %}" />
+
+  <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
+  <link rel="stylesheet" media="screen" href="{% static 'vendor/simplebar/dist/simplebar.min.css' %}" />
+  <link rel="stylesheet" media="screen" href="{% static 'vendor/tiny-slider/dist/tiny-slider.css' %}" />
+  <link rel="stylesheet" media="screen" href="{% static 'vendor/drift-zoom/dist/drift-basic.min.css' %}" />
+
+  <!-- Main Theme Styles + Bootstrap-->
+  <link rel="stylesheet" media="screen" href="{% static 'css/theme.min.css' %}" />
+
+  <title>CartZilla</title>
+
+
+
+  <!-- Google Tag Manager-->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "../www.googletagmanager.com/gtm5445.html?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-WKV3GT5");
+  </script>
+
+
+  {% block base_css %}
+  {% endblock %}
+
+</head>
+
+<body>
+
+
+  {% block base_content %}
+  {% endblock %}
+
+  <!-- Le javascript
+================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+
+  <!-- Vendor scrits: js libraries and plugins-->
+  <script src="{% static 'vendor/jquery/dist/jquery.slim.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/bs-custom-file-input/dist/bs-custom-file-input.min.js' %}"></script>
+  <script src="{% static 'vendor/simplebar/dist/simplebar.min.js' %}"></script>
+  <script src="{% static 'vendor/tiny-slider/dist/min/tiny-slider.js' %}"></script>
+  <script src="{% static 'vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js' %}"></script>
+  <script src="{% static 'vendor/drift-zoom/dist/Drift.min.js' %}"></script>
+
+  <!-- Main theme script-->
+  <script src="{% static 'js/theme.min.js' %}"></script>
+
+
+  {% block base_js %}
+  {% endblock %}
+
+</body>
+
+</html>
