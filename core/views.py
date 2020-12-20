@@ -8,9 +8,7 @@ class IndexPageView(TemplateView):
 
     template_name = 'core/index.html'
 
-    
     def get_context_data(self, **kwargs):
         context = super(IndexPageView, self).get_context_data(**kwargs)
-        context['products'] = core_models.Product.objects.filter(category__name='T-Shirt')
+        context['products'] = core_models.Product.objects.all
         return context
-    
