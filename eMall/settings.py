@@ -43,6 +43,7 @@ BUILT_IN_APPS = [
 
 EXTERNAL_APPS = [
     'crispy_forms',
+    'multiselectfield',
     'core.apps.CoreConfig',
     'account.apps.AccountConfig',
 ]

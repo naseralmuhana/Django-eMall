@@ -11,5 +11,5 @@ class IndexPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(IndexPageView, self).get_context_data(**kwargs)
         context['products'] = core_models.Product.objects.all
-        context['photos'] = core_models.ProductImage.objects.filter(product__name='red shirt')
+        # context['photos'] = core_models.ProductImage.objects.filter(product__name='red shirt')
         return context
