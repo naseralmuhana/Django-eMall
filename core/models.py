@@ -29,13 +29,26 @@ Color_Choices = (
     ('#008000', 'Green', ),
     ('#0000FF', 'Blue', ),
     ('#800080', 'Purple', ),
-)
+)   
+
+
+class StoreType(models.Model):
+    name = models.CharField(max_length=250, unique=True)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
 
 
 class Store(models.Model):
 
     name = models.CharField(max_length=250, unique=True)
+    storetype = models.ForeignKey(to='StoreType',verbose_name=('Store Type') ,on_delete=models.CASCADE)
     image = models.ImageField(upload_to="Stores-Images", null=True, blank=True)
+    logo = models.ImageField(upload_to="Stores-logos", null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -90,6 +103,7 @@ def create_slug(sender, instance, *args, **kwargs):
         instance.slug = unique_slug_generator(instance)
 
 
+pre_save.connect(create_slug, sender=StoreType)
 pre_save.connect(create_slug, sender=Store)
 pre_save.connect(create_slug, sender=Category)
 pre_save.connect(create_slug, sender=Product)

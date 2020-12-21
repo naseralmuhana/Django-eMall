@@ -25,6 +25,9 @@ class ProductAdmin(admin.ModelAdmin):
     #    model = core_models.Product
 
 
+admin.site.register(core_models.StoreType)
 admin.site.register(core_models.Store, StoreAdmin)
 admin.site.register(core_models.Category, CategoryAdmin)
 admin.site.register(core_models.Product, ProductAdmin)
+
+
