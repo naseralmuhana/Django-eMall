@@ -80,6 +80,9 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def store_name(self):
+        return self.category.store.name
+
 
 # function to create a slug using the function (unique_slug_generator) that exist in the module (utils.py)
 def create_slug(sender, instance, *args, **kwargs):

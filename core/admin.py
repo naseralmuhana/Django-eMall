@@ -10,19 +10,19 @@ class StoreAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'store']
-    list_filter = ['store']
+    list_display = ('name', 'store',)
+    list_filter = ('store',)
     readonly_fields = ('slug',)
 
 
 class ProductAdmin(admin.ModelAdmin):
     # inlines = [ProductImageAdmin]
-    list_display = ['name', 'category']
-    list_filter = ['category']
+    list_display = ('name', 'category', 'store_name',)
+    list_filter = ('category','category__store__name',)
     readonly_fields = ('slug',)
     
-    class Meta:
-       model = core_models.Product
+    # class Meta:
+    #    model = core_models.Product
 
 
 admin.site.register(core_models.Store, StoreAdmin)
