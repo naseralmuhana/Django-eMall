@@ -69,8 +69,7 @@ class Product(models.Model):
                                 validators=[MinValueValidator(0.01)])
     discount_price = models.DecimalField(max_digits=6, decimal_places=2, default=0.0,
                                          validators=[MinValueValidator(0.00)], blank=True, null=True)
-    gender = models.CharField(
-        max_length=10, choices=Gender_Choices, null=True, blank=True)
+    gender = MultiSelectField(choices=Gender_Choices, null=True, blank=True)
     size = MultiSelectField(choices=Size_Choices, null=True, blank=True)
     color = MultiSelectField(choices=Color_Choices, null=True, blank=True)
     active = models.BooleanField(default=True)
