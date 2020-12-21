@@ -29,7 +29,7 @@ Color_Choices = (
     ('#008000', 'Green', ),
     ('#0000FF', 'Blue', ),
     ('#800080', 'Purple', ),
-)   
+)
 
 
 class StoreType(models.Model):
@@ -42,11 +42,11 @@ class StoreType(models.Model):
         return self.name
 
 
-
 class Store(models.Model):
 
     name = models.CharField(max_length=250, unique=True)
-    storetype = models.ForeignKey(to='StoreType',verbose_name=('Store Type') ,on_delete=models.CASCADE)
+    storetype = models.ForeignKey(to='StoreType', verbose_name=(
+        'Store Type'), on_delete=models.CASCADE)
     image = models.ImageField(upload_to="Stores-Images", null=True, blank=True)
     logo = models.ImageField(upload_to="Stores-logos", null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
@@ -71,9 +71,19 @@ class Category(models.Model):
         return self.name
 
 
+class Brand(models.Model):
+    name = models.CharField(max_length=250, unique=True)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
 
-    name = models.CharField(max_length=250, unique=True)
+    name = models.CharField(max_length=900, unique=True)
     category = models.ForeignKey(to='Category', on_delete=models.CASCADE)
     image = models.ImageField(
         upload_to='Products-Images', null=True, blank=True)
@@ -85,6 +95,7 @@ class Product(models.Model):
     gender = MultiSelectField(choices=Gender_Choices, null=True, blank=True)
     size = MultiSelectField(choices=Size_Choices, null=True, blank=True)
     color = MultiSelectField(choices=Color_Choices, null=True, blank=True)
+    brand = models.ForeignKey(to='Brand', on_delete=models.CASCADE, null=True, blank=True)
     active = models.BooleanField(default=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
