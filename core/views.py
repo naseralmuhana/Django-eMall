@@ -37,13 +37,17 @@ def store_products_list(request, type_slug, slug):
     slug = check_on_slug(store_slug)
     if slug is None:
         return HttpResponse('<h1>Post Not Found</h1>')
+
     store_products = core_models.Product.objects.filter(
         category__store=slug).order_by('-create_at')
+    store_name = store_products[0].category.store.name
+    store_type_name = store_products[0].category.store.storetype.name
+    store_type_slug = store_products[0].category.store.storetype.slug
     context = {
         'store_products': store_products,
-        'store_name': store_products[0].category.store.name,
-        'store_type_name': store_products[0].category.store.storetype.name,
-        'store_type_slug': store_products[0].category.store.storetype.slug,
+        'store_name': store_name,
+        'store_type_name': store_type_name,
+        'store_type_slug': store_type_slug,
         'products_paginator': paginate_view(request, store_products)
     }
     context.update(needed_everywhere())
