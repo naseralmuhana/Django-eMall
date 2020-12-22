@@ -65,6 +65,7 @@
 </section>
 
 {% if type_stores_list %}
+
 {% for store in type_stores_list %}
 <!-- Category Seciton-->
 <section class="container pt-lg-3 mb-4 mb-sm-5">
@@ -74,7 +75,7 @@
             <div class="d-flex flex-column h-100 overflow-hidden rounded-lg" style="background-color: #f6f8fb;">
                 <div class="d-flex justify-content-between px-grid-gutter py-grid-gutter">
                     <div>
-                        <h3 class="mb-1">{{ store.name }}</h3>
+                        <h3 class="mb-1">{{ store.name }} Store</h3>
                         <a class="font-size-md"
                             href="{% url 'core:store_products_list' slug=store.slug type_slug=store.storetype.slug %}">View
                             More
@@ -119,7 +120,7 @@
                                         <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
                                             <div class="text-muted font-size-xs mr-1">
                                                 <a class="product-meta font-weight-medium"
-                                                    href="#">{{product.category.name }}
+                                                    href="#">{{product.category.name|title }}
                                             </div>
                                             <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
                                                     class="sr-star czi-star-filled active"></i><i
@@ -169,7 +170,7 @@
                                         <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
                                             <div class="text-muted font-size-xs mr-1">
                                                 <a class="product-meta font-weight-medium"
-                                                    href="#">{{product.category.name }}
+                                                    href="#">{{product.category.name|title }}
                                             </div>
                                             <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
                                                     class="sr-star czi-star-filled active"></i><i
@@ -199,9 +200,8 @@
 </section>
 {% endfor %}
 
-
-
 {% elif all_stores %}
+
 {% for store in all_stores %}
 <!-- Category Seciton-->
 <section class="container pt-lg-3 mb-4 mb-sm-5">
@@ -211,7 +211,7 @@
             <div class="d-flex flex-column h-100 overflow-hidden rounded-lg" style="background-color: #f6f8fb;">
                 <div class="d-flex justify-content-between px-grid-gutter py-grid-gutter">
                     <div>
-                        <h3 class="mb-1">{{ store.name }}</h3>
+                        <h3 class="mb-1">{{ store.name }} Store</h3>
                         <a class="font-size-md"
                             href="{% url 'core:store_products_list' slug=store.slug type_slug=store.storetype.slug %}">View
                             More
@@ -256,7 +256,7 @@
                                         <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
                                             <div class="text-muted font-size-xs mr-1">
                                                 <a class="product-meta font-weight-medium"
-                                                    href="#">{{product.category.name }}
+                                                    href="#">{{product.category.name|title }}
                                             </div>
                                             <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
                                                     class="sr-star czi-star-filled active"></i><i
@@ -306,7 +306,7 @@
                                         <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
                                             <div class="text-muted font-size-xs mr-1">
                                                 <a class="product-meta font-weight-medium"
-                                                    href="#">{{product.category.name }}
+                                                    href="#">{{product.category.name|title }}
                                             </div>
                                             <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
                                                     class="sr-star czi-star-filled active"></i><i
@@ -335,6 +335,7 @@
     </div>
 </section>
 {% endfor %}
+
 {% endif %}
 
 

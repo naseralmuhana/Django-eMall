@@ -1,0 +1,28 @@
+<!-- Page title-->
+<!-- Page Title (Shop Alt)-->
+<!-- used for shop templates with filters on top-->
+<div class="bg-dark pt-4 pb-5">
+    <div class="container pt-2 pb-3 pt-lg-3 pb-lg-4">
+        <div class="d-lg-flex justify-content-between pb-3">
+            <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+                <nav aria-label="breadcrumb">
+                    <ol
+                        class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+                        <li class="breadcrumb-item"><a class="text-nowrap" href="{% url 'core:index' %}">
+                                <i class="czi-home"></i>Home</a></li>
+                        <li class="breadcrumb-item text-nowrap">
+                            <a
+                                href="{% url 'core:store_type_list' store_type_slug  %}">
+                                {{ store_type_name }}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ store_name }}</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
+                <h1 class="h3 text-light mb-0">{{ store_name }} Store</h1>
+            </div>
+        </div>
+    </div>
+</div>

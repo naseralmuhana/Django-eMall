@@ -7,9 +7,9 @@
     <div class="navbar-sticky bg-light">
         <div class="navbar navbar-expand-lg navbar-light">
             <div class="container">
-                <a class="navbar-brand d-none d-sm-block mr-3 flex-shrink-0" href="index.html"
+                <a class="navbar-brand d-none d-sm-block mr-3 flex-shrink-0" href="{% url 'core:index' %}"
                     style="min-width: 7rem"><img width="142" src="{% static 'img/logo-dark.png' %}"
-                        alt="Cartzilla" /></a><a class="navbar-brand d-sm-none mr-2" href="index.html"
+                        alt="Cartzilla" /></a><a class="navbar-brand d-sm-none mr-2" href="{% url 'core:index' %}"
                     style="min-width: 4.625rem"><img width="74" src="{% static 'img/logo-icon.png' %}"
                         alt="Cartzilla" /></a>
                 <div class="input-group-overlay d-none d-lg-flex mx-4">
@@ -171,120 +171,21 @@
                                                 href="{% url 'core:store_type_list' type.slug %}"><img
                                                     src="{% static 'img/shop/departments/01.jpg' %}" alt="Shoes" /></a>
                                             <h6 class="font-size-base mb-2">{{ type }}</h6>
-
-
                                             <ul class="widget-list">
                                                 {% for store in all_stores %}
-
                                                 {% if store.storetype == type %}
-
                                                 <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">{{ store.name }}</a>
+                                                    <a class="widget-list-link"
+                                                        href="{% url 'core:store_products_list' slug=store.slug type_slug=store.storetype.slug %}">
+                                                        {{store.name }}</a>
                                                 </li>
-
                                                 {% endif %}
-
-
                                                 {% endfor %}
                                             </ul>
                                         </div>
                                     </div>
                                     {% endfor %}
-                                    <!-- <div class="mega-dropdown-column pt-4 px-3">
-                                        <div class="widget widget-links">
-                                            <a class="d-block overflow-hidden rounded-lg mb-3" href="#"><img
-                                                    src="{% static 'img/shop/departments/02.jpg' %}" alt="Shoes" /></a>
-                                            <h6 class="font-size-base mb-2">Shoes</h6>
-                                            <ul class="widget-list">
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Women's shoes</a>
-                                                </li>
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Men's shoes</a>
-                                                </li>
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Kid's shoes</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mega-dropdown-column pt-4 px-3">
-                                        <div class="widget widget-links">
-                                            <a class="d-block overflow-hidden rounded-lg mb-3" href="#"><img
-                                                    src="{% static 'img/shop/departments/03.jpg' %}" alt="Shoes" /></a>
-                                            <h6 class="font-size-base mb-2">Gadgets</h6>
-                                            <ul class="widget-list">
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Smartphones &amp; Tablets</a>
-                                                </li>
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Wearable gadgets</a>
-                                                </li>
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">E-book readers</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div> -->
                                 </div>
-                                <!-- <div class="d-flex flex-wrap flex-md-nowrap">
-                                    <div class="mega-dropdown-column pt-4 px-3">
-                                        <div class="widget widget-links">
-                                            <a class="d-block overflow-hidden rounded-lg mb-3" href="#"><img
-                                                    src="{% static 'img/shop/departments/04.jpg' %}" alt="Shoes" /></a>
-                                            <h6 class="font-size-base mb-2">
-                                                Furniture &amp; Decor
-                                            </h6>
-                                            <ul class="widget-list">
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Home furniture</a>
-                                                </li>
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Office furniture</a>
-                                                </li>
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Lighting and decoration</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mega-dropdown-column pt-4 px-3">
-                                        <div class="widget widget-links">
-                                            <a class="d-block overflow-hidden rounded-lg mb-3" href="#"><img
-                                                    src="{% static 'img/shop/departments/05.jpg' %}" alt="Shoes" /></a>
-                                            <h6 class="font-size-base mb-2">Accessories</h6>
-                                            <ul class="widget-list">
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Hats</a>
-                                                </li>
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Sunglasses</a>
-                                                </li>
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Bags</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mega-dropdown-column pt-4 px-3">
-                                        <div class="widget widget-links">
-                                            <a class="d-block overflow-hidden rounded-lg mb-3" href="#"><img
-                                                    src="{% static 'img/shop/departments/06.jpg' %}" alt="Shoes" /></a>
-                                            <h6 class="font-size-base mb-2">Entertainment</h6>
-                                            <ul class="widget-list">
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Kid's toys</a>
-                                                </li>
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Video games</a>
-                                                </li>
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="#">Outdoor / Camping</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div> -->
                             </div>
                         </li>
                     </ul>
