@@ -1,0 +1,16 @@
+{% extends "base/main/layout/layout.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+
+{% include "components/quick-view.html" %}
+
+
+{% for p in store_products %}
+    <li>{{ p }}</li>
+{% endfor %}
+    
+
+
+{% endblock %}
