@@ -34,27 +34,60 @@ def store_type_list(request, slug):
 def store_products_list(request, type_slug, slug):
 
     store_slug = core_models.Store.objects.filter(slug__iexact=slug)
-    slug = check_on_slug(store_slug)
-    if slug is None:
+    name = check_on_slug(store_slug)
+    if name is None:
         return HttpResponse('<h1>Post Not Found</h1>')
 
     store_products = core_models.Product.objects.filter(
-        category__store=slug).order_by('-create_at')
+        category__store__name=name).order_by('-create_at')
     store_name = store_products[0].category.store.name
+    store_slug = store_products[0].category.store.slug
     store_type_name = store_products[0].category.store.storetype.name
     store_type_slug = store_products[0].category.store.storetype.slug
+
     context = {
         'store_products': store_products,
         'store_name': store_name,
+        'store_slug': store_slug,
         'store_type_name': store_type_name,
         'store_type_slug': store_type_slug,
+        'store_categories': store_categories(name),
         'products_paginator': paginate_view(request, store_products)
     }
     context.update(needed_everywhere())
     return render(request, 'core/products_list.html', context)
 
 
+def category_products_list(request, c_store_type, store_slug, slug):
+
+    category_slug = core_models.Category.objects.filter(slug__iexact=slug)
+    name = check_on_slug(category_slug)
+    if name is None:
+        return HttpResponse('<h1>Post Not Found</h1>')
+
+    category_products = core_models.Product.objects.filter(
+        category__name=name).order_by('-create_at')
+    category_name = category_products[0].category.name
+    store_name = category_products[0].category.store.name
+    store_type_name = category_products[0].category.store.storetype.name
+    store_type_slug = category_products[0].category.store.storetype.slug
+
+    context = {
+        'category_products': category_products,
+        'category_name': category_name,
+        'store_name': store_name,
+        'store_slug': store_slug,
+        'store_type_name': store_type_name,
+        'store_type_slug': store_type_slug,
+        'store_categories': store_categories(store_name),
+        'products_paginator': paginate_view(request, category_products)
+    }
+    context.update(needed_everywhere())
+    return render(request, 'core/products_list.html', context)
+
+
 # extra
+
 
 # function to check if the slug is exist and return none if not.
 def check_on_slug(slug):
@@ -64,6 +97,16 @@ def check_on_slug(slug):
         return slug
     else:
         return None
+
+
+def store_categories(name):
+    store_categories_dict = {}
+    store_categories = core_models.Category.objects.filter(
+        store__name=name).order_by('name')
+    for category in store_categories:
+        store_categories_dict[category] = core_models.Product.objects.filter(
+            category__name=category).count()
+    return store_categories_dict
 
 
 def needed_everywhere():

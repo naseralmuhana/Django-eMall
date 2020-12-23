@@ -16413,6 +16413,24 @@ html:not([dir=rtl]) .cz-range-slider-ui.noUi-horizontal .noUi-handle {
 
 /*# sourceMappingURL=theme.min.css.map */
 
-
 /* Mine */
 
+.accordion  .category-number-style {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: .875rem;
+    width: 2.125rem;
+    height: 2.125rem;
+    margin-top: -1.0625rem;
+    transition: -webkit-transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+    border-radius: 50%;
+    /* background-color: #f3f5f9; */
+    font-family: 'cartzilla-icons';
+    /* font-size: .625rem; */
+    font-weight: bold;
+    line-height: 2rem;
+    text-align: center
+}
