@@ -89,19 +89,29 @@
         <div class="col-lg-3 col-md-4 col-sm-6 px-2 mb-4">
             <div class="card product-card">
                 <button class="btn-wishlist btn-sm" type="button" data-toggle="tooltip" data-placement="left"
-                    title="Add to wishlist"><i class="czi-heart"></i></button><a
-                    class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img
-                        src="/media/{{ product.image }}" alt="Product"></a>
+                    title="Add to wishlist"><i class="czi-heart"></i></button>
+                <a class="card-img-top d-block overflow-hidden" href="#">
+                    <img src="/media/{{ product.image }}" alt="Product"></a>
                 <div class="card-body py-2">
-                    <a class="product-meta d-block font-size-xs pb-1" href="#">{{product.category.name|title }}</a>
-                    <h3 class="product-title font-size-sm"><a href="shop-single-v1.html">{{ product.name }}</a>
+                    <a class="product-meta d-block font-size-xs pb-1"
+                        href="{% url 'core:category_products_list' c_store_type=store_type_slug store_slug=store_slug slug=product.category.slug  %}">
+                        {{product.category.name|title}}
+                    </a>
+                    <h3 class="product-title font-size-sm">
+                        <a
+                            href="{% url 'core:product_detail' p_store_type=store_type_slug store_slug=store_slug category_slug=product.category.slug slug=product.slug %}">
+                            {{ product.name }}
+                        </a>
                     </h3>
                     <div class="d-flex justify-content-between">
-                        <div class="product-price"><span class="text-accent">$154.<small>00</small></span></div>
-                        <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
-                                class="sr-star czi-star-filled active"></i><i
-                                class="sr-star czi-star-filled active"></i><i
-                                class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i>
+                        <div class="product-price">
+                            <span class="text-accent">JOD {{ product.price }}</span>
+                        </div>
+                        <div class="star-rating"><i class="sr-star czi-star-filled active"></i>
+                            <i class="sr-star czi-star-filled active"></i>
+                            <i class="sr-star czi-star-filled active"></i>
+                            <i class="sr-star czi-star-filled active"></i>
+                            <i class="sr-star czi-star"></i>
                         </div>
                     </div>
                 </div>

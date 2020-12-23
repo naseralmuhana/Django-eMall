@@ -70,7 +70,6 @@ def category_products_list(request, c_store_type, store_slug, slug):
     category_name = category_products[0].category.name
     store_name = category_products[0].category.store.name
     store_type_name = category_products[0].category.store.storetype.name
-    store_type_slug = category_products[0].category.store.storetype.slug
 
     context = {
         'category_products': category_products,
@@ -78,7 +77,7 @@ def category_products_list(request, c_store_type, store_slug, slug):
         'store_name': store_name,
         'store_slug': store_slug,
         'store_type_name': store_type_name,
-        'store_type_slug': store_type_slug,
+        'store_type_slug': c_store_type,
         'store_categories': store_categories(store_name),
         'products_paginator': paginate_view(request, category_products)
     }
@@ -86,9 +85,31 @@ def category_products_list(request, c_store_type, store_slug, slug):
     return render(request, 'core/products_list.html', context)
 
 
+def product_detail(request, p_store_type, store_slug, category_slug, slug):
+    product_slug = core_models.Product.objects.filter(slug__iexact=slug)
+    name = check_on_slug(product_slug)
+    if name is None:
+        return HttpResponse('<h1>Post Not Found</h1>')
+
+    product = name
+    category_name = product.category.name
+    store_name = product.category.store.name
+    store_type_name = product.category.store.storetype.name
+
+    context = {
+        'product': product,
+        'category_name': category_name,
+        'store_name': store_name,
+        'store_slug': store_slug,
+        'store_type_name': store_type_name,
+        'store_type_slug': p_store_type,
+        'store_categories': store_categories(store_name),
+    }
+    context.update(needed_everywhere())
+    return render(request, 'core/product_details.html', context)
+
+
 # extra
-
-
 # function to check if the slug is exist and return none if not.
 def check_on_slug(slug):
 
@@ -137,3 +158,11 @@ def paginate_view(request, products):
         products_paginator = paginator.page(paginator.num_pages)
 
     return products_paginator
+
+
+def product_price_format(price):
+
+    new_price = str(price).split('.')
+    if new_price[1] == '0':
+        new_price[1] = '00'
+    return new_price
