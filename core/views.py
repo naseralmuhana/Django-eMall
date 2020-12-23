@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 from core import models as core_models
 
@@ -44,6 +45,7 @@ def store_products_list(request, type_slug, slug):
     store_slug = store_products[0].category.store.slug
     store_type_name = store_products[0].category.store.storetype.name
     store_type_slug = store_products[0].category.store.storetype.slug
+    store_logo = store_products[0].category.store.logo
 
     context = {
         'store_products': store_products,
@@ -51,6 +53,7 @@ def store_products_list(request, type_slug, slug):
         'store_slug': store_slug,
         'store_type_name': store_type_name,
         'store_type_slug': store_type_slug,
+        'store_logo': store_logo,
         'store_categories': store_categories(name),
         'products_paginator': paginate_view(request, store_products)
     }
@@ -95,6 +98,7 @@ def product_detail(request, p_store_type, store_slug, category_slug, slug):
     category_name = product.category.name
     store_name = product.category.store.name
     store_type_name = product.category.store.storetype.name
+    similar_products = core_models.Product.objects.filter(~Q(name=product), category__name=category_name)
 
     context = {
         'product': product,
@@ -104,6 +108,7 @@ def product_detail(request, p_store_type, store_slug, category_slug, slug):
         'store_type_name': store_type_name,
         'store_type_slug': p_store_type,
         'store_categories': store_categories(store_name),
+        'similar_products': similar_products,
     }
     context.update(needed_everywhere())
     return render(request, 'core/product_details.html', context)
@@ -158,11 +163,3 @@ def paginate_view(request, products):
         products_paginator = paginator.page(paginator.num_pages)
 
     return products_paginator
-
-
-def product_price_format(price):
-
-    new_price = str(price).split('.')
-    if new_price[1] == '0':
-        new_price[1] = '00'
-    return new_price

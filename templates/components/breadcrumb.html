@@ -14,7 +14,6 @@
                     <li class="breadcrumb-item text-nowrap">
                         <a href="{% url 'core:store_type_list' store_type_slug  %}">
                             {{ store_type_name }}
-
                         </a>
                     </li>
 
@@ -80,8 +79,8 @@
                 </nav>
             </div>
             <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
-                <h1 class="h4 text-light mb-0">{{ store_name }} Store
-
+                <h1 class="h4 text-light mb-0">
+                    {{ store_name }} Store
                     {% if category_name %}
                     - {{ category_name }}
                     {% endif %}

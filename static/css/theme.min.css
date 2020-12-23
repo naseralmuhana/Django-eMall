@@ -4693,6 +4693,10 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
     width: 100%
 }
 
+.card-img-top{
+    text-align: center;
+}
+
 .card-img, .card-img-top {
     border-top-left-radius: calc(.4375rem - 1px);
     border-top-right-radius: calc(.4375rem - 1px)
@@ -16433,4 +16437,12 @@ html:not([dir=rtl]) .cz-range-slider-ui.noUi-horizontal .noUi-handle {
     font-weight: bold;
     line-height: 2rem;
     text-align: center
+}
+
+.image-size-in-list{
+    height: 259px !important;
+}
+
+.image-size-similar-products{
+    height: 274px !important;
 }

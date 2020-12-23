@@ -2,8 +2,11 @@
 {% load i18n %}
 {% load static %}
 
-{% block content %}
+{% block site_title %}
+{{ product.name|title }}
+{% endblock %}
 
+{% block content %}
 {% include "components/breadcrumb.html" %}
 
 
@@ -21,7 +24,6 @@
                     <span class="font-size-sm opacity-60">(74)</span></a>
             </li>
         </ul>
-
         <div class="px-4 pt-lg-3 pb-3 mb-5">
             <div class="tab-content px-lg-3">
                 <!-- General info tab-->
@@ -45,130 +47,101 @@
                                 <div class="h3 font-weight-normal text-accent mb-3 mr-1">
                                     JOD {{ product.price }}
                                 </div>
-                                <div class="font-size-sm mb-4">
-                                    <span class="text-heading font-weight-medium mr-1">Color:</span>
-                                    <span class="text-muted" id="colorOption">Dark blue/Orange</span>
-                                </div>
-                                <div class="position-relative mr-n4 mb-3">
-                                    
-                                    {% for color in product.color  %}
-                                    <div class="custom-control custom-option custom-control-inline mb-2">
-                                        <input class="custom-control-input" type="radio" name="color" id="color1"
-                                            data-label="colorOption" value="{{ color }}" checked>
-                                        <label class="custom-option-label rounded-circle" for="color1">
-                                            <span class="custom-option-color rounded-circle"
-                                                style="background-color: {{ color }};"></span>
-                                        </label>
-                                    </div>  
-                                    {% endfor %}
-                                        
-                                    <div class="custom-control custom-option custom-control-inline mb-2">
-                                        <input class="custom-control-input" type="radio" name="color" id="color2"
-                                            data-label="colorOption" value="Dark blue/Green">
-                                        <label class="custom-option-label rounded-circle" for="color2">
-                                            <span class="custom-option-color rounded-circle"
-                                                style="background-color: #65805b;"></span>
-                                        </label>
+                                <form class="mb-grid-gutter" method="post">
+                                    <div class="position-relative mr-n4 mb-3">
+
+                                        {% if product.color %}
+                                        {% for color in product.color %}
+                                        <div class="custom-control custom-option custom-control-inline mb-2">
+                                            <input class="custom-control-input" type="radio" name="color"
+                                                id="color{{ color }}" data-label="colorOption" value="{{ color }}"
+                                                checked>
+                                            <label class="custom-option-label rounded-circle" for="color{{ color }}">
+                                                <span class="custom-option-color rounded-circle"
+                                                    style="background-color: {{ color }};"></span>
+                                            </label>
+                                        </div>
+                                        {% endfor %}
+                                        {% else %}
+                                        <div class="custom-control custom-option custom-control-inline mb-2"></div>
+                                        {% endif %}
+
+                                        {% if product.active %}
+                                        <div class="product-badge product-available mt-n1">
+                                            <i class="czi-security-check"></i>Product available
+                                        </div>
+                                        {% else %}
+                                        <div class="product-badge product-not-available mt-n1">
+                                            <i class="czi-security-check"></i>Out of Stock
+                                        </div>
+                                        {% endif %}
+
+
                                     </div>
-                                    <div class="product-badge product-available mt-n1">
-                                        <i class="czi-security-check"></i>Product available
+                                    {% if product.size %}
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between align-items-center pb-1">
+                                            <label class="font-weight-medium" for="product-size">Size:</label>
+                                        </div>
+                                        <select class="custom-select" required id="product-size">
+                                            <option value="">Select size</option>
+                                            {% for size in product.size %}
+                                            <option value="{{ size }}">{{ size }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
-                                </div>
-                                <div class="d-flex align-items-center pt-2 pb-4">
-                                    <select class="custom-select mr-3" style="width: 5rem;">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                    <button class="btn btn-primary btn-shadow btn-block" type="button"><i
-                                            class="czi-cart font-size-lg mr-2"></i>Add to Cart</button>
-                                </div>
+                                    {% endif %}
+
+                                    <div class="form-group d-flex align-items-center">
+                                        <select class="custom-select mr-3" style="width: 5rem;">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                        <button class="btn btn-primary btn-shadow btn-block" type="submit"><i
+                                                class="czi-cart font-size-lg mr-2"></i>Add to Cart</button>
+                                    </div>
+                                </form>
+
                                 <div class="d-flex mb-4">
                                     <div class="w-100 mr-3">
-                                        <button class="btn btn-secondary btn-block" type="button"><i
-                                                class="czi-heart font-size-lg mr-2"></i><span
-                                                class='d-none d-sm-inline'>Add to </span>Wishlist</button>
-                                    </div>
-                                    <div class="w-100">
-                                        <button class="btn btn-secondary btn-block" type="button"><i
-                                                class="czi-compare font-size-lg mr-2"></i>Compare</button>
+                                        <button class="btn btn-secondary btn-block" type="button">
+                                            <i class="czi-heart font-size-lg mr-2"></i>
+                                            <span class='d-none d-sm-inline'>Add to </span>Wishlist</button>
                                     </div>
                                 </div>
                                 <!-- Product panels-->
                                 <div class="accordion mb-4" id="productPanels">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h3 class="accordion-heading"><a href="#shippingOptions" role="button"
-                                                    data-toggle="collapse" aria-expanded="true"
-                                                    aria-controls="shippingOptions"><i
-                                                        class="czi-delivery text-muted lead align-middle mt-n1 mr-2"></i>Shipping
-                                                    options<span class="accordion-indicator"></span></a></h3>
+                                            <h3 class="accordion-heading">
+                                                <a href="#productdescription" role="button" data-toggle="collapse"
+                                                    aria-expanded="true" aria-controls="productdescription">
+                                                    <i
+                                                        class="czi-announcement text-muted lead align-middle mt-n1 mr-2"></i>
+                                                    Product Info
+                                                    <span class="accordion-indicator"></span>
+                                                </a>
+                                            </h3>
                                         </div>
-                                        <div class="collapse show" id="shippingOptions" data-parent="#productPanels">
+                                        <div class="collapse show" id="productdescription"
+                                            data-parent="#productdescription">
                                             <div class="card-body font-size-sm">
                                                 <div class="d-flex justify-content-between border-bottom pb-2">
-                                                    <div>
-                                                        <div class="font-weight-semibold text-dark">Local courier
-                                                            shipping</div>
-                                                        <div class="font-size-sm text-muted">2 - 4 days</div>
-                                                    </div>
-                                                    <div>$16.50</div>
+                                                    {{ product.description }}
                                                 </div>
-                                                <div class="d-flex justify-content-between border-bottom py-2">
-                                                    <div>
-                                                        <div class="font-weight-semibold text-dark">UPS ground shipping
-                                                        </div>
-                                                        <div class="font-size-sm text-muted">4 - 6 days</div>
-                                                    </div>
-                                                    <div>$19.00</div>
-                                                </div>
-                                                <div class="d-flex justify-content-between pt-2">
-                                                    <div>
-                                                        <div class="font-weight-semibold text-dark">Local pickup from
-                                                            store</div>
-                                                        <div class="font-size-sm text-muted">&mdash;</div>
-                                                    </div>
-                                                    <div>$0.00</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h3 class="accordion-heading"><a class="collapsed" href="#localStore"
-                                                    role="button" data-toggle="collapse" aria-expanded="true"
-                                                    aria-controls="localStore"><i
-                                                        class="czi-location text-muted font-size-lg align-middle mt-n1 mr-2"></i>Find
-                                                    in local store<span class="accordion-indicator"></span></a></h3>
-                                        </div>
-                                        <div class="collapse" id="localStore" data-parent="#productPanels">
-                                            <div class="card-body">
-                                                <select class="custom-select">
-                                                    <option value>Select your country</option>
-                                                    <option value="Argentina">Argentina</option>
-                                                    <option value="Belgium">Belgium</option>
-                                                    <option value="France">France</option>
-                                                    <option value="Germany">Germany</option>
-                                                    <option value="Spain">Spain</option>
-                                                    <option value="UK">United Kingdom</option>
-                                                    <option value="USA">USA</option>
-                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Sharing-->
-                                <h6 class="d-inline-block align-middle font-size-base my-2 mr-2">Share:</h6><a
-                                    class="share-btn sb-twitter mr-2 my-2" href="#"><i
-                                        class="czi-twitter"></i>Twitter</a><a class="share-btn sb-instagram mr-2 my-2"
-                                    href="#"><i class="czi-instagram"></i>Instagram</a><a
-                                    class="share-btn sb-facebook my-2" href="#"><i class="czi-facebook"></i>Facebook</a>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
                 <!-- Reviews tab-->
                 <div class="tab-pane fade" id="reviews" role="tabpanel">
                     <div class="d-md-flex justify-content-between align-items-start pb-4 mb-4 border-bottom">
@@ -465,139 +438,55 @@
     </div>
 </div>
 
-<!-- Product description-->
-<div class="container pt-lg-3 pb-4 pb-sm-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <h2 class="h3 pb-2">Choose your style</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p><img
-                src="img/shop/single/prod-img2.jpg" alt="Product description">
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-                rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora.
-            </p>
-        </div>
-    </div>
-</div>
-
 <hr class="pb-5">
+
 <!-- Product carousel (You may also like)-->
 <div class="container pt-lg-2 pb-5 mb-md-3">
     <h2 class="h3 text-center pb-4">You may also like</h2>
     <div class="cz-carousel cz-controls-static cz-controls-outside">
         <div class="cz-carousel-inner"
             data-carousel-options="{&quot;items&quot;: 2, &quot;controls&quot;: true, &quot;nav&quot;: false, &quot;autoHeight&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 18},&quot;768&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 20}, &quot;1100&quot;:{&quot;items&quot;:4, &quot;gutter&quot;: 30}}}">
-            <!-- Product-->
-            <div>
-                <div class="card product-card card-static">
-                    <button class="btn-wishlist btn-sm" type="button" data-toggle="tooltip" data-placement="left"
-                        title="Add to wishlist"><i class="czi-heart"></i></button><a
-                        class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/66.jpg"
-                            alt="Product"></a>
-                    <div class="card-body py-2"><a class="product-meta d-block font-size-xs pb-1"
-                            href="#">Smartwatches</a>
-                        <h3 class="product-title font-size-sm"><a href="#">Health &amp; Fitness Smartwatch</a></h3>
-                        <div class="d-flex justify-content-between">
-                            <div class="product-price"><span class="text-accent">$250.<small>00</small></span></div>
-                            <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i>
-                            </div>
+            {% for product in similar_products %}
+            <div class="card product-card-alt">
+                <div class="product-thumb">
+                    <button class="btn-wishlist btn-sm" type="button">
+                        <i class="czi-heart"></i></button>
+                    <div class="product-card-actions">
+                        <a class="btn btn-light btn-icon btn-shadow font-size-base" href="#quick-view"
+                            data-toggle="modal" title="Quick View"><i class="czi-eye"></i></a>
+                        <button class="btn btn-light btn-icon btn-shadow font-size-base mx-2" type="button"
+                            data-toggle="toast" data-target="#cart-toast"><i class="czi-cart"></i></button>
+                    </div><a class="product-thumb-overlay"
+                        href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}"></a>
+                    <img src="/media/{{ product.image }}" style="height: 224.33px;" alt="Product">
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
+                        <div class="text-muted font-size-xs mr-1">
+                            <a class="product-meta font-weight-medium"
+                                href="{% url 'core:category_products_list' c_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug slug=product.category.slug %}">
+                                {{product.category.name|title }}
+                            </a>
+                        </div>
+                        <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
+                                class="sr-star czi-star-filled active"></i><i
+                                class="sr-star czi-star-filled active"></i><i
+                                class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- Product-->
-            <div>
-                <div class="card product-card card-static">
-                    <button class="btn-wishlist btn-sm" type="button" data-toggle="tooltip" data-placement="left"
-                        title="Add to wishlist"><i class="czi-heart"></i></button><a
-                        class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/67.jpg"
-                            alt="Product"></a>
-                    <div class="card-body py-2"><a class="product-meta d-block font-size-xs pb-1"
-                            href="#">Smartwatches</a>
-                        <h3 class="product-title font-size-sm"><a href="#">Heart Rate &amp; Activity Tracker</a></h3>
-                        <div class="d-flex justify-content-between">
-                            <div class="product-price text-accent">$26.<small>99</small></div>
-                            <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i><i
-                                    class="sr-star czi-star"></i>
-                            </div>
-                        </div>
+                    <h3 class="product-title font-size-sm mb-2"><a
+                            href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
+                            {{product.name}}
+                        </a>
+                    </h3>
+                    <div class="product-price">
+                        <span class="text-accent"> <small>JOD</small> {{product.price }}</span>
                     </div>
+
                 </div>
             </div>
-            <!-- Product-->
-            <div>
-                <div class="card product-card card-static">
-                    <button class="btn-wishlist btn-sm" type="button" data-toggle="tooltip" data-placement="left"
-                        title="Add to wishlist"><i class="czi-heart"></i></button><a
-                        class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/64.jpg"
-                            alt="Product"></a>
-                    <div class="card-body py-2"><a class="product-meta d-block font-size-xs pb-1"
-                            href="#">Smartwatches</a>
-                        <h3 class="product-title font-size-sm"><a href="#">Smart Watch Series 5, Aluminium</a></h3>
-                        <div class="d-flex justify-content-between">
-                            <div class="product-price text-accent">$349.<small>99</small></div>
-                            <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Product-->
-            <div>
-                <div class="card product-card card-static">
-                    <button class="btn-wishlist btn-sm" type="button" data-toggle="tooltip" data-placement="left"
-                        title="Add to wishlist"><i class="czi-heart"></i></button><a
-                        class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/68.jpg"
-                            alt="Product"></a>
-                    <div class="card-body py-2"><a class="product-meta d-block font-size-xs pb-1"
-                            href="#">Smartwatches</a>
-                        <h3 class="product-title font-size-sm"><a href="#">Health &amp; Fitness Smartwatch</a></h3>
-                        <div class="d-flex justify-content-between">
-                            <div class="product-price text-accent">$118.<small>00</small></div>
-                            <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Product-->
-            <div>
-                <div class="card product-card card-static">
-                    <button class="btn-wishlist btn-sm" type="button" data-toggle="tooltip" data-placement="left"
-                        title="Add to wishlist"><i class="czi-heart"></i></button><a
-                        class="card-img-top d-block overflow-hidden" href="#"><img src="img/shop/catalog/69.jpg"
-                            alt="Product"></a>
-                    <div class="card-body py-2"><a class="product-meta d-block font-size-xs pb-1"
-                            href="#">Smartwatches</a>
-                        <h3 class="product-title font-size-sm"><a href="#">Heart Rate &amp; Activity Tracker</a></h3>
-                        <div class="d-flex justify-content-between">
-                            <div class="product-price text-accent">$25.<small>00</small></div>
-                            <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i
-                                    class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i><i
-                                    class="sr-star czi-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+
         </div>
     </div>
 </div>

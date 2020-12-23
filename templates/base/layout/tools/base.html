@@ -28,7 +28,12 @@
   <!-- Main Theme Styles + Bootstrap-->
   <link rel="stylesheet" media="screen" href="{% static 'css/theme.min.css' %}" />
 
-  <title>CartZilla</title>
+  <title>
+    {% block site_title %}
+
+    {% endblock %}
+</title>
+
 
 
 
