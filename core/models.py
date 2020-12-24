@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 from multiselectfield import MultiSelectField
 from eMall.utils import unique_slug_generator
+from account import models as account_models
 
 Gender_Choices = (
     ('male', 'male'),
@@ -97,6 +98,8 @@ class Product(models.Model):
     color = MultiSelectField(choices=Color_Choices, null=True, blank=True)
     brand = models.ForeignKey(to='Brand', on_delete=models.CASCADE, null=True, blank=True)
     active = models.BooleanField(default=True)
+    favourite = models.ManyToManyField(
+        account_models.UserRegistration, related_name='favourite', blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)

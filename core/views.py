@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 from core import models as core_models
 
@@ -98,7 +100,8 @@ def product_detail(request, p_store_type, store_slug, category_slug, slug):
     category_name = product.category.name
     store_name = product.category.store.name
     store_type_name = product.category.store.storetype.name
-    similar_products = core_models.Product.objects.filter(~Q(name=product), category__name=category_name)
+    similar_products = core_models.Product.objects.filter(
+        ~Q(name=product), category__name=category_name)
 
     context = {
         'product': product,
@@ -112,6 +115,19 @@ def product_detail(request, p_store_type, store_slug, category_slug, slug):
     }
     context.update(needed_everywhere())
     return render(request, 'core/product_details.html', context)
+
+
+# function to let the user add any book to thier favourites page.
+def add_favourite_product(request, slug):
+
+    url = request.META.get('HTTP_REFERER')
+    product = get_object_or_404(core_models.Product, slug=slug)
+    if product.favourite.filter(id=request.user.id).exists():
+        product.favourite.remove(request.user)
+    else:
+        product.favourite.add(request.user)
+
+    return HttpResponseRedirect(url)
 
 
 # extra
