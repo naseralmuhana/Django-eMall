@@ -128,6 +128,24 @@ def add_favourite_product(request, slug):
     return HttpResponseRedirect(url)
 
 
+def add_comment(request, id):
+
+    url = request.META.get('HTTP_REFERER')
+    if request.method == 'POST':
+        form = core_models.CommentForm(request.POST)
+        if form.is_valid():
+            current_user = request.user
+            data = core_models.Comment()
+            data.product_id = id
+            data.user_id = current_user.id
+            data.review = form.cleaned_data['review']
+            data.rating = form.cleaned_data['rating']
+            data.save()
+        else:
+            return redirect(url)
+    return HttpResponseRedirect(url)
+
+
 # extra
 # function to check if the slug is exist and return none if not.
 def check_on_slug(slug):

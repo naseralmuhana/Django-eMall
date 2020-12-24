@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm, Textarea
 from django.db.models.signals import pre_save
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -32,16 +33,28 @@ Color_Choices = (
     ('#800080', 'Purple', ),
 )
 
+RATING = (
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5),
+)
+
 
 class StoreType(models.Model):
     name = models.CharField(max_length=250, unique=True)
-    image = models.ImageField(upload_to="StoresType-Images", null=True, blank=True)
+    image = models.ImageField(
+        upload_to="StoresType-Images", null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ["name"]
 
 
 class Store(models.Model):
@@ -58,6 +71,9 @@ class Store(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Category(models.Model):
 
@@ -72,6 +88,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Brand(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -81,6 +100,9 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ["name"]
 
 
 class Product(models.Model):
@@ -97,7 +119,8 @@ class Product(models.Model):
     gender = MultiSelectField(choices=Gender_Choices, null=True, blank=True)
     size = MultiSelectField(choices=Size_Choices, null=True, blank=True)
     color = MultiSelectField(choices=Color_Choices, null=True, blank=True)
-    brand = models.ForeignKey(to='Brand', on_delete=models.CASCADE, null=True, blank=True)
+    brand = models.ForeignKey(
+        to='Brand', on_delete=models.CASCADE, null=True, blank=True)
     active = models.BooleanField(default=True)
     favourite = models.ManyToManyField(
         account_models.UserRegistration, related_name='favourite', blank=True)
@@ -115,6 +138,9 @@ class Product(models.Model):
         discount_precent = int(100 - (self.discount_price / self.price)*100)
         return discount_precent
 
+    class Meta:
+        ordering = ["name"]
+
 
 # function to create a slug using the function (unique_slug_generator) that exist in the module (utils.py)
 def create_slug(sender, instance, *args, **kwargs):
@@ -128,10 +154,26 @@ pre_save.connect(create_slug, sender=Category)
 pre_save.connect(create_slug, sender=Product)
 
 
-# class ProductImage(models.Model):
-#     product = models.ForeignKey(
-#         'Product', default=None, on_delete=models.CASCADE)
-#     images = models.FileField(upload_to='Products-images')
+class Comment(models.Model):
 
-# def __str__(self):
-#     return self.product.name
+    product = models.ForeignKey(to="Product", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        account_models.UserRegistration, on_delete=models.CASCADE)
+    review = models.TextField(max_length=1000)
+    rating = models.IntegerField(choices=RATING, default=0)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.product.name + ' - ' + self.user.username
+
+
+# class for the form of the comment section. we can write it in the forms.py or here.
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['review', 'rating']
+        widgets = {
+            'review': Textarea(attrs={'class': 'input'}),
+            'rating': Textarea(attrs={'class': 'input'}),
+        }

@@ -8,5 +8,7 @@ class UserRegistration(AbstractUser):
     phone_number = models.CharField(verbose_name=(
         "Phone Number"), max_length=10, blank=True, null=True)
 
+    class Meta:
+        ordering = ["username"]
     # def __str__(self):
     #     return f"{self.username}: {self.first_name} {self.last_name}"

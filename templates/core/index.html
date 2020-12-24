@@ -156,7 +156,7 @@
                                         </div>
                                         <h3 class="product-title font-size-sm mb-2"><a
                                                 href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
-                                                {{product.name}}
+                                                {{product.name|title}}
                                             </a>
                                         </h3>
                                         {% if product.discount_price %}
@@ -228,7 +228,7 @@
                                         </div>
                                         <h3 class="product-title font-size-sm mb-2"><a
                                                 href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
-                                                {{product.name}}
+                                                {{product.name|title}}
                                             </a>
                                         </h3>
                                         {% if product.discount_price %}
@@ -341,7 +341,7 @@
                                         <h3 class="product-title font-size-sm mb-2">
                                             <a
                                                 href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
-                                                {{product.name }}</a>
+                                                {{product.name|title }}</a>
                                         </h3>
 
                                         {% if product.discount_price %}
@@ -414,7 +414,7 @@
                                         </div>
                                         <h3 class="product-title font-size-sm mb-2"><a
                                                 href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
-                                                {{product.name}}
+                                                {{product.name|title}}
                                             </a>
                                         </h3>
                                         {% if product.discount_price %}

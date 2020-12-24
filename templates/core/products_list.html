@@ -123,7 +123,7 @@
                     <h3 class="product-title font-size-sm">
                         <a
                             href="{% url 'core:product_detail' p_store_type=store_type_slug store_slug=store_slug category_slug=product.category.slug slug=product.slug %}">
-                            {{ product.name }}</a>
+                            {{ product.name|title }}</a>
                     </h3>
                     <div class="d-flex justify-content-between">
                         <div class="product-price">
