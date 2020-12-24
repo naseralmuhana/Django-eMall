@@ -9,7 +9,7 @@
 {{ store_name|title }}
 {% endif %}
 {% endblock %}
-    
+
 
 {% block content %}
 
@@ -97,17 +97,15 @@
         <div class="col-lg-3 col-md-4 col-sm-6 px-2 mb-4">
             <div class="card product-card">
                 {% if user in product.favourite.all %}
-                <a class="btn-wishlist btn-sm"
-                    href="{% url 'core:add_favourite_product' product.slug %}" title="Remove from wishlist">
+                <a class="btn-wishlist btn-sm" href="{% url 'core:add_favourite_product' product.slug %}"
+                    data-toggle="tooltip" data-placement="left" data-original-title="Remove from wishlist">
                     <i class="fa fa-heart"></i></a>
                 {% else %}
-
-                <a class="btn-wishlist btn-sm"
-                    href="{% url 'core:add_favourite_product' product.slug %}" title="Add to wishlist">
+                <a class="btn-wishlist btn-sm" href="{% url 'core:add_favourite_product' product.slug %}"
+                    data-toggle="tooltip" data-placement="left" data-original-title="Add to wishlist">
                     <i class="czi-heart"></i></a>
-
                 {% endif %}
-                
+
                 <a class="card-img-top d-block overflow-hidden"
                     href="{% url 'core:product_detail' p_store_type=store_type_slug store_slug=store_slug category_slug=product.category.slug slug=product.slug %}">
                     <img src="/media/{{ product.image }}" alt="Product" class="image-size-in-list"></a>

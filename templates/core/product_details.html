@@ -106,11 +106,25 @@
                                 </form>
 
                                 <div class="d-flex mb-4">
+                                    {% if user in product.favourite.all %}
                                     <div class="w-100 mr-3">
-                                        <button class="btn btn-secondary btn-block" type="button">
-                                            <i class="czi-heart font-size-lg mr-2"></i>
-                                            <span class='d-none d-sm-inline'>Add to </span>Wishlist</button>
+                                        <a class="btn btn-outline-secondary btn-block"
+                                            href="{% url 'core:add_favourite_product' product.slug %}"
+                                            title="Remove from wishlist">
+                                            <i class="fa fa-heart font-size-lg mr-2"></i>
+                                            <span class='d-none d-sm-inline'>Remove from </span>Wishlist
+                                        </a>
                                     </div>
+                                    {% else %}
+                                    <div class="w-100 mr-3">
+                                        <a class="btn btn-outline-primary btn-block"
+                                            href="{% url 'core:add_favourite_product' product.slug %}"
+                                            title="Add to wishlist">
+                                            <i class="czi-heart font-size-lg mr-2"></i>
+                                            <span class='d-none d-sm-inline'>Add to </span>Wishlist
+                                        </a>
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 <!-- Product panels-->
                                 <div class="accordion mb-4" id="productPanels">
@@ -449,8 +463,15 @@
             {% for product in similar_products %}
             <div class="card product-card-alt">
                 <div class="product-thumb">
-                    <button class="btn-wishlist btn-sm" type="button">
-                        <i class="czi-heart"></i></button>
+                    {% if user in product.favourite.all %}
+                    <a class="btn-wishlist btn-sm" href="{% url 'core:add_favourite_product' product.slug %}"
+                        data-toggle="tooltip" data-placement="left" data-original-title="Remove from wishlist">
+                        <i class="fa fa-heart"></i></a>
+                    {% else %}
+                    <a class="btn-wishlist btn-sm" href="{% url 'core:add_favourite_product' product.slug %}"
+                        data-toggle="tooltip" data-placement="left" data-original-title="Add to wishlist">
+                        <i class="czi-heart"></i></a>
+                    {% endif %}
                     <div class="product-card-actions">
                         <a class="btn btn-light btn-icon btn-shadow font-size-base" href="#quick-view"
                             data-toggle="modal" title="Quick View"><i class="czi-eye"></i></a>

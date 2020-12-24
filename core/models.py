@@ -35,6 +35,7 @@ Color_Choices = (
 
 class StoreType(models.Model):
     name = models.CharField(max_length=250, unique=True)
+    image = models.ImageField(upload_to="StoresType-Images", null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
