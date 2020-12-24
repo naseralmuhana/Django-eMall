@@ -117,7 +117,6 @@ def product_detail(request, p_store_type, store_slug, category_slug, slug):
     return render(request, 'core/product_details.html', context)
 
 
-# function to let the user add any book to thier favourites page.
 def add_favourite_product(request, slug):
 
     url = request.META.get('HTTP_REFERER')
@@ -126,7 +125,6 @@ def add_favourite_product(request, slug):
         product.favourite.remove(request.user)
     else:
         product.favourite.add(request.user)
-
     return HttpResponseRedirect(url)
 
 
@@ -170,7 +168,7 @@ def needed_everywhere():
 def paginate_view(request, products):
 
     page = request.GET.get('page', 1)
-    paginator = Paginator(products, 4)
+    paginator = Paginator(products, 8)
     try:
         products_paginator = paginator.page(page)
     except PageNotAnInteger:

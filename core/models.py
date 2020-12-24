@@ -111,6 +111,10 @@ class Product(models.Model):
     def store_name(self):
         return self.category.store.name
 
+    def discount_percentage(self):
+        discount_precent = int(100 - (self.discount_price / self.price)*100)
+        return discount_precent
+
 
 # function to create a slug using the function (unique_slug_generator) that exist in the module (utils.py)
 def create_slug(sender, instance, *args, **kwargs):
