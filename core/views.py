@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import TemplateView
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.views.generic import TemplateView, View
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -102,7 +102,6 @@ def product_detail(request, p_store_type, store_slug, category_slug, slug):
     store_type_name = product.category.store.storetype.name
     similar_products = core_models.Product.objects.filter(
         ~Q(name=product), category__name=category_name)
-
     context = {
         'product': product,
         'category_name': category_name,

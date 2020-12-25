@@ -167,6 +167,12 @@ class Comment(models.Model):
     def __str__(self):
         return self.product.name + ' - ' + self.user.username
 
+    def username(self):
+        return self.user.username
+
+    class Meta:
+        ordering = ['-create_at']
+
 
 # class for the form of the comment section. we can write it in the forms.py or here.
 class CommentForm(ModelForm):

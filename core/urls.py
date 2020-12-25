@@ -15,5 +15,7 @@ urlpatterns = [
     
     path('add-remove-favourite-product/<slug>', core_views.add_favourite_product, name="add_favourite_product"),
     path('add-comment/<int:id>', core_views.add_comment, name="add_comment"),
+    
+    
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
