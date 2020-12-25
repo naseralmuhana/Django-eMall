@@ -112,17 +112,17 @@
                 {% endif %}
 
                 <a class="card-img-top d-block overflow-hidden"
-                    href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.name store_slug=product.category.store.name category_slug=product.category.slug slug=product.slug %}">
+                    href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
                     <img src="/media/{{ product.image }}" alt="Product" class="image-size-in-list">
                 </a>
                 <div class="card-body py-2">
                     <a class="product-meta d-block font-size-xs pb-1"
-                    href="{% url 'core:category_products_list' c_store_type=product.category.store.storetype.name store_slug=product.category.store.name slug=product.category.slug  %}">
+                    href="{% url 'core:category_products_list' c_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug slug=product.category.slug  %}">
                         {{product.category.name|title}}
                     </a>
                     <h3 class="product-title font-size-sm">
                         <a
-                        href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.name store_slug=product.category.store.name category_slug=product.category.slug slug=product.slug %}">
+                        href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
                             {{ product.name|title }}</a>
                     </h3>
                     <div class="d-flex justify-content-between">

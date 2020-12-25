@@ -1,15 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-<<<<<<< HEAD
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.views.generic import TemplateView, View
-=======
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import TemplateView, ListView
->>>>>>> 2c384103f2cba6bb8e65fc2107695d98639c87d5
+from django.views.generic import TemplateView, View, ListView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse,resolve
+from django.urls import reverse, resolve
 from core import models as core_models
 
 
@@ -208,23 +203,22 @@ class SearchView(ListView):
     def get_context_data(self, **kwargs):
         context = super(SearchView, self).get_context_data(**kwargs)
         return self.get_queryset()
-    
+
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        products=core_models.Product.objects.filter(Q(name__icontains=query) | Q(category__name__icontains =query) | Q(description__icontains =query))
+        search_term = self.request.GET.get('q').strip(' */%^$#@!?')
+        products = core_models.Product.objects.filter(Q(name__icontains=search_term) | Q(
+            category__name__icontains=search_term)| Q(brand__name__icontains=search_term) | Q(description__icontains=search_term))
         current_url = resolve(self.request.path_info).url_name
-        context_store = {}
-        for prod in products:
-            prod_category = prod.category.store.name
-            context_store[prod.name] = core_models.Store.objects.filter(category__name = prod.category.name)
-        context={}
+        # context_store = {}
+        # for prod in products:
+        #     prod_category = prod.category.store.name
+        #     context_store[prod.name] = core_models.Store.objects.filter(category__name = prod.category.name)
         context = {
-        'store_products': products,
-        'search':query,
-        'url_name':current_url,
-        'stores': context_store.items,
-        
-        'products_paginator': paginate_view(self.request,products),
-    }
+            'store_products': products,
+            'search': search_term,
+            'url_name': current_url,
+            # 'stores': context_store.items,
+            'products_paginator': paginate_view(self.request, products),
+        }
         context.update(needed_everywhere())
         return context
