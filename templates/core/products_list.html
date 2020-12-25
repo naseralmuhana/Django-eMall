@@ -26,7 +26,7 @@
                     data-toggle="collapse"><i class="czi-filter mr-2"></i>Filters</a></div>
             <div class="d-flex">
                 {% if products_paginator.has_previous %}
-                <a class="nav-link-style mr-3" href="?page={{ products_paginator.previous_page_number }}">
+                <a class="nav-link-style mr-3" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ products_paginator.previous_page_number }}">
                     <i class="czi-arrow-left"></i>
                 </a>
                 {% else %}
@@ -40,7 +40,7 @@
                 </span>
 
                 {% if products_paginator.has_next %}
-                <a class="nav-link-style ml-3" href="?page={{ products_paginator.next_page_number }}">
+                <a class="nav-link-style ml-3" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ products_paginator.next_page_number }}">
                     <i class="czi-arrow-right"></i>
                 </a>
                 {% else %}
@@ -112,17 +112,17 @@
                 {% endif %}
 
                 <a class="card-img-top d-block overflow-hidden"
-                    href="{% url 'core:product_detail' p_store_type=store_type_slug store_slug=store_slug category_slug=product.category.slug slug=product.slug %}">
+                    href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.name store_slug=product.category.store.name category_slug=product.category.slug slug=product.slug %}">
                     <img src="/media/{{ product.image }}" alt="Product" class="image-size-in-list">
                 </a>
                 <div class="card-body py-2">
                     <a class="product-meta d-block font-size-xs pb-1"
-                        href="{% url 'core:category_products_list' c_store_type=store_type_slug store_slug=store_slug slug=product.category.slug  %}">
+                    href="{% url 'core:category_products_list' c_store_type=product.category.store.storetype.name store_slug=product.category.store.name slug=product.category.slug  %}">
                         {{product.category.name|title}}
                     </a>
                     <h3 class="product-title font-size-sm">
                         <a
-                            href="{% url 'core:product_detail' p_store_type=store_type_slug store_slug=store_slug category_slug=product.category.slug slug=product.slug %}">
+                        href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.name store_slug=product.category.store.name category_slug=product.category.slug slug=product.slug %}">
                             {{ product.name|title }}</a>
                     </h3>
                     <div class="d-flex justify-content-between">
