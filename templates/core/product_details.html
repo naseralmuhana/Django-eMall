@@ -9,8 +9,6 @@
 {% block content %}
 {% include "components/breadcrumb.html" %}
 
-
-
 <!-- Page Content-->
 <div class="container">
     <div class="bg-light box-shadow-lg rounded-lg">
@@ -22,7 +20,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link p-4" href="#reviews" data-toggle="tab" role="tab">Reviews
-                    <span class="font-size-sm opacity-60">(74)</span></a>
+                    <span class="font-size-sm opacity-60">({{ product_comments_count }})</span></a>
             </li>
         </ul>
         <div class="px-4 pt-lg-3 pb-3 mb-5">
@@ -165,8 +163,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Reviews tab -->
-                {% include 'components/review.html' %}
+                <!-- Reviews tab-->
+                {% include "components/review.html" %}
             </div>
         </div>
     </div>

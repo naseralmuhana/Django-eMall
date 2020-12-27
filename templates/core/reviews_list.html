@@ -1,0 +1,33 @@
+{% extends "base/main/layout/layout.html" %}
+{% load i18n %}
+{% load static %}
+{% load custom_tags %}
+
+{% block site_title %}
+{{ product.name|title }}
+{% endblock %}
+
+{% block content %}
+{% include "components/breadcrumb.html" %}
+
+<!-- Page Content-->
+<div class="container">
+    <div class="bg-light box-shadow-lg rounded-lg">
+        <!-- Tabs-->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link p-4 active" href="#reviews" data-toggle="tab" role="tab">Reviews
+                    <span class="font-size-sm opacity-60">({{ product_comments_count }})</span></a>
+            </li>
+        </ul>
+        <div class="px-4 pt-lg-3 pb-3 mb-5">
+            <div class="tab-content px-lg-3">
+                <!-- Reviews tab-->
+                {% include "components/review.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

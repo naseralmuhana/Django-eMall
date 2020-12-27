@@ -16521,3 +16521,9 @@ label.star:hover {
 label.star:before {
     content: '★ ';
 }
+
+.star {
+    background-clip: text;
+    font-size: 20px;
+    color: transparent;
+}

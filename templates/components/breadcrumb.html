@@ -2,7 +2,7 @@
 <!-- Page Title (Shop Alt)-->
 <!-- used for shop templates with filters on top-->
 
-{%if search%}
+{%if search_exist %}
 
 
 <div class="page-title-overlap bg-dark pt-4">
@@ -13,18 +13,15 @@
                     <li class="breadcrumb-item"><a class="text-nowrap text-lg-right" href="{% url 'core:index' %}"><i
                                 class="czi-home"></i>Home</a></li>
                     <li class="breadcrumb-item text-nowrap ">
-                        <p><a href="#" class="text-success">Searching on : {{search}}</a></p> 
+                        <p><a class="text-success">Searching on : {{search}}</a></p>
                     </li>
 
-                
+
                 </ol>
             </nav>
         </div>
         <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
-            <h1 class="h3 text-light mb-2">Search Results</h1>
-            <div>
-                
-            </div>
+            <h1 class="h3 text-light mb-2">Search Results <small>( {{products_number}} )</small></h1>
         </div>
     </div>
 </div>
@@ -58,25 +55,34 @@
                             {{ category_name }}
                         </a>
                     </li>
-
-                    <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ product.name|truncatewords:3  }}</li>
+                    {% if not reviews_page %}
+                    <li class="breadcrumb-item text-nowrap active" aria-current="page">
+                        {{ product.name|truncatewords:3 }}</li>
+                    {% else %}
+                    <li class="breadcrumb-item text-nowrap">
+                        <a
+                            href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
+                            {{ product.name|truncatewords:3 }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item text-nowrap active" aria-current="page">
+                        Reviews</li>
+                    {% endif %}
                 </ol>
             </nav>
         </div>
         <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
             <h1 class="h3 text-light mb-2">{{ product.name }}</h1>
             <div>
-                <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
-                        class="sr-star czi-star-filled active"></i><i class="sr-star czi-star-filled active"></i><i
-                        class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i>
-                </div><span class="d-inline-block font-size-sm text-white opacity-70 align-middle mt-1 ml-1">74
-                    Reviews</span>
+                <span class="star" aria-hidden="true" style="
+                background: linear-gradient(to right,#fc3 calc({{ overall_rating }} * 20%),#ccc 70%);
+                -webkit-background-clip: text;">★★★★★</span>
+                <span class="d-inline-block font-size-sm text-white opacity-70">
+                    {{ product_comments_count }} Reviews</span>
             </div>
         </div>
     </div>
 </div>
-
-
 
 
 {%else %}

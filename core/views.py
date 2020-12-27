@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, resolve
+
 from core import models as core_models
 
 
@@ -102,6 +103,39 @@ def product_detail(request, p_store_type, store_slug, category_slug, slug):
     store_type_name = product.category.store.storetype.name
     similar_products = core_models.Product.objects.filter(
         ~Q(name=product), category__name=category_name)
+
+    product_comments = core_models.Comment.objects.filter(
+        product__name=product).order_by('-create_at')
+    product_comments_count = product_comments.count()
+
+    def overall_rating():
+        if product_comments:
+            sum, count = 0, 0
+            for comment in product_comments:
+                sum += comment.rating
+                count += 1
+        else:
+            return 0
+        return(round(sum/count, 1))
+
+    def rating_system():
+        rate_system = {}
+        count = 0
+        rate_system['star1'] = product_comments.filter(rating=1).count()
+        rate_system['star2'] = product_comments.filter(rating=2).count()
+        rate_system['star3'] = product_comments.filter(rating=3).count()
+        rate_system['star4'] = product_comments.filter(rating=4).count()
+        rate_system['star5'] = product_comments.filter(rating=5).count()
+        return(rate_system)
+
+    def review_user_check():
+        user_comment = ''
+        if request.user.is_authenticated:
+            user_comment = product_comments.filter(user_id=request.user)
+        return user_comment
+
+    comments = product_comments.filter(~Q(user_id=request.user))
+
     context = {
         'product': product,
         'category_name': category_name,
@@ -111,6 +145,11 @@ def product_detail(request, p_store_type, store_slug, category_slug, slug):
         'store_type_slug': p_store_type,
         'store_categories': store_categories(store_name),
         'similar_products': similar_products,
+        'product_comments': comments[:3],
+        'product_comments_count': product_comments_count,
+        'overall_rating': overall_rating(),
+        'rating_system': rating_system(),
+        'user_comment': review_user_check(),
     }
     context.update(needed_everywhere())
     return render(request, 'core/product_details.html', context)
@@ -145,8 +184,107 @@ def add_comment(request, id):
     return HttpResponseRedirect(url)
 
 
+def delete_comment(request, proid):
+
+    url = request.META.get('HTTP_REFERER')
+    current_user = request.user
+    # product_name = models.Comment.objects.filter(
+    #     user_id=current_user.id, id=proid)[0]
+    core_models.Comment.objects.filter(
+        user_id=current_user.id, id=proid).delete()
+    # messages.success(
+    #     request, f"Your comment on '{product_name}' has been deleted.")
+    return HttpResponseRedirect(url)
+
+
+class SearchView(ListView):
+
+    template_name = 'core/products_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchView, self).get_context_data(**kwargs)
+        return self.get_queryset()
+
+    def get_queryset(self):
+        search_term = self.request.GET.get('q').strip(' */%^$#@!?')
+        products = core_models.Product.objects.filter(Q(name__icontains=search_term) | Q(
+            category__name__icontains=search_term) | Q(brand__name__icontains=search_term) | Q(description__icontains=search_term))
+        products_number = products.count()
+        current_url = resolve(self.request.path_info).url_name
+        context = {
+            'store_products': products,
+            'products_number': products_number,
+            'search': search_term,
+            'url_name': current_url,
+            'products_paginator': paginate_view(self.request, products),
+            'search_exist': 'true',
+        }
+        context.update(needed_everywhere())
+        return context
+
+
+def reviews_list(request, pr_store_type, store_slug, category_slug, slug):
+    product_slug = core_models.Product.objects.filter(slug__iexact=slug)
+    name = check_on_slug(product_slug)
+    if name is None:
+        return HttpResponse('<h1>Post Not Found</h1>')
+
+    product = name
+    category_name = product.category.name
+    store_name = product.category.store.name
+    store_type_name = product.category.store.storetype.name
+    product_comments = core_models.Comment.objects.filter(
+        product__name=product).order_by('-create_at')
+    product_comments_count = product_comments.count()
+
+    def overall_rating():
+        if product_comments:
+            sum, count = 0, 0
+            for comment in product_comments:
+                sum += comment.rating
+                count += 1
+        else:
+            return 0
+        return(round(sum/count, 1))
+
+    def rating_system():
+        rate_system = {}
+        count = 0
+        rate_system['star1'] = product_comments.filter(rating=1).count()
+        rate_system['star2'] = product_comments.filter(rating=2).count()
+        rate_system['star3'] = product_comments.filter(rating=3).count()
+        rate_system['star4'] = product_comments.filter(rating=4).count()
+        rate_system['star5'] = product_comments.filter(rating=5).count()
+        return(rate_system)
+
+    def review_user_check():
+        user_comment = ''
+        if request.user.is_authenticated:
+            user_comment = product_comments.filter(user_id=request.user)
+        return user_comment
+
+    comments = product_comments.filter(~Q(user_id=request.user))
+
+    context = {
+        'product': product,
+        'category_name': category_name,
+        'store_name': store_name,
+        'store_slug': store_slug,
+        'store_type_name': store_type_name,
+        'store_type_slug': pr_store_type,
+        'store_categories': store_categories(store_name),
+        'product_comments': comments,
+        'product_comments_count': product_comments_count,
+        'overall_rating': overall_rating(),
+        'rating_system': rating_system(),
+        'reviews_page': 'true',
+        'user_comment': review_user_check(),
+    }
+    context.update(needed_everywhere())
+    return render(request, 'core/reviews_list.html', context)
+
+
 # extra
-# function to check if the slug is exist and return none if not.
 def check_on_slug(slug):
 
     if slug.exists():
@@ -194,31 +332,3 @@ def paginate_view(request, products):
         products_paginator = paginator.page(paginator.num_pages)
 
     return products_paginator
-
-
-class SearchView(ListView):
-
-    template_name = 'core/products_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(SearchView, self).get_context_data(**kwargs)
-        return self.get_queryset()
-
-    def get_queryset(self):
-        search_term = self.request.GET.get('q').strip(' */%^$#@!?')
-        products = core_models.Product.objects.filter(Q(name__icontains=search_term) | Q(
-            category__name__icontains=search_term)| Q(brand__name__icontains=search_term) | Q(description__icontains=search_term))
-        current_url = resolve(self.request.path_info).url_name
-        # context_store = {}
-        # for prod in products:
-        #     prod_category = prod.category.store.name
-        #     context_store[prod.name] = core_models.Store.objects.filter(category__name = prod.category.name)
-        context = {
-            'store_products': products,
-            'search': search_term,
-            'url_name': current_url,
-            # 'stores': context_store.items,
-            'products_paginator': paginate_view(self.request, products),
-        }
-        context.update(needed_everywhere())
-        return context

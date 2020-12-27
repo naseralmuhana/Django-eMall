@@ -169,7 +169,7 @@ class Comment(models.Model):
 
     def username(self):
         return self.user.username
-
+    
     class Meta:
         ordering = ['-create_at']
 

@@ -13,14 +13,16 @@
                     style="min-width: 4.625rem"><img width="74" src="{% static 'img/logo-icon.png' %}"
                         alt="Cartzilla" /></a>
                 <div class="input-group-overlay d-none d-lg-flex mx-4">
-                    <form class=" form-inline md-form mr-auto mb-4 form-control-lg"action = "{% url 'core:search_result' %}" method="GET" >
-                        <input class="form-control appended-form-control" type="text" style="width: 500px;" placeholder="Search for products" name = 'q' />
+                    <form class=" form-inline md-form mr-auto mb-4 form-control-lg"
+                        action="{% url 'core:search_result' %}" method="GET">
+                        <input class="form-control appended-form-control" type="text" style="width: 500px;"
+                            placeholder="Search" name='q' />
                         <button type="submit" class="btn btn-outline-dark">
                             <span class="glyphicon glyphicon-search"></span> Search
-                          </button>
-                        
-                       
-                     </form> 
+                        </button>
+
+
+                    </form>
                 </div>
                 <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
