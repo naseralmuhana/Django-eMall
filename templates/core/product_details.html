@@ -118,7 +118,7 @@
                                     {% if user in product.favourite.all %}
                                     <div class="w-100 mr-3">
                                         <a class="btn btn-outline-secondary btn-block"
-                                            href="{% url 'core:add_favourite_product' product.slug %}"
+                                            href="{% url 'core:favourite_product' product.slug %}"
                                             title="Remove from wishlist">
                                             <i class="fa fa-heart font-size-lg mr-2"></i>
                                             <span class='d-none d-sm-inline'>Remove from </span>Wishlist
@@ -127,7 +127,7 @@
                                     {% else %}
                                     <div class="w-100 mr-3">
                                         <a class="btn btn-outline-primary btn-block"
-                                            href="{% url 'core:add_favourite_product' product.slug %}"
+                                            href="{% url 'core:favourite_product' product.slug %}"
                                             title="Add to wishlist">
                                             <i class="czi-heart font-size-lg mr-2"></i>
                                             <span class='d-none d-sm-inline'>Add to </span>Wishlist
@@ -187,11 +187,11 @@
                 {% endif %}
                 <div class="product-thumb">
                     {% if user in product.favourite.all %}
-                    <a class="btn-wishlist btn-sm" href="{% url 'core:add_favourite_product' product.slug %}"
+                    <a class="btn-wishlist btn-sm" href="{% url 'core:favourite_product' product.slug %}"
                         data-toggle="tooltip" data-placement="left" data-original-title="Remove from wishlist">
                         <i class="fa fa-heart"></i></a>
                     {% else %}
-                    <a class="btn-wishlist btn-sm" href="{% url 'core:add_favourite_product' product.slug %}"
+                    <a class="btn-wishlist btn-sm" href="{% url 'core:favourite_product' product.slug %}"
                         data-toggle="tooltip" data-placement="left" data-original-title="Add to wishlist">
                         <i class="czi-heart"></i></a>
                     {% endif %}

@@ -24,7 +24,7 @@ def store_type_list(request, slug):
     type_slug = core_models.StoreType.objects.filter(slug__iexact=slug)
     slug = check_on_slug(type_slug)
     if slug is None:
-        return HttpResponse('<h1>Post Not Found</h1>')
+        return HttpResponse('<h1>Post Not Found..</h1>')
     type_stores_list = core_models.Store.objects.filter(
         storetype=slug).order_by('-create_at')
 
@@ -134,7 +134,10 @@ def product_detail(request, p_store_type, store_slug, category_slug, slug):
             user_comment = product_comments.filter(user_id=request.user)
         return user_comment
 
-    comments = product_comments.filter(~Q(user_id=request.user))
+    if request.user.is_authenticated:
+        comments = product_comments.filter(~Q(user_id=request.user))
+    else:
+        comments = product_comments.all()
 
     context = {
         'product': product,
@@ -155,7 +158,8 @@ def product_detail(request, p_store_type, store_slug, category_slug, slug):
     return render(request, 'core/product_details.html', context)
 
 
-def add_favourite_product(request, slug):
+@login_required(login_url='/accounts/login/')
+def favourite_product(request, slug):
 
     url = request.META.get('HTTP_REFERER')
     product = get_object_or_404(core_models.Product, slug=slug)
@@ -163,9 +167,11 @@ def add_favourite_product(request, slug):
         product.favourite.remove(request.user)
     else:
         product.favourite.add(request.user)
+
     return HttpResponseRedirect(url)
 
 
+@login_required(login_url='/accounts/login/')
 def add_comment(request, id):
 
     url = request.META.get('HTTP_REFERER')
@@ -184,6 +190,7 @@ def add_comment(request, id):
     return HttpResponseRedirect(url)
 
 
+@login_required(login_url='/accounts/login/')
 def delete_comment(request, proid):
 
     url = request.META.get('HTTP_REFERER')
@@ -263,7 +270,10 @@ def reviews_list(request, pr_store_type, store_slug, category_slug, slug):
             user_comment = product_comments.filter(user_id=request.user)
         return user_comment
 
-    comments = product_comments.filter(~Q(user_id=request.user))
+    if request.user.is_authenticated:
+        comments = product_comments.filter(~Q(user_id=request.user))
+    else:
+        comments = product_comments.all()
 
     context = {
         'product': product,

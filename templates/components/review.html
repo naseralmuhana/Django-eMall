@@ -40,11 +40,11 @@
         </button>
         <div class="mr-2">
             {% if user in product.favourite.all %}
-            <a class="btn btn-secondary btn-icon" href="{% url 'core:add_favourite_product' product.slug %}"
+            <a class="btn btn-secondary btn-icon" href="{% url 'core:favourite_product' product.slug %}"
                 data-toggle="tooltip" data-placement="left" data-original-title="Remove from wishlist">
                 <i class="fa fa-heart font-size-lg"></i></a>
             {% else %}
-            <a class="btn btn-secondary btn-icon" href="{% url 'core:add_favourite_product' product.slug %}"
+            <a class="btn btn-secondary btn-icon" href="{% url 'core:favourite_product' product.slug %}"
                 data-toggle="tooltip" data-placement="left" data-original-title="Add to wishlist">
                 <i class="czi-heart font-size-lg"></i></a>
             {% endif %}

@@ -108,11 +108,11 @@ Search | {{ search|title }}
                 {% endif %}
 
                 {% if user in product.favourite.all %}
-                <a class="btn-wishlist btn-sm" href="{% url 'core:add_favourite_product' product.slug %}"
+                <a class="btn-wishlist btn-sm" href="{% url 'core:favourite_product' product.slug %}"
                     data-toggle="tooltip" data-placement="left" data-original-title="Remove from wishlist">
                     <i class="fa fa-heart"></i></a>
                 {% else %}
-                <a class="btn-wishlist btn-sm" href="{% url 'core:add_favourite_product' product.slug %}"
+                <a class="btn-wishlist btn-sm" href="{% url 'core:favourite_product' product.slug %}"
                     data-toggle="tooltip" data-placement="left" data-original-title="Add to wishlist">
                     <i class="czi-heart"></i></a>
                 {% endif %}

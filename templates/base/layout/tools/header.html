@@ -31,29 +31,87 @@
                         <div class="navbar-tool-icon-box">
                             <i class="navbar-tool-icon czi-menu"></i>
                         </div>
-                    </a><a class="navbar-tool d-none d-lg-flex" href="account-wishlist.html"><span
+                    </a>
+                    <a class="navbar-tool d-none d-lg-flex" href="{% url 'account:wishlist' %}"><span
                             class="navbar-tool-tooltip">Wishlist</span>
                         <div class="navbar-tool-icon-box">
                             <i class="navbar-tool-icon czi-heart"></i>
                         </div>
-                    </a><a class="navbar-tool ml-1 ml-lg-0 mr-n1 mr-lg-2" href="#signin-modal" data-toggle="modal">
+                    </a>
+
+                    {% if user.is_authenticated %}
+
+                    <div class="navbar-tool dropdown ml-3">
                         <div class="navbar-tool-icon-box">
                             <i class="navbar-tool-icon czi-user"></i>
                         </div>
                         <div class="navbar-tool-text ml-n3">
-
                             {% if user.is_authenticated %}
                             <small>Hello, {{ user.username }}</small>My Account
                             {% else %}
                             <small>Hello, Sign in</small>My Account
                             {% endif %}
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'account:profile' %}">
+                                    <div class="d-flex">
+                                        <div class="lead text-muted pt-1">
+                                            <i class="far fa-user"></i>
+                                        </div>
+                                        <div class="ml-2 align-self-center">
+                                            <span class="d-block text-heading">Profile</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'account:change_password' %}">
+                                    <div class="d-flex">
+                                        <div class="lead text-muted pt-1">
+                                            <i class="czi-key"></i>
+                                        </div>
+                                        <div class="ml-2 align-self-center">
+                                            <span class="d-block text-heading">
+                                                Change password
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'account:logout' %}">
+                                    <div class="d-flex">
+                                        <div class="lead text-muted pt-1">
+                                            <i class="czi-sign-out"></i>
+                                        </div>
+                                        <div class="ml-2 align-self-center" >
+                                            <span class="d-block text-heading">Logout</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
+                    {% else %}
+                    <a class="navbar-tool ml-1 ml-lg-0 mr-n1 mr-lg-2" href="#signin-modal" data-toggle="modal">
+                        <div class="navbar-tool-icon-box">
+                            <i class="navbar-tool-icon czi-user"></i>
+                        </div>
+                        <div class="navbar-tool-text ml-n3">
+                            <small>Hello, Sign in</small>My Account
                         </div>
                     </a>
+                    {% endif %}
+
+
                     <div class="navbar-tool dropdown ml-3">
                         <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="shop-cart.html"><span
-                                class="navbar-tool-label">4</span><i class="navbar-tool-icon czi-cart"></i></a><a
-                            class="navbar-tool-text" href="shop-cart.html"><small>My Cart</small>$265.00</a>
+                                class="navbar-tool-label">4</span><i class="navbar-tool-icon czi-cart"></i></a>
+                        <a class="navbar-tool-text" href="shop-cart.html"><small>My Cart</small>$265.00</a>
                         <!-- Cart dropdown-->
                         <div class="dropdown-menu dropdown-menu-right" style="width: 20rem">
                             <div class="widget widget-cart px-3 pt-2 pb-3">
@@ -143,8 +201,8 @@
                                     <a class="btn btn-outline-secondary btn-sm" href="shop-cart.html">Expand cart<i
                                             class="czi-arrow-right ml-1 mr-n1"></i></a>
                                 </div>
-                                <a class="btn btn-primary btn-sm btn-block" href="checkout-details.html"><i
-                                        class="czi-card mr-2 font-size-base align-middle"></i>Checkout</a>
+                                <a class="btn btn-primary btn-sm btn-block" href="checkout-details.html">
+                                    <i class="czi-card mr-2 font-size-base align-middle"></i>Checkout</a>
                             </div>
                         </div>
                     </div>
@@ -432,6 +490,12 @@
                                         Account</a>
                                     <ul class="dropdown-menu">
                                         <li>
+                                            <a class="dropdown-item" href="{% url 'account:register' %}">Register</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{% url 'account:login' %}">Login</a>
+                                        </li>
+                                        <li>
                                             <a class="dropdown-item" href="account-orders.html">Orders History</a>
                                         </li>
                                         <li>
@@ -680,4 +744,4 @@
 </header>
 <!-- Header Section End -->
 
-{% include "account/login-register.html" %}
+{% include "components/login-register.html" %}

@@ -53,11 +53,12 @@
                     </div>
                     <div class="form-group d-flex flex-wrap justify-content-between">
                         <div class="custom-control custom-checkbox mb-2">
-                            <input class="custom-control-input" type="checkbox" id="si-remember" />
-                            <label class="custom-control-label" for="si-remember">Remember me</label>
                         </div>
                         <a class="font-size-sm" href="{% url 'account:password_reset' %}">Forgot password?</a>
                     </div>
+                    {% if request.GET.next %}
+                    <input type="button" name="next" value="{{ request.Get.next }}">
+                    {% endif %}
                     <button class="btn btn-primary btn-block btn-shadow" type="submit">
                         Sign in
                     </button>

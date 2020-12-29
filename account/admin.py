@@ -12,11 +12,13 @@ class UserRegistrationAdmin(UserAdmin):
     model = account_models.UserRegistration
     add_form = account_forms.UserRegistrationForm
     fieldsets = (
-        (('Personal info'), {'fields': ('username', 'password',
-                                        'first_name', 'last_name', 'email', 'phone_number',)}),
-        (('Permissions'), {
-            'fields': ('is_superuser', 'is_active', 'is_customer', 'is_owner'),
-        }),
+        (('Personal info'), {'fields': ('username', 'password', 'first_name',
+                                        'last_name', 'email', 'image', 'city',
+                                        'phone_number', 'address', 'zip_code',)}),
+
+        (('Permissions'), {'fields': ('is_superuser', 'is_active',
+                                      'is_customer', 'is_owner',)}),
+
         (('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
 
