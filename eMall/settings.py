@@ -46,6 +46,7 @@ EXTERNAL_APPS = [
     'multiselectfield',
     'core.apps.CoreConfig',
     'account.apps.AccountConfig',
+    'order.apps.OrderConfig',
 ]
 
 INSTALLED_APPS = BUILT_IN_APPS + EXTERNAL_APPS

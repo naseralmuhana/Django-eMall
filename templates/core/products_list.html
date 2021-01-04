@@ -156,10 +156,10 @@ Search | {{ search|title }}
                 </div>
                 <div class="card-body card-body-hidden">
 
-                    <button class="btn btn-primary btn-sm btn-block mb-2" type="button" data-toggle="toast"
+                    <a class="btn btn-primary btn-sm btn-block mb-2" href="{% url 'order:addtoshpcart' product.id %}" data-toggle="toast"
                         data-target="#cart-toast">
                         <i class="czi-cart font-size-sm mr-1"></i>Add to Cart
-                    </button>
+                </a>
                     <div class="text-center">
                         <a class="nav-link-style font-size-ms" href="#quick-view" data-toggle="modal">
                             <i class="czi-eye align-middle mr-1"></i>Quick view
@@ -183,5 +183,18 @@ Search | {{ search|title }}
     {% include 'components/paginator.html' %}
 
 </div>
+
+<!-- Toast: Added to Cart-->
+<div class="toast-container toast-bottom-center">
+    <div class="toast mb-3" id="cart-toast" data-delay="5000" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white"><i class="czi-check-circle mr-2"></i>
+            <h6 class="font-size-sm text-white mb-0 mr-auto">Added to cart!</h6>
+            <button class="close text-white ml-2 mb-1" type="button" data-dismiss="toast" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="toast-body">This item has been added to your cart.</div>
+    </div>
+</div>
+
 
 {% endblock %}

@@ -5,6 +5,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, resolve
+from django.http import JsonResponse
+import json
+
 
 from core import models as core_models
 
@@ -342,3 +345,43 @@ def paginate_view(request, products):
         products_paginator = paginator.page(paginator.num_pages)
 
     return products_paginator
+
+
+def Quick_View (request):
+ 
+    
+    if request.is_ajax():
+        
+        name_product = request.GET.get("product_name")
+        print(name_product)
+        product = core_models.Product.objects.filter(name = name_product)
+        product_name = product[0].name
+        image =product[0].image
+        description = product[0].description
+        price = product[0].price
+        discount_price=product[0].discount_price
+        color = product[0].color
+        size = product[0].size
+        c_store_type = product[0].category.store.storetype.slug
+        category_slug = product[0].category.slug
+        slug=product[0].slug
+        store_slug = product[0].category.store.slug
+
+        slug_product = ("{c_store_type}/{store_slug}/{category_slug}/{slug}/").format(c_store_type = c_store_type, store_slug = store_slug, category_slug = category_slug , slug = slug)
+        
+        image = str(image)
+        slug_product = str(slug_product)
+        print (slug_product)
+        context = {
+                'product_name': product_name,
+                'image': image,
+                'description':description,
+                'price': price,
+                'discount_price': discount_price,
+                'color': color,
+                'size': size,
+                'slug':slug_product,
+
+
+            }
+        return JsonResponse(context)

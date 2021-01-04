@@ -127,12 +127,14 @@
                                             <i class="czi-heart"></i></a>
                                         {% endif %}
                                         <div class="product-card-actions">
-                                            <a class="btn btn-light btn-icon btn-shadow font-size-base"
-                                                href="#quick-view" data-toggle="modal" title="Quick View"><i
+                                            <a class="btn btn-light btn-icon btn-shadow font-size-base show_product"
+                                            href="" id="{{product.name}}" data-id="{{product.name}}" class="artist-title " 
+                                            data-toggle="modal" title="Quick View"><i
                                                     class="czi-eye"></i></a>
-                                            <button class="btn btn-light btn-icon btn-shadow font-size-base mx-2"
-                                                type="button" data-toggle="toast" data-target="#cart-toast"><i
-                                                    class="czi-cart"></i></button>
+                                            <a class="btn btn-light btn-icon btn-shadow font-size-base mx-2"
+                                            href="{% url 'order:addtoshpcart' product.id %}" 
+                                                 data-toggle="toast" data-target="#cart-toast"><i
+                                                    class="czi-cart"></i></a>
                                         </div><a class="product-thumb-overlay"
                                             href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}"></a>
                                         <img src="/media/{{ product.image }}" style="height: 224.33px;" alt="Product">
@@ -197,15 +199,18 @@
                                             <i class="czi-heart"></i></a>
                                         {% endif %}
                                         <div class="product-card-actions">
-                                            <a class="btn btn-light btn-icon btn-shadow font-size-base"
-                                                href="#quick-view" data-toggle="modal" title="Quick View"><i
+                                            <a class="btn btn-light btn-icon btn-shadow font-size-base show_product"
+                                            href="" id="{{product.name}}" data-id="{{product.name}}" class="artist-title " 
+                                            data-toggle="modal" title="Quick View"><i
                                                     class="czi-eye"></i></a>
-                                            <button class="btn btn-light btn-icon btn-shadow font-size-base mx-2"
-                                                type="button" data-toggle="toast" data-target="#cart-toast"><i
-                                                    class="czi-cart"></i></button>
+                                            <a class="btn btn-light btn-icon btn-shadow font-size-base mx-2"
+                                            href="{% url 'order:addtoshpcart' product.id %}" 
+                                                 data-toggle="toast" data-target="#cart-toast"><i
+                                                    class="czi-cart"></i></a>
                                         </div><a class="product-thumb-overlay"
                                             href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}"></a>
                                         <img src="/media/{{ product.image }}" style="height: 224.33px;" alt="Product">
+                                    </a>
                                     </div>
                                     <div class="card-body">
                                         <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -305,12 +310,15 @@
                                             <i class="czi-heart"></i></a>
                                         {% endif %}
                                         <div class="product-card-actions">
-                                            <a class="btn btn-light btn-icon btn-shadow font-size-base"
-                                                href="#quick-view" data-toggle="modal" title="Quick View"><i
+                                            <a class="btn btn-light btn-icon btn-shadow font-size-base show_product"
+                                            href="" id="{{product.name}}" data-id="{{product.name}}" class="artist-title " 
+                                            data-toggle="modal" title="Quick View"><i
                                                     class="czi-eye"></i></a>
-                                            <button class="btn btn-light btn-icon btn-shadow font-size-base mx-2"
-                                                type="button" data-toggle="toast" data-target="#cart-toast"><i
-                                                    class="czi-cart"></i></button>
+
+                                            <a class="btn btn-light btn-icon btn-shadow font-size-base mx-2"
+                                            href="{% url 'order:addtoshpcart' product.id %}" 
+                                                 data-toggle="toast" data-target="#cart-toast"><i
+                                                    class="czi-cart"></i></a>
                                         </div>
                                         <a class="product-thumb-overlay"
                                             href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
@@ -379,12 +387,14 @@
                                             <i class="czi-heart"></i></a>
                                         {% endif %}
                                         <div class="product-card-actions">
-                                            <a class="btn btn-light btn-icon btn-shadow font-size-base"
-                                                href="#quick-view" data-toggle="modal" title="Quick View"><i
+                                             <a class="btn btn-light btn-icon btn-shadow font-size-base show_product"
+                                            href="" id="{{product.name}}" data-id="{{product.name}}" class="artist-title " 
+                                            data-toggle="modal" title="Quick View"><i
                                                     class="czi-eye"></i></a>
-                                            <button class="btn btn-light btn-icon btn-shadow font-size-base mx-2"
-                                                type="button" data-toggle="toast" data-target="#cart-toast"><i
-                                                    class="czi-cart"></i></button>
+                                            <a class="btn btn-light btn-icon btn-shadow font-size-base mx-2"
+                                            href="{% url 'order:addtoshpcart' product.id %}" 
+                                                 data-toggle="toast" data-target="#cart-toast"><i
+                                                    class="czi-cart"></i></a>
                                         </div><a class="product-thumb-overlay"
                                             href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}"></a>
                                         <img src="/media/{{ product.image }}" style="height: 224.33px;" alt="Product">

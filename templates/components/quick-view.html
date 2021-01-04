@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <!-- Quick View Modal-->
 <div class="modal-quick-view modal fade" id="quick-view" tabindex="-1">
@@ -7,7 +8,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title product-title">
-                    <a href="shop-single-v1.html" data-toggle="tooltip" data-placement="right"
+                    <a href="" data-toggle="tooltip" data-placement="right"
                         title="Go to product page">Sports Hooded Sweatshirt<i
                             class="czi-arrow-right font-size-lg ml-2"></i></a>
                 </h4>
@@ -22,60 +23,39 @@
                         <div class="cz-product-gallery">
                             <div class="cz-preview order-sm-2">
                                 <div class="cz-preview-item active" id="first">
-                                    <img class="cz-image-zoom" src="{% static 'img/shop/single/gallery/01.jpg' %}"
-                                        data-zoom="{% static 'img/shop/single/gallery/01.jpg' %}" alt="Product image" />
+                                    <img id ="modal_img_1"class="cz-image-zoom" src=""
+                                        data-zoom="" alt="Product image" />
                                     <div class="cz-image-zoom-pane"></div>
-                                </div>
-                                <div class="cz-preview-item" id="second">
-                                    <img class="cz-image-zoom" src="{% static 'img/shop/single/gallery/02.jpg' %}"
-                                        data-zoom="{% static 'img/shop/single/gallery/02.jpg' %}" alt="Product image" />
-                                    <div class="cz-image-zoom-pane"></div>
-                                </div>
-                                <div class="cz-preview-item" id="third">
-                                    <img class="cz-image-zoom" src="{% static 'img/shop/single/gallery/03.jpg' %}"
-                                        data-zoom="{% static 'img/shop/single/gallery/03.jpg' %}" alt="Product image" />
-                                    <div class="cz-image-zoom-pane"></div>
-                                </div>
-                                <div class="cz-preview-item" id="fourth">
-                                    <img class="cz-image-zoom" src="{% static 'img/shop/single/gallery/04.jpg' %}"
-                                        data-zoom="{% static 'img/shop/single/gallery/04.jpg' %}" alt="Product image" />
-                                    <div class="cz-image-zoom-pane"></div>
+                                
+                               
                                 </div>
                             </div>
-                            <div class="cz-thumblist order-sm-1">
-                                <a class="cz-thumblist-item active" href="#first"><img
-                                        src="{% static 'img/shop/single/gallery/th01.jpg' %}" alt="Product thumb" /></a><a
-                                    class="cz-thumblist-item" href="#second"><img
-                                        src="{% static 'img/shop/single/gallery/th02.jpg' %}" alt="Product thumb" /></a><a
-                                    class="cz-thumblist-item" href="#third"><img
-                                        src="{% static 'img/shop/single/gallery/th03.jpg' %}" alt="Product thumb" /></a><a
-                                    class="cz-thumblist-item" href="#fourth"><img
-                                        src="{% static 'img/shop/single/gallery/th04.jpg' %}" alt="Product thumb" /></a>
-                            </div>
+                          
                         </div>
                     </div>
                     <!-- Product details-->
                     <div class="col-lg-5 pt-4 pt-lg-0 cz-image-zoom-pane">
                         <div class="product-details ml-auto pb-3">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <a href="shop-single-v1.html#reviews">
+                                <a href="">
                                     <div class="star-rating">
                                         <i class="sr-star czi-star-filled active"></i><i
                                             class="sr-star czi-star-filled active"></i><i
                                             class="sr-star czi-star-filled active"></i><i
                                             class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i>
                                     </div>
-                                    <span class="d-inline-block font-size-sm text-body align-middle mt-1 ml-1">74
+                                    <span name = 'reviews' class="d-inline-block font-size-sm text-body align-middle mt-1 ml-1">74
                                         Reviews</span>
                                 </a>
+
                                 <button class="btn-wishlist" type="button" data-toggle="tooltip"
                                     title="Add to wishlist">
                                     <i class="czi-heart"></i>
                                 </button>
                             </div>
                             <div class="mb-3">
-                                <span class="h3 font-weight-normal text-accent mr-1">$18.<small>99</small></span>
-                                <del class="text-muted font-size-lg mr-3">$25.<small>00</small></del><span
+                                <span id = 'Sale' class="h3 font-weight-normal text-accent mr-1">00<small>JOD</small></span>
+                                <del id = 'price' class="text-muted font-size-lg mr-3"><small>JOD</small></del><span
                                     class="badge badge-danger badge-shadow align-middle mt-n2">Sale</span>
                             </div>
                             <div class="font-size-sm mb-4">
@@ -114,10 +94,7 @@
                                     <select class="custom-select" required id="product-size">
                                         <option value="">Select size</option>
                                         <option value="xs">XS</option>
-                                        <option value="s">S</option>
-                                        <option value="m">M</option>
-                                        <option value="l">L</option>
-                                        <option value="xl">XL</option>
+                                    
                                     </select>
                                 </div>
                                 <div class="form-group d-flex align-items-center">
@@ -133,24 +110,29 @@
                                     </button>
                                 </div>
                             </form>
-                            <h5 class="h6 mb-3 pb-2 border-bottom">
-                                <i class="czi-announcement text-muted font-size-lg align-middle mt-n1 mr-2"></i>Product
-                                info
-                            </h5>
-                            <h6 class="font-size-sm mb-2">Style</h6>
-                            <ul class="font-size-sm pl-4">
-                                <li>Hooded top</li>
-                            </ul>
-                            <h6 class="font-size-sm mb-2">Composition</h6>
-                            <ul class="font-size-sm pl-4">
-                                <li>Elastic rib: Cotton 95%, Elastane 5%</li>
-                                <li>Lining: Cotton 100%</li>
-                                <li>Cotton 80%, Polyester 20%</li>
-                            </ul>
-                            <h6 class="font-size-sm mb-2">Art. No.</h6>
-                            <ul class="font-size-sm pl-4 mb-0">
-                                <li>183260098</li>
-                            </ul>
+                            <div class="accordion mb-4" id="productPanels">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="accordion-heading">
+                                            <a href="#productdescription" role="button" data-toggle="collapse"
+                                                aria-expanded="true" aria-controls="productdescription">
+                                                <i
+                                                    class="czi-announcement text-muted lead align-middle mt-n1 mr-2"></i>
+                                                Product Info
+                                                <span class="accordion-indicator"></span>
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div class="collapse show" id="productdescription"
+                                        data-parent="#productdescription">
+                                        <div class="card-body font-size-sm">
+                                            <div id='description1' class="d-flex justify-content-between border-bottom pb-2">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -158,3 +140,50 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    $(function(){
+        $('.show_product').on('click', function (e) {
+            
+            e.preventDefault();
+            let product_id = $(this).attr('id');
+            let url = $(this).attr('url_name');
+           
+            // alert(product_id);
+            // var data = new FormData();
+            // data.append('productname', product_id);
+         
+            $.ajax({
+                contentType: false,
+                url:'Quick_view/',
+                type:'GET',
+                data: {'product_name':product_id},
+            
+               
+                success:function(response){
+                    console.log(response.name);
+                    $('.show_product').trigger("reset");
+                    openModal(response);
+                },
+                error:function(){
+                    console.log('something went wrong here');
+                },
+            });
+        });
+    });
+    
+    
+    function openModal(product_data){
+      $('#product_name').text(product_data.product_name);
+    
+    
+      $('#modal_img_1').attr('src', '/media/'+product_data.image );
+      $('#modal_img_1').attr('data-zoom', '/media/'+product_data.image );
+      $('#description1').text(product_data.description);
+      $('#price').text(product_data.price);
+      $('#sale').text(product_data.discount_price);
+      $('#product_name').attr('href', product_data.slug);
+      $('#quick-view').modal('show');
+    }((jQuery));
+    </script>

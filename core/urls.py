@@ -17,5 +17,5 @@ urlpatterns = [
     path('add-comment/<int:id>', core_views.add_comment, name="add_comment"),
     path('delete-comment/<int:proid>', core_views.delete_comment, name="delete_comment"),
     path('search', core_views.SearchView.as_view(), name='search_result'),
-
+    path('Quick_view/', core_views.Quick_View, name='Quick_View'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
