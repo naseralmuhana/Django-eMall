@@ -7,9 +7,12 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse, resolve
 from django.http import JsonResponse
 import json
-
-
 from core import models as core_models
+from order import models as order_models
+
+
+global check_user
+
 
 
 class IndexPageView(TemplateView):
@@ -18,6 +21,13 @@ class IndexPageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexPageView, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            global check_user
+            check_user = self.request.user
+
+        else:
+            check_user = False
+
         context.update(needed_everywhere())
         return context
 
@@ -321,16 +331,29 @@ def needed_everywhere():
     context = {}
     all_products = {}
     all_stores = core_models.Store.objects.all().order_by('-create_at')
+    if check_user:
+        current_user = check_user
+        total =0
+        count_cart = 0
+        cart = order_models.ShopCart.objects.filter(user_id_id = current_user)
+        for product in cart:
+            total+=product.amount
+            count_cart+=1
 
+        context['cart'] = cart
+        context['total'] = total
+        context['count_cart'] = count_cart
     for store in all_stores:
         all_products[store.name] = core_models.Product.objects.filter(
             category__store__name=store.name).order_by('-create_at')[:12]
 
     context['all_stores'] = all_stores
     context['all_products'] = all_products
+   
     context['store_types'] = core_models.StoreType.objects.all()
 
     return context
+
 
 
 def paginate_view(request, products):
