@@ -23,13 +23,30 @@
         <div class="modal-body pb-0">
           <!-- Item-->
           {%for product in order_product_details%}
+          {% if product.product.discount_price %}
+          <span class="badge badge-danger badge-shadow">Sale</span>
+          {% endif %}
           <div class="d-sm-flex justify-content-between my-4 pb-3 pb-sm-2 border-bottom">
+          
             <div class="media d-block d-sm-flex text-center text-sm-left"><a class="d-inline-block mx-auto mr-sm-4"href="{% url 'core:product_detail' p_store_type=product.product.category.store.storetype.slug store_slug=product.product.category.store.slug category_slug=product.product.category.slug slug=product.product.slug %}" style="width: 10rem;"><img src='/media/{{ product.product.image }}'  alt="Product"></a>
               <div class="media-body pt-2">
                 <h3 class="product-title font-size-base mb-2"><a href="{% url 'core:product_detail' p_store_type=product.product.category.store.storetype.slug store_slug=product.product.category.store.slug category_slug=product.product.category.slug slug=product.product.slug %}">{{product.product.name}}</a></h3>
                 <div class="font-size-sm"><span class="text-muted mr-2">Brand:</span>The North Face</div>
                 <div class="font-size-sm"><span class="text-muted mr-2">Color:</span>Pink / Beige / Dark blue</div>
-                <div class="font-size-lg text-accent pt-2">{{product.price}}<small>JOD</small></div>
+                <div class="font-size-lg text-accent pt-2">
+                  {% if product.product.discount_price %}
+                  <span class="text-accent"> {{product.product.discount_price}} <small>JOD</small></span>
+                  <del class="font-size-sm text-muted">{{ product.product.price }}</del>
+                  {% else %}
+
+                  <span class="text-accent">{{  product.product.price }}<small>JOD</small> </span>
+                  {% endif %}
+                
+                
+                
+                
+                
+                </div>
               </div>
             </div>
             <div class="pt-2 pl-sm-3 mx-auto mx-sm-0 text-center">
@@ -46,10 +63,10 @@
         <!-- Footer-->
    <!-- Footer-->
    <div class="modal-footer flex-wrap justify-content-between bg-secondary font-size-md">
-    <div class="px-2 py-1"><span class="text-muted">Subtotal:&nbsp;</span><span>{{order_product_details.total}}<small>JOD</small></span></div>
+    <div class="px-2 py-1"><span class="text-muted">Subtotal:&nbsp;</span><span>{{total_order}}<small> JOD </small></span></div>
     <div class="px-2 py-1"><span class="text-muted">Shipping:&nbsp;</span><span>$2.<small>50</small></span></div>
     <div class="px-2 py-1"><span class="text-muted">Tax:&nbsp;</span><span>$1.<small>50</small></span></div>
-    <div class="px-2 py-1"><span class="text-muted">Total:&nbsp;</span><span class="font-size-lg">{{order_product_details.total| add:4 }}<small>JOD</small></span></div>
+    <div class="px-2 py-1"><span class="text-muted">Total:&nbsp;</span><span class="font-size-lg">{{total_order}}<small>JOD</small></spans></div>
   </div>
 </div>
 </div>
@@ -65,7 +82,7 @@
         <div class="bg-secondary p-4 text-center rounded-lg"><span class="font-weight-medium text-dark mr-2">Status:</span>Processing order</div>
       </div>
       <div class="col-sm-4 mb-2">
-        <div class="bg-secondary p-4 text-center rounded-lg"><span class="font-weight-medium text-dark mr-2">Expected date:</span>{{order_product_details.deliver_time}}</div>
+        <div class="bg-secondary p-4 text-center rounded-lg"><span class="font-weight-medium text-dark mr-2">Expected date:</span>{{order_product_details.0.deliver_time}}</div>
       </div>
     </div>
     <!-- Progress-->

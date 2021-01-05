@@ -54,12 +54,26 @@
               <div class="col-lg-8 col-md-7 pt-sm-2">
                 <!-- Item-->
                 {%for product in cart%}
+                {% if product.product_cart.discount_price %}
+                <span class="badge badge-danger badge-shadow">Sale</span>
+                {% endif %}
                 <div class="d-sm-flex justify-content-between align-items-center mt-3 mb-4 pb-3 border-bottom">
+                 
                   <div class="media media-ie-fix d-block d-sm-flex align-items-center text-center text-sm-left"><a class="d-inline-block mx-auto mr-sm-4" href="{% url 'core:product_detail' p_store_type=product.product_cart.category.store.storetype.slug store_slug=product.product_cart.category.store.slug  category_slug=product.product_cart.category.slug slug=product.product_cart.slug %}" style="width: 7.5rem;"><img src='/media/{{ product.product_cart.image }}' alt="ppp"></a>
                     <div class="media-body pt-2">
                       <h3 class="product-title font-size-base mb-2"><a href="{% url 'core:product_detail' p_store_type=product.product_cart.category.store.storetype.slug store_slug=product.product_cart.category.store.slug category_slug=product.product_cart.category.slug slug=product.product_cart.slug %}">{{product.product_cart.name}}</a></h3>
                     
-                      <div class="font-size-lg text-accent pt-2">{{product.price}}<small> JOD </small></div>
+                      <div class="font-size-lg text-accent pt-2">
+                        {% if product.product_cart.discount_price %}
+                        <span class="text-accent"> {{product.product_cart.discount_price}} <small>JOD</small></span>
+                        <del class="font-size-sm text-muted">{{ product.price }}</del>
+                        {% else %}
+
+                        <span class="text-accent">{{ product.price }}<small>JOD</small> </span>
+                        {% endif %}
+                      
+                      
+                      </div>
                     </div>
                   </div>
                   <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 9rem;">
@@ -105,5 +119,4 @@
 
 </div>
 
-
-      {% endblock %}      
+{% endblock %}      

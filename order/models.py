@@ -26,8 +26,13 @@ class ShopCart(models.Model):
 
     @property
     def amount(self):
-        return (self.product_cart.price * self.quantity)
+        subtotal = 0
+        if self.product_cart.discount_price:
+            subtotal = self.product_cart.discount_price * self.quantity
+        else:
+            subtotal = self.price * self.quantity
 
+        return subtotal
     
 
 class Order(models.Model):
@@ -96,7 +101,11 @@ class OrderDetail(models.Model):
     
     @property
     def amount(self):
-        return (self.product.price * self.quantity)
+        if self.product.discount_price:
+            return (self.product.discount_price * self.quantity)
+    
+        else:
+            return (self.product.price * self.quantity)
 
 
 class ShopCartForm(ModelForm):

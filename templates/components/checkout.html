@@ -119,10 +119,25 @@
           <div class="widget mb-3">
             <h2 class="widget-title text-center">Order summary</h2>
             {%for product in cart%}
+            {% if product.product_cart.discount_price %}
+            <span class="badge badge-danger badge-shadow">Sale</span>
+            {% endif %}
             <div class="media align-items-center pb-2 border-bottom"><a class="d-block mr-2" href="{% url 'core:product_detail' p_store_type=product.product_cart.category.store.storetype.slug store_slug=product.product_cart.category.store.slug category_slug=product.product_cart.category.slug slug=product.product_cart.slug %}"><img width="64" src='/media/{{ product.product_cart.image }}' alt="Product"/></a>
               <div class="media-body">
                 <h6 class="widget-product-title"><a href="{% url 'core:product_detail' p_store_type=product.product_cart.category.store.storetype.slug store_slug=product.product_cart.category.store.slug category_slug=product.product_cart.category.slug slug=product.product_cart.slug %}">{{product.product_cart.name}}</a></h6>
-                <div class="widget-product-meta"><span class="text-accent mr-2">{{product.price}}<small></small></span><span class="text-muted">x {{product.quantity}}</span></div>
+                <div class="widget-product-meta">   
+                  
+                  {% if product.product_cart.discount_price %}
+                    <span class="text-accent"> {{product.product_cart.discount_price}} <small> JOD </small> </span>
+                  <del class="font-size-sm text-muted">{{ product.price }}</del> <span class="text-muted"> x {{product.quantity}}</span>
+                  {% else %}
+
+                  <span class="text-accent">{{ product.price }}<small> JOD </small><span class="text-muted">x {{product.quantity}}</span> </span>
+                  {% endif %}
+                  
+                  
+                  
+                </div>
               </div>
             </div>
             {%endfor%}

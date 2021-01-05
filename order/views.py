@@ -132,12 +132,11 @@ def checkout(request):
     new_date = datetime.today() + timedelta(2)
 
     for product in shopcart:
-        if product.product_cart.discount_price:
-            total_cart += product.quantity * product.product_cart.discount_price
-        else:
-            total_cart += product.quantity * product.product_cart.price
-    total_cart = round(total_cart, 2)
+            total_cart += product.amount  
+
+    
     context = {}
+    
     if request.method == 'POST':
         form = OrderForm(request.POST or None)
 
@@ -194,10 +193,14 @@ def checkout_complete(request, id):
              
     order_details = Order.objects.filter(id=id)[0]
     order_product_details = OrderDetail.objects.filter(order_id=id)
+    total = 0
+    for subtotal in order_product_details:
+        total += subtotal.total
     # profiles = users_models.Profile.objects.filter(user_id=request.user.id)
     context = {
         'order_details': order_details,
         'order_product_details': order_product_details,
+        'total_order': total,
         
     }
     # context.update(views.total_price_items(request.user.id))

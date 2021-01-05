@@ -129,6 +129,9 @@
                             <div class="widget widget-cart px-3 pt-2 pb-3">
                                 <div style="height: 15rem" data-simplebar data-simplebar-auto-hide="false">
                                     {%for product in cart %}
+                                    {% if product.product_cart.discount_price %}
+                                    <span class="badge badge-danger badge-shadow">Sale</span>
+                                    {% endif %}
                                     <div class="widget-cart-item pb-2 border-bottom">
                                         <a class="close text-danger" herf = '/order/deletefromcart/{{product.id}}' type ="button"  aria-label="Remove">
                                             <span aria-hidden="true">&times;</span>
@@ -142,8 +145,16 @@
                                                     <a href="{% url 'core:product_detail' p_store_type=product.product_cart.category.store.storetype.slug store_slug=product.product_cart.category.store.slug category_slug=product.product_cart.category.slug slug=product.product_cart.slug %}">{{product.product_cart.name}}</a>
                                                 </h6>
                                                 <div class="widget-product-meta">
-                                                    <span class="text-accent mr-2">{{product.price}}<small>JOD</small></span><span
-                                                        class="text-muted">x {{product.quantity}}</span>
+                                                    {% if product.product_cart.discount_price %}
+                                                    <span class="text-accent"> {{product.product_cart.discount_price}} <small>JOD  </small> <span
+                                                       class="text-muted"> x {{product.quantity}}</span></span>
+                                                                   <del class="font-size-sm text-muted">{{ product.price }}</del>
+                                                                                       {% else %}
+   
+                                                       <span class="text-accent">{{ product.price }}<small> JOD </small><span
+                                                           class="text-muted"> x {{product.quantity}}</span></span>
+                                                       {% endif %}
+                                                       
                                                 </div>
                                             </div>
                                         </div>
@@ -158,10 +169,10 @@
                                         <span class="text-muted">Subtotal:</span><span
                                             class="text-accent font-size-base ml-1">{{total}}<small>JOD</small></span>
                                     </div>
-                                    <a class="btn btn-outline-secondary btn-sm" href="shop-cart.html">Expand cart<i
+                                    <a class="btn btn-outline-secondary btn-sm" href="{% url 'order:shopcart' %}">Expand cart<i
                                             class="czi-arrow-right ml-1 mr-n1"></i></a>
                                 </div>
-                                <a class="btn btn-primary btn-sm btn-block" href="checkout-details.html">
+                                <a class="btn btn-primary btn-sm btn-block" href="{% url 'order:shopcart' %}">
                                     <i class="czi-card mr-2 font-size-base align-middle"></i>Checkout</a>
                             </div>
                         </div>
