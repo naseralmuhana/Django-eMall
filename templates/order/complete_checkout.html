@@ -56,9 +56,12 @@
               <div class="text-muted mb-2">Subtotal</div>{{product.amount}}<small>JOD</small>
             </div>
           </div>
-          <!-- Item-->
-          {%endfor%}
-          <!-- Item-->
+          <div class="pt-2 pl-sm-3 mx-auto mx-sm-0 text-center">
+            <div class="text-muted mb-2">Quantity:</div>{{product.quantity}}
+          </div>
+          <div class="pt-2 pl-sm-3 mx-auto mx-sm-0 text-center">
+            <div class="text-muted mb-2">Subtotal</div>{{product.amount}}<small>JOD</small>
+          </div>
         </div>
         <!-- Footer-->
    <!-- Footer-->
@@ -68,8 +71,6 @@
     <div class="px-2 py-1"><span class="text-muted">Tax:&nbsp;</span><span>$1.<small>50</small></span></div>
     <div class="px-2 py-1"><span class="text-muted">Total:&nbsp;</span><span class="font-size-lg">{{total_order}}<small>JOD</small></spans></div>
   </div>
-</div>
-</div>
 </div>
 
 <div class="container py-5 mb-2 mb-md-3">
@@ -85,64 +86,65 @@
         <div class="bg-secondary p-4 text-center rounded-lg"><span class="font-weight-medium text-dark mr-2">Expected date:</span>{{order_product_details.0.deliver_time}}</div>
       </div>
     </div>
-    <!-- Progress-->
-    <div class="card border-0 box-shadow-lg">
-      <div class="card-body pb-2">
-        <ul class="nav nav-tabs media-tabs nav-justified">
-          <li class="nav-item">
-            <div class="nav-link completed">
-              <div class="media align-items-center">
-                <div class="media-tab-media mr-3"><i class="czi-bag"></i></div>
-                <div class="media-body">
-                  <div class="media-tab-subtitle text-muted font-size-xs mb-1">First step</div>
-                  <h6 class="media-tab-title text-nowrap mb-0">Order placed</h6>
-                </div>
+  </div>
+  <!-- Progress-->
+  <div class="card border-0 box-shadow-lg">
+    <div class="card-body pb-2">
+      <ul class="nav nav-tabs media-tabs nav-justified">
+        <li class="nav-item">
+          <div class="nav-link completed">
+            <div class="media align-items-center">
+              <div class="media-tab-media mr-3"><i class="czi-bag"></i></div>
+              <div class="media-body">
+                <div class="media-tab-subtitle text-muted font-size-xs mb-1">First step</div>
+                <h6 class="media-tab-title text-nowrap mb-0">Order placed</h6>
               </div>
             </div>
-          </li>
-          <li class="nav-item">
-            <div class="nav-link active">
-              <div class="media align-items-center">
-                <div class="media-tab-media mr-3"><i class="czi-settings"></i></div>
-                <div class="media-body">
-                  <div class="media-tab-subtitle text-muted font-size-xs mb-1">Second step</div>
-                  <h6 class="media-tab-title text-nowrap mb-0">Processing order</h6>
-                </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link active">
+            <div class="media align-items-center">
+              <div class="media-tab-media mr-3"><i class="czi-settings"></i></div>
+              <div class="media-body">
+                <div class="media-tab-subtitle text-muted font-size-xs mb-1">Second step</div>
+                <h6 class="media-tab-title text-nowrap mb-0">Processing order</h6>
               </div>
             </div>
-          </li>
-          <li class="nav-item">
-            <div class="nav-link">
-              <div class="media align-items-center">
-                <div class="media-tab-media mr-3"><i class="czi-star"></i></div>
-                <div class="media-body">
-                  <div class="media-tab-subtitle text-muted font-size-xs mb-1">Third step</div>
-                  <h6 class="media-tab-title text-nowrap mb-0">Quality check</h6>
-                </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link">
+            <div class="media align-items-center">
+              <div class="media-tab-media mr-3"><i class="czi-star"></i></div>
+              <div class="media-body">
+                <div class="media-tab-subtitle text-muted font-size-xs mb-1">Third step</div>
+                <h6 class="media-tab-title text-nowrap mb-0">Quality check</h6>
               </div>
             </div>
-          </li>
-          <li class="nav-item">
-            <div class="nav-link">
-              <div class="media align-items-center">
-                <div class="media-tab-media mr-3"><i class="czi-package"></i></div>
-                <div class="media-body">
-                  <div class="media-tab-subtitle text-muted font-size-xs mb-1">Fourth step</div>
-                  <h6 class="media-tab-title text-nowrap mb-0">Product dispatched</h6>
-                </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link">
+            <div class="media align-items-center">
+              <div class="media-tab-media mr-3"><i class="czi-package"></i></div>
+              <div class="media-body">
+                <div class="media-tab-subtitle text-muted font-size-xs mb-1">Fourth step</div>
+                <h6 class="media-tab-title text-nowrap mb-0">Product dispatched</h6>
               </div>
             </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <!-- Footer-->
-    <div class="d-sm-flex flex-wrap justify-content-between align-items-center text-center pt-4">
-      <div class="custom-control custom-checkbox mt-2 mr-3">
-        <input class="custom-control-input" type="checkbox" id="notify-me" checked>
-        <label class="custom-control-label" for="notify-me">Notify me when order is delivered</label>
-      </div><a class="btn btn-primary btn-sm mt-2" href="#order-details" data-toggle="modal">View Order Details</a>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
+  <!-- Footer-->
+  <div class="d-sm-flex flex-wrap justify-content-between align-items-center text-center pt-4">
+    <div class="custom-control custom-checkbox mt-2 mr-3">
+      <input class="custom-control-input" type="checkbox" id="notify-me" checked>
+      <label class="custom-control-label" for="notify-me">Notify me when order is delivered</label>
+    </div><a class="btn btn-primary btn-sm mt-2" href="#order-details" data-toggle="modal">View Order Details</a>
+  </div>
+</div>
 
-  {% endblock %}
+{% endblock %}

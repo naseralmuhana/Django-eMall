@@ -8,93 +8,93 @@ from django.contrib.auth import authenticate, login
 from account import forms as account_forms
 from account import models as account_models
 from core import views as core_views
+from core import models as core_models
 from datetime import datetime, timedelta
 
 
-
 @login_required(login_url='/accounts/login/')
-def addtoshpcart(request,id):
-    url = request.META.get('HTTP_REFERER') # GET LAST URL
-    current_user = request.user # access user session information
+def addtoshpcart(request, id):
+    url = request.META.get('HTTP_REFERER')  # GET LAST URL
+    current_user = request.user  # access user session information
 
     checkproduct = ShopCart.objects.filter(product_cart_id=id)
     print(checkproduct)
-   
-    if checkproduct :
+
+    if checkproduct:
         control = 1
     else:
         control = 0
 
     if request.method == 'POST':
         form = ShopCartForm(request.POST)
-        
+
         if form.is_valid():
-            if control ==1:
-                data = ShopCart.objects.get(product_cart_id =id)
-                data.quantity+= form.cleaned_data['quantity']
+            if control == 1:
+                data = ShopCart.objects.get(product_cart_id=id)
+                data.quantity += form.cleaned_data['quantity']
                 data.size_Choiced = form.cleaned_data['size_Choiced']
                 data.color_Choiced = form.cleaned_data['color_Choiced']
                 data.save()
-                
+
             else:
                 data = ShopCart()
-                data.user_id_id = current_user.id 
-                data.product_cart_id = id 
+                data.user_id_id = current_user.id
+                data.product_cart_id = id
                 data.quantity = form.cleaned_data['quantity']
 
-                data.save()   
+                data.save()
 
-    
-        messages.success(request,"Product added to Shpcart")
+        messages.success(request, "Product added to Shpcart")
         return HttpResponseRedirect(url)
 
     else:
-        if control ==1:
-            data = ShopCart.objects.get(product_cart_id =id)
-            data.quantity +=1
+        if control == 1:
+            data = ShopCart.objects.get(product_cart_id=id)
+            data.quantity += 1
             data.save()
-        else: 
+        else:
             data = ShopCart()
-            data.user_id_id = current_user.id 
-            data.product_cart_id = id 
+            data.user_id_id = current_user.id
+            data.product_cart_id = id
             data.quantity = 1
-            data.save()   
-    messages.success(request,"Product added to Shpcart")
+            data.save()
+    messages.success(request, "Product added to Shpcart")
     return HttpResponseRedirect(url)
 
 # def addtocart (request,id):
 #     return HttpResponse(str(id))
 
+
 @login_required(login_url='/accounts/login/')
 def shopcart(request):
     current_user = request.user
-    total =0
-    
-    cart = ShopCart.objects.filter(user_id_id = current_user)
+    total = 0
+
+    cart = ShopCart.objects.filter(user_id_id=current_user)
     form = account_forms.ProfileUpdateForm(instance=request.user)
 
-    userInfo = account_models.UserRegistration.objects.filter(username=request.user.username)[0]
+    userInfo = account_models.UserRegistration.objects.filter(
+        username=request.user.username)[0]
     for product in cart:
-        total+=product.amount
+        total += product.amount
 
     context = {'cart': cart,
-                'total': total,
-                'form': form ,
-                'userInfo':  userInfo,  }
+               'total': total,
+               'form': form,
+               'userInfo':  userInfo, }
 
-    context.update(core_views.needed_everywhere())
-    return render(request,'order/cart.html',context)
-
+    context.update(core_views.needed_everywhere(request.user))
+    return render(request, 'order/cart.html', context)
 
 
 @login_required(login_url='/accounts/login/')
-def deletefromcart(request,id):
+def deletefromcart(request, id):
     print('id')
     url = request.META.get('HTTP_REFERER')
     ShopCart.objects.filter(id=id).delete()
-    messages.success(request,"item deleted ")
+    messages.success(request, "item deleted ")
     return HttpResponseRedirect(url)
-    
+
 
 @login_required(login_url='/accounts/login/')
 def updatefromcart(request, id):
@@ -109,7 +109,7 @@ def updatefromcart(request, id):
             quantity = form.cleaned_data['quantity']
             current_user = request.user  # Get User id
             product = ShopCart.objects.get(
-                user_id_id=current_user.id,id=id)
+                user_id_id=current_user.id, id=id)
             if product != None:  # Update  quantity to exist product quantity
                 new_quantity = quantity - product.quantity
                 product.quantity = product.quantity + new_quantity
@@ -117,9 +117,8 @@ def updatefromcart(request, id):
             # request.session['cart_items'] = models.ShopCart.objects.filter(user_id=current_user.id).count() #Count item in shop cart
             messages.success(
                 request, f"{product.product_cart.name} quantity has been updated.")
-                
-    return HttpResponseRedirect(url)
 
+    return HttpResponseRedirect(url)
 
 
 @login_required(login_url='/users/login')
@@ -157,7 +156,7 @@ def checkout(request):
             data.save()
 
             # Save Shopcart items to Order detail items
-            
+
             for product in shopcart:
                 detail = OrderDetail()
                 detail.order_id = data.id  # Order Id
@@ -171,17 +170,14 @@ def checkout(request):
                     detail.price = product.product_cart.price
                 detail.total = detail.price * product.quantity
                 detail.save()
-               
 
-            order_details = Order.objects.filter(user_id=current_user.id).order_by('-create_at')[0]
-            context={'details':order_details,
-                      'order_id':data.id ,     }
-            context.update(core_views.needed_everywhere())
-            return render(request,"order/checkout_review.html",context )
+            order_details = Order.objects.filter(
+                user_id=current_user.id).order_by('-create_at')[0]
+            context = {'details': order_details,
+                       'order_id': data.id, }
 
-
-
-    
+            context.update(core_views.needed_everywhere(request.user))
+            return render(request, "order/checkout_review.html", context)
 
     # context.update(views.total_price_items(request.user.id))
     return render(request, 'order/cart.html')
@@ -190,7 +186,7 @@ def checkout(request):
 @login_required(login_url='/users/login')
 def checkout_complete(request, id):
     current_user = request.user
-             
+
     order_details = Order.objects.filter(id=id)[0]
     order_product_details = OrderDetail.objects.filter(order_id=id)
     total = 0
@@ -204,35 +200,22 @@ def checkout_complete(request, id):
         
     }
     # context.update(views.total_price_items(request.user.id))
-    
-    ShopCart.objects.filter(user_id_id=current_user.id).delete() # Clear & Delete shopcart
+
+    # Clear & Delete shopcart
+    ShopCart.objects.filter(user_id_id=current_user.id).delete()
     messages.success(
         request, f"Thank for Providing Your Info, Mr.{request.user.username}. Your order has been completed. We will contact with you based on your info below.")
-    return render(request,"order/complete_checkout.html", context)
-
-
+    return render(request, "order/complete_checkout.html", context)
 
 
 @login_required(login_url='/users/login')
 def checkout_delete(request, id):
-    context={'id':id}
+    context = {'id': id}
     Order.objects.filter(id=id).delete()
     OrderDetail.objects.filter(order_id=id).delete()
-    context.update(core_views.needed_everywhere())
+    context.update(core_views.needed_everywhere(request.user))
     messages.success(
         request, f" Mr.{request.user.username}. Your order will be deleted. do you want to continue .")
     return redirect("order:shopcart")
 
 
-
-# @login_required(login_url='/login')
-# def orders_list(request):
-
-#     orders = Order.objects.filter(
-#         user_id=request.user.id).order_by('-create_at')
-
-#     context = {
-#         'orders': orders,
-#     }
-#     # context.update(views.total_price_items(request.user.id))
-#     return render(request, 'order/orders_list.html', context)

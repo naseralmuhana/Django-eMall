@@ -37,7 +37,7 @@ class ShopCart(models.Model):
 
 class Order(models.Model):
     STATUS = (
-        ('In Progress', 'In_Progress'),
+        ('In Progress', 'In Progress'),
         ('Canceled', 'Canceled'),
         ('Delayed', 'Delayed'),
         ('Delivered', 'Delivered'),
@@ -52,7 +52,7 @@ class Order(models.Model):
     zip_code = models.CharField(max_length=8, blank=True)
     total = models.FloatField()
     note = models.TextField(null=True, default="", blank=True)
-    status = models.CharField(choices=STATUS, default='In_Progress', max_length=15)
+    status = models.CharField(choices=STATUS, default='In Progress', max_length=15)
     create_at = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

@@ -9,7 +9,7 @@ from account import forms as account_forms
 app_name = 'account'
 
 urlpatterns = [
-
+    path('orders/', account_views.orders_view, name='orders_list'),
     path('profile/', account_views.profile, name='profile'),
     path('wishlist/', account_views.wishlist_view, name='wishlist'),
 
