@@ -195,6 +195,7 @@
                         <i class="czi-heart"></i></a>
                     {% endif %}
                     <div class="product-card-actions">
+<<<<<<< HEAD
                         <a class="btn btn-light btn-icon btn-shadow font-size-base show_product" href=""
                             id="{{product.name}}" data-id="{{product.name}}" class="artist-title " data-toggle="modal"
                             title="Quick View"><i class="czi-eye"></i></a>
@@ -202,6 +203,12 @@
                         <a class="btn btn-light btn-icon btn-shadow font-size-base mx-2"
                             href="{% url 'order:addtoshpcart' product.id %}" data-toggle="toast"
                             data-target="#cart-toast"><i class="czi-cart"></i></a>
+=======
+                        <a class="btn btn-light btn-icon btn-shadow font-size-base show_product"
+                        href="" id="{{product.name}}" data-id="{{product.name}}" class="artist-title " 
+                        data-toggle="modal" title="Quick View"><i
+                                class="czi-eye"></i></a>
+>>>>>>> fa63638a7252d2c1e89d1e83e71c0f60eca3b9aa
 
                     </div><a class="product-thumb-overlay"
                         href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}"></a>
