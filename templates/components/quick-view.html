@@ -8,9 +8,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title product-title">
-                    <a href="" data-toggle="tooltip" data-placement="right"
-                        title="Go to product page">Sports Hooded Sweatshirt<i
-                            class="czi-arrow-right font-size-lg ml-2"></i></a>
+                    <a href="" data-toggle="tooltip" data-placement="right" title="Go to product page">Sports Hooded
+                        Sweatshirt<i class="czi-arrow-right font-size-lg ml-2"></i></a>
                 </h4>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -23,14 +22,12 @@
                         <div class="cz-product-gallery">
                             <div class="cz-preview order-sm-2">
                                 <div class="cz-preview-item active" id="first">
-                                    <img id ="modal_img_1"class="cz-image-zoom" src=""
-                                        data-zoom="" alt="Product image" />
+                                    <img id="modal_img_1" class="cz-image-zoom" src="" data-zoom=""
+                                        alt="Product image" />
                                     <div class="cz-image-zoom-pane"></div>
-                                
-                               
                                 </div>
                             </div>
-                          
+
                         </div>
                     </div>
                     <!-- Product details-->
@@ -44,7 +41,8 @@
                                             class="sr-star czi-star-filled active"></i><i
                                             class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i>
                                     </div>
-                                    <span name = 'reviews' class="d-inline-block font-size-sm text-body align-middle mt-1 ml-1">74
+                                    <span name='reviews'
+                                        class="d-inline-block font-size-sm text-body align-middle mt-1 ml-1">74
                                         Reviews</span>
                                 </a>
 
@@ -54,8 +52,9 @@
                                 </button>
                             </div>
                             <div class="mb-3">
-                                <span id = 'Sale' class="h3 font-weight-normal text-accent mr-1">00<small>JOD</small></span>
-                                <del id = 'price' class="text-muted font-size-lg mr-3"><small>JOD</small></del><span
+                                <span id='Sale'
+                                    class="h3 font-weight-normal text-accent mr-1">00<small>JOD</small></span>
+                                <del id='price' class="text-muted font-size-lg mr-3"><small>JOD</small></del><span
                                     class="badge badge-danger badge-shadow align-middle mt-n2">Sale</span>
                             </div>
                             <div class="font-size-sm mb-4">
@@ -94,7 +93,7 @@
                                     <select class="custom-select" required id="product-size">
                                         <option value="">Select size</option>
                                         <option value="xs">XS</option>
-                                    
+
                                     </select>
                                 </div>
                                 <div class="form-group d-flex align-items-center">
@@ -116,8 +115,7 @@
                                         <h3 class="accordion-heading">
                                             <a href="#productdescription" role="button" data-toggle="collapse"
                                                 aria-expanded="true" aria-controls="productdescription">
-                                                <i
-                                                    class="czi-announcement text-muted lead align-middle mt-n1 mr-2"></i>
+                                                <i class="czi-announcement text-muted lead align-middle mt-n1 mr-2"></i>
                                                 Product Info
                                                 <span class="accordion-indicator"></span>
                                             </a>
@@ -126,8 +124,9 @@
                                     <div class="collapse show" id="productdescription"
                                         data-parent="#productdescription">
                                         <div class="card-body font-size-sm">
-                                            <div id='description1' class="d-flex justify-content-between border-bottom pb-2">
-                                                
+                                            <div id='description1'
+                                                class="d-flex justify-content-between border-bottom pb-2">
+
                                             </div>
                                         </div>
                                     </div>
@@ -143,47 +142,47 @@
 
 <script>
 
-    $(function(){
+    $(function () {
         $('.show_product').on('click', function (e) {
-            
+
             e.preventDefault();
             let product_id = $(this).attr('id');
             let url = $(this).attr('url_name');
-           
+
             // alert(product_id);
             // var data = new FormData();
             // data.append('productname', product_id);
-         
+
             $.ajax({
                 contentType: false,
-                url:'Quick_view/',
-                type:'GET',
-                data: {'product_name':product_id},
-            
-               
-                success:function(response){
+                url: 'Quick_view/',
+                type: 'GET',
+                data: { 'product_name': product_id },
+
+
+                success: function (response) {
                     console.log(response.name);
                     $('.show_product').trigger("reset");
                     openModal(response);
                 },
-                error:function(){
+                error: function () {
                     console.log('something went wrong here');
                 },
             });
         });
     });
-    
-    
-    function openModal(product_data){
-      $('#product_name').text(product_data.product_name);
-    
-    
-      $('#modal_img_1').attr('src', '/media/'+product_data.image );
-      $('#modal_img_1').attr('data-zoom', '/media/'+product_data.image );
-      $('#description1').text(product_data.description);
-      $('#price').text(product_data.price);
-      $('#sale').text(product_data.discount_price);
-      $('#product_name').attr('href', product_data.slug);
-      $('#quick-view').modal('show');
-    }((jQuery));
-    </script>
+
+
+    function openModal(product_data) {
+        $('#product_name').text(product_data.product_name);
+
+
+        $('#modal_img_1').attr('src', '/media/' + product_data.image);
+        $('#modal_img_1').attr('data-zoom', '/media/' + product_data.image);
+        $('#description1').text(product_data.description);
+        $('#price').text(product_data.price);
+        $('#sale').text(product_data.discount_price);
+        $('#product_name').attr('href', product_data.slug);
+        $('#quick-view').modal('show');
+    } ((jQuery));
+</script>

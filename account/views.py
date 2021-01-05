@@ -8,6 +8,7 @@ from account import forms as account_forms
 from account import models as account_models
 from core import models as core_models
 from core import views as core_views
+from order.models import Order
 
 
 def register_view(request):
@@ -50,7 +51,7 @@ def login_view(request):
 def profile(request):
     if request.method == 'POST':
         form = account_forms.ProfileUpdateForm(
-            request.POST, request.FILES ,instance=request.user)
+            request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect('account:profile')
@@ -61,13 +62,16 @@ def profile(request):
         username=request.user.username)[0]
     wishlist_count = core_models.Product.objects.filter(
         favourite=request.user.id).count()
+    orders_count = Order.objects.filter(
+        user_id=request.user.id).order_by('-create_at').count()
     context = {
         'profile_exist': True,
         'profile': profile,
         'wishlist_count': wishlist_count,
         'form': form,
+        'orders_count': orders_count,
     }
-    context.update(core_views.needed_everywhere())
+    context.update(core_views.needed_everywhere(request.user))
     return render(request, 'account/profile.html', context)
 
 
@@ -78,11 +82,34 @@ def wishlist_view(request):
     wishlist_list = core_models.Product.objects.filter(
         favourite=request.user.id).order_by('name')
     wishlist_count = wishlist_list.count()
+    orders_count = Order.objects.filter(
+        user_id=request.user.id).order_by('-create_at').count()
     context = {
         'wishlist_exist': True,
         'profile': profile,
         'wishlist_list': wishlist_list,
         'wishlist_count': wishlist_count,
+        'orders_count': orders_count,
     }
-    context.update(core_views.needed_everywhere())
+    context.update(core_views.needed_everywhere(request.user))
+    return render(request, 'account/profile.html', context)
+
+
+@login_required(login_url='/accounts/login/')
+def orders_view(request):
+    profile = account_models.UserRegistration.objects.filter(
+        username=request.user.username)[0]
+    orders_list = Order.objects.filter(
+        user_id=request.user.id).order_by('-create_at')
+    orders_count = orders_list.count()
+    wishlist_count = core_models.Product.objects.filter(
+        favourite=request.user.id).count()
+    context = {
+        'orders_exist': True,
+        'profile': profile,
+        'orders_list': orders_list,
+        'wishlist_count': wishlist_count,
+        'orders_count': orders_count,
+    }
+    context.update(core_views.needed_everywhere(request.user))
     return render(request, 'account/profile.html', context)

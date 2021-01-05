@@ -25,7 +25,7 @@
     </div>
 </div>
 
-{% elif profile_exist or wishlist_exist %}
+{% elif profile_exist or wishlist_exist or orders_exist %}
 
 <!-- Page Title-->
 <div class="page-title-overlap bg-dark pt-4">
@@ -37,6 +37,8 @@
                             <i class="czi-home"></i>Home</a></li>
                     {% if wishlist_exist %}
                     <li class="breadcrumb-item text-nowrap active" aria-current="page">Wishlist</li>
+                    {% elif orders_exist %}
+                    <li class="breadcrumb-item text-nowrap active" aria-current="page">Orders</li>
                     {% else %}
                     <li class="breadcrumb-item text-nowrap active" aria-current="page">Profile info</li>
                     {% endif %}
@@ -46,6 +48,8 @@
         <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
             {% if wishlist_exist %}
             <h1 class="h3 text-light mb-0">My Wishlist</h1>
+            {% elif orders_exist %}
+            <h1 class="h3 text-light mb-0">My Orders</h1>
             {% else %}
             <h1 class="h3 text-light mb-0">Profile info</h1>
             {% endif %}
