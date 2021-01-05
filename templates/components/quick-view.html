@@ -155,21 +155,12 @@
 
             $.ajax({
                 contentType: false,
-<<<<<<< HEAD
-                url: 'Quick_view/',
-                type: 'GET',
-                data: { 'product_name': product_id },
-
-
-                success: function (response) {
-=======
                 url:'/Quick_view/',
                 type:'GET',
                 data: {'product_name':product_id},
             
                
                 success:function(response){
->>>>>>> fa63638a7252d2c1e89d1e83e71c0f60eca3b9aa
                     console.log(response.name);
                     $('.show_product').trigger("reset");
                     openModal(response);
