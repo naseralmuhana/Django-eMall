@@ -1,0 +1,210 @@
+{% extends "base/main/layout/layout.html" %}
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block site_title %}
+
+{% if update_product %}
+{% trans "Cartzilla | Update Product" %}
+{% elif add_product %}
+{% trans "Cartzilla | Add Product" %}
+{% elif add_category %}
+{% trans "Cartzilla | Add Category" %}
+{% elif add_brand %}
+{% trans "Cartzilla | Add Brand" %}
+{% elif product_list %}
+{% trans "Cartzilla | Products" %}
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+<div class="page-title-overlap bg-accent pt-4">
+    <div
+        class="container d-flex flex-wrap flex-sm-nowrap justify-content-center justify-content-sm-between align-items-center pt-2">
+        <div class="media media-ie-fix align-items-center pb-3">
+            <div class="img-thumbnail rounded-circle position-relative" style="width: 6.375rem;">
+                <img class="rounded-circle" src="/media/{{ store_image }}" alt="Createx Studio">
+            </div>
+            <div class="media-body pl-3">
+                <h3 class="text-light font-size-lg mb-0">{{ store_name }}</h3>
+                <span class="d-block text-light font-size-ms opacity-60 py-1">
+                    Member since {{ store_join_date|date:"M d, Y" }}</span>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="text-sm-right mr-5">
+                <div class="text-light font-size-base">Total sales</div>
+                <h3 class="text-light">{{ overall_sales }} JOD</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mb-5 pb-3">
+    <div class="bg-light box-shadow-lg rounded-lg overflow-hidden">
+        <div class="row">
+            <!-- Sidebar-->
+            <aside class="col-lg-4">
+                <!-- Account menu toggler (hidden on screens larger 992px)-->
+                <div class="d-block d-lg-none p-4"><a class="btn btn-outline-accent d-block" href="#account-menu"
+                        data-toggle="collapse"><i class="czi-menu mr-2"></i>Account menu</a></div>
+                <!-- Actual menu-->
+                <div class="cz-sidebar-static h-100 p-0">
+                    <div class="secondary-nav collapse border-right" id="account-menu">
+                        <div class="bg-secondary p-4">
+                            <h3 class="font-size-sm mb-0 text-muted">Dashboard</h3>
+                        </div>
+                        <ul class="list-unstyled mb-0">
+                            <li class="border-bottom mb-0">
+                                <a class="nav-link-style d-flex align-items-center px-4 py-3 {% if product_list %}active{% endif %}"
+                                    href="{% url 'owner:product_list' %}">
+                                    <i class="czi-package opacity-60 mr-2"></i>Products
+                                    <span class="font-size-sm text-muted ml-auto">{{ product_count }}</span>
+                                </a>
+                            </li>
+                            <li class="border-bottom mb-0">
+                                <a class="nav-link-style d-flex align-items-center px-4 py-3 {% if add_product or update_product %}active{% endif %}"
+                                    href="{% url 'owner:add_product' %}">
+                                    <i class="czi-cloud-upload opacity-60 mr-2"></i>Add New Product
+                                    {% if update_product %}
+                                    / Udpate
+                                    {% endif %}
+
+                                </a>
+                            </li>
+                            <li class="border-bottom mb-0">
+                                <a class="nav-link-style d-flex align-items-center px-4 py-3 {% if add_category%}active{% endif %}"
+                                    href="{% url 'owner:add_category' %}">
+                                    <i class="czi-cloud-upload opacity-60 mr-2"></i>Add New Category
+                                </a>
+                            </li>
+                            <li class="border-bottom mb-0">
+                                <a class="nav-link-style d-flex align-items-center px-4 py-3 {% if add_brand %}active{% endif %}"
+                                    href="{% url 'owner:add_brand' %}">
+                                    <i class="czi-cloud-upload opacity-60 mr-2"></i>Add New Brand
+
+                                </a>
+                            </li>
+                            <li class="mb-0">
+                                <a class="nav-link-style d-flex align-items-center px-4 py-3"
+                                    href="{% url 'account:logout' %}">
+                                    <i class="czi-sign-out opacity-60 mr-2"></i>Sign out
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+            <!-- Content-->
+            {% if add_product or update_product %}
+            <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+                <div class="pt-2 px-4 pl-lg-0 pr-xl-5">
+                    <!-- Title-->
+                    <div class="d-sm-flex flex-wrap justify-content-between align-items-center pb-2">
+                        <h2 class="h3 py-2 mr-2 text-center text-sm-left">
+                            {% if update_product %}
+                            Update Product
+                            {% else %}
+                            Add New Product
+                            {% endif %}
+                        </h2>
+                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button class="btn btn-primary btn-block" type="submit">
+                            <i class="czi-cloud-upload font-size-lg mr-2"></i>Upload Product
+                        </button>
+                    </form>
+                </div>
+            </section>
+            {% elif add_category %}
+            <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+                <div class="pt-2 px-4 pl-lg-0 pr-xl-5">
+                    <!-- Title-->
+                    <div class="d-sm-flex flex-wrap justify-content-between align-items-center pb-2">
+                        <h2 class="h3 py-2 mr-2 text-center text-sm-left">
+                            Add New Category
+                        </h2>
+                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button class="btn btn-primary btn-block" type="submit">
+                            <i class="czi-cloud-upload font-size-lg mr-2"></i>Upload Category
+                        </button>
+                    </form>
+                </div>
+            </section>
+            {% elif add_brand %}
+            <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+                <div class="pt-2 px-4 pl-lg-0 pr-xl-5">
+                    <!-- Title-->
+                    <div class="d-sm-flex flex-wrap justify-content-between align-items-center pb-2">
+                        <h2 class="h3 py-2 mr-2 text-center text-sm-left">
+                            Add New Brand
+                        </h2>
+                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button class="btn btn-primary btn-block" type="submit">
+                            <i class="czi-cloud-upload font-size-lg mr-2"></i>Upload Brand
+                        </button>
+                    </form>
+                </div>
+            </section>
+            {% elif product_list %}
+            <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+                <div class="pt-2 px-4 pl-lg-0 pr-xl-5">
+                    <!-- Title-->
+                    <div class="d-sm-flex flex-wrap justify-content-between align-items-center border-bottom">
+                        <h2 class="h3 py-2 mr-2 text-center text-sm-left">Your products
+                            <span class="badge badge-secondary font-size-sm text-body align-middle ml-2">
+                                {{ product_count }}</span>
+                        </h2>
+                    </div>
+                    {% if products %}
+                    {% for product in products %}
+                    <!-- Product-->
+                    <div class="media d-block d-sm-flex align-items-center py-4 border-bottom">
+                        <a class="d-block mb-3 mb-sm-0 mr-sm-4 mx-auto"
+                            href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}"
+                            style="width: 12.5rem;"><img class="rounded-lg" src="/media/{{ product.image }}"
+                                alt="Product"></a>
+                        <div class="media-body text-center text-sm-left">
+                            <h3 class="h6 product-title mb-2">
+                                <a
+                                    href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
+                                    {{ product.name }}</a>
+                            </h3>
+                            <div class="d-inline-block text-accent">$18.<small>00</small></div>
+                            <div class="d-flex justify-content-center justify-content-sm-start pt-3">
+                                <a class="btn bg-faded-info btn-icon mr-2"
+                                    href="{% url 'owner:update_product' product.slug %}" title="Edit">
+                                    <i class="czi-edit text-info"></i>
+                                </a>
+                                <a href="{% url 'owner:delete_product' product.slug %}"
+                                    class="btn bg-faded-danger btn-icon" title="Delete"
+                                    onclick="return confirm('Delete!\n{{ product.name }}\nAre you Sure?')">
+                                    <i class="czi-trash text-danger"></i>
+                                </a>
+                                <!-- <button class="btn bg-faded-danger btn-icon" type="button" data-toggle="tooltip"
+                                    title="Delete">
+                                    <i class="czi-trash text-danger"></i>
+                                </button> -->
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                </div>
+            </section>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

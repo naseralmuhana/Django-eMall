@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import core
 
 Cities = (
     ('Amman', 'Amman', ),
@@ -18,8 +19,6 @@ Cities = (
 
 
 class UserRegistration(AbstractUser):
-    is_customer = models.BooleanField(default=True, verbose_name=("Customer"))
-    is_owner = models.BooleanField(default=False, verbose_name=("Store Owner"))
     image = models.ImageField(
         upload_to='User-Profile-Images', null=True, blank=True)
     phone_number = models.CharField(verbose_name=(
@@ -33,3 +32,14 @@ class UserRegistration(AbstractUser):
 
     class Meta:
         ordering = ["username"]
+
+
+class OwnerProfile(models.Model):
+    user = models.ForeignKey(UserRegistration, on_delete=models.CASCADE)
+    store = models.ForeignKey('core.Store', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.store.name + ' - ' + self.user.username
+        
+    class Meta:
+        ordering = ["store"]
