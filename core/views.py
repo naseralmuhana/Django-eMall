@@ -9,7 +9,7 @@ from django.http import JsonResponse
 import json
 from core import models as core_models
 from order import models as order_models
-
+from account import models as account_models
 
 class IndexPageView(TemplateView):
 
@@ -361,13 +361,15 @@ def needed_everywhere(check_user):
         context['cart']=cart
         context['total']=total
         context['count_cart']=count_cart
+        context['owner']=account_models.OwnerProfile.objects.filter(user=check_user)
+        
     for store in all_stores:
         all_products[store.name]=core_models.Product.objects.filter(
             category__store__name=store.name).order_by('-create_at')[:12]
 
+    
     context['all_stores']=all_stores
     context['all_products']=all_products
-
     context['store_types']=core_models.StoreType.objects.all()
 
     return context
@@ -407,7 +409,7 @@ def Quick_View(request):
         slug=product[0].slug
         store_slug=product[0].category.store.slug
 
-        slug_product=("{c_store_type}/{store_slug}/{category_slug}/{slug}/").format(
+        slug_product=("/{c_store_type}-type/{store_slug}/{category_slug}/{slug}/").format(
             c_store_type=c_store_type, store_slug=store_slug, category_slug=category_slug, slug=slug)
 
         image=str(image)

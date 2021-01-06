@@ -6,9 +6,8 @@ from account import forms as account_forms
 
 
 class UserRegistrationAdmin(UserAdmin):
-    list_display = ('username', 'email', 'is_superuser',
-                    'is_customer', 'is_owner')
-    list_filter = ('is_superuser', 'is_customer', 'is_owner')
+    list_display = ('username', 'email', 'is_superuser',)
+    list_filter = ('is_superuser',)
     model = account_models.UserRegistration
     add_form = account_forms.UserRegistrationForm
     fieldsets = (
@@ -16,21 +15,20 @@ class UserRegistrationAdmin(UserAdmin):
                                         'last_name', 'email', 'image', 'city',
                                         'phone_number', 'address', 'zip_code',)}),
 
-        (('Permissions'), {'fields': ('is_superuser', 'is_active',
-                                      'is_customer', 'is_owner',)}),
+        (('Permissions'), {'fields': ('is_superuser', 'is_active')}),
 
-        (('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (('Important dates'), {'fields': ('last_login', 'date_joined',)}),
     )
 
     add_fieldsets = (
         (None, {
             'fields': ('username', 'first_name', 'last_name',
                        'email', 'password1', 'password2', 'phone_number',
-                       'is_superuser', 'is_active', 'is_customer', 'is_owner'
-                       )
+                       'is_superuser', 'is_active',)
         }
         ),
     )
 
 
 admin.site.register(account_models.UserRegistration, UserRegistrationAdmin)
+admin.site.register(account_models.OwnerProfile)

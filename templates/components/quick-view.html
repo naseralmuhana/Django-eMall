@@ -8,7 +8,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title product-title">
-                    <a href="" data-toggle="tooltip" data-placement="right" title="Go to product page">Sports Hooded
+                    <a id="product_name" href="" data-toggle="tooltip" data-placement="right" title="Go to product page">Sports Hooded
                         Sweatshirt<i class="czi-arrow-right font-size-lg ml-2"></i></a>
                 </h4>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -175,8 +175,6 @@
 
     function openModal(product_data) {
         $('#product_name').text(product_data.product_name);
-
-
         $('#modal_img_1').attr('src', '/media/' + product_data.image);
         $('#modal_img_1').attr('data-zoom', '/media/' + product_data.image);
         $('#description1').text(product_data.description);
