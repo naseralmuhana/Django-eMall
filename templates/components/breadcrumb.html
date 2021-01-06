@@ -25,7 +25,7 @@
     </div>
 </div>
 
-{% elif profile_exist or wishlist_exist or orders_exist %}
+{% elif profile_exist or wishlist_exist or orders_exist or order_details_exist %}
 
 <!-- Page Title-->
 <div class="page-title-overlap bg-dark pt-4">
@@ -37,7 +37,7 @@
                             <i class="czi-home"></i>Home</a></li>
                     {% if wishlist_exist %}
                     <li class="breadcrumb-item text-nowrap active" aria-current="page">Wishlist</li>
-                    {% elif orders_exist %}
+                    {% elif orders_exist or order_details_exist %}
                     <li class="breadcrumb-item text-nowrap active" aria-current="page">Orders</li>
                     {% else %}
                     <li class="breadcrumb-item text-nowrap active" aria-current="page">Profile info</li>
@@ -104,7 +104,7 @@
             <h1 class="h3 text-light mb-2">{{ product.name }}</h1>
             <div>
                 <span class="star" aria-hidden="true" style="
-                background: linear-gradient(to right,#fc3 calc({{ overall_rating }} * 20%),#ccc 70%);
+                background: linear-gradient(to right,#fc3 calc({{ overall_rating }} * 20%),#ccc 0%);
                 -webkit-background-clip: text;">★★★★★</span>
                 <span class="d-inline-block font-size-sm text-white opacity-70">
                     {{ product_comments_count }} Reviews</span>

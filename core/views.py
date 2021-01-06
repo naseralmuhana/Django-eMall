@@ -61,6 +61,16 @@ def store_products_list(request, type_slug, slug):
     store_type_slug=store_products[0].category.store.storetype.slug
     store_logo=store_products[0].category.store.logo
 
+    def overall_rating():
+        if product_comments:
+            sum, count=0, 0
+            for comment in product_comments:
+                sum += comment.rating
+                count += 1
+        else:
+            return 0
+        return(round(sum/count, 1))
+
     context={
         'store_products': store_products,
         'store_name': store_name,
@@ -249,8 +259,8 @@ class SearchView(ListView):
             'products_paginator': paginate_view(self.request, products),
             'search_exist': 'true',
         }
-        if request.user.is_authenticated:
-            check_user=request.user
+        if self.request.user.is_authenticated:
+            check_user=self.request.user
         else:
             check_user=''
         context.update(needed_everywhere(check_user))

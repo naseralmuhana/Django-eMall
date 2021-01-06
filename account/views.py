@@ -8,7 +8,7 @@ from account import forms as account_forms
 from account import models as account_models
 from core import models as core_models
 from core import views as core_views
-from order.models import Order
+from order.models import Order, OrderDetail
 
 
 def register_view(request):
@@ -108,6 +108,29 @@ def orders_view(request):
         'orders_exist': True,
         'profile': profile,
         'orders_list': orders_list,
+        'wishlist_count': wishlist_count,
+        'orders_count': orders_count,
+    }
+    context.update(core_views.needed_everywhere(request.user))
+    return render(request, 'account/profile.html', context)
+
+
+
+@login_required(login_url='/accounts/login/')
+def order_details(request, id):
+    profile = account_models.UserRegistration.objects.filter(
+        username=request.user.username)[0]
+    orders_list = Order.objects.filter(
+        user_id=request.user.id).order_by('-create_at')
+    orders_count = orders_list.count()
+    wishlist_count = core_models.Product.objects.filter(
+        favourite=request.user.id).count()
+    order_details = OrderDetail.objects.filter(order_id=id)
+    context = {
+        'order_details': True,
+        'profile': profile,
+        'order_details_exist': 'exist',
+        'order_details': order_details,
         'wishlist_count': wishlist_count,
         'orders_count': orders_count,
     }

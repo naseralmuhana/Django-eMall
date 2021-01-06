@@ -1,5 +1,6 @@
 from django import forms
 from core import models as core_models
+from order import models as order_models
 
 
 class ProductForm(forms.ModelForm):
@@ -32,3 +33,10 @@ class BrandForm(forms.ModelForm):
         model = core_models.Brand
         fields = "__all__"
         exclude = ["slug"]
+
+
+class OrderForm(forms.ModelForm):
+
+    class Meta:
+        model = order_models.Order
+        fields = ["status",]
