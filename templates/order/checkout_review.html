@@ -50,9 +50,18 @@
               {% if product.product_cart.discount_price %}
               <span class="badge badge-danger badge-shadow">Sale</span>
               {% endif %}
+              
               <h3 class="product-title font-size-base mb-2"><a href="{% url 'core:product_detail' p_store_type=product.product_cart.category.store.storetype.slug store_slug=product.product_cart.category.store.slug category_slug=product.product_cart.category.slug slug=product.product_cart.slug %}">{{product.product_cart.name}}</a></h3>
-              <div class="font-size-sm"><span class="text-muted mr-2">Size:</span>8.5</div>
-              <div class="font-size-sm"><span class="text-muted mr-2">Color:</span>White &amp; Blue</div>
+              {% if product.size_Choiced %}
+              <div class="font-size-sm"><span class="text-muted mr-2">Size:</span>{{product.size_Choiced}}</div>
+              {% endif %}
+              {% if product.color_Choiced %}
+              <div class="font-size-sm text-muted mr-2"> Color:    <label class="custom-option-label rounded-circle" >
+                <span class="custom-option-color rounded-circle"
+                    style="background-color: {{ product.color_Choiced }};"></span>
+            </label>
+              </div>
+              {% endif %}
               <div class="font-size-lg text-accent pt-2">
                 
                 {% if product.product_cart.discount_price %}
@@ -99,7 +108,7 @@
           <ul class="list-unstyled font-size-sm pb-2 border-bottom">
             <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Subtotal:</span><span class="text-right">{{details.total}}<small>JOD</small></span></li>
             <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Shipping:</span><span class="text-right">—</span></li>
-            <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Taxes:</span><span class="text-right">$9.<small>50</small></span></li>
+            <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Taxes:</span><span class="text-right">—</span></li>
             <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Discount:</span><span class="text-right">—</span></li>
           </ul>
           <h3 class="font-weight-normal text-center my-4">{{total}}<small> JOD </small></h3>

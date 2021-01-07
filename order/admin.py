@@ -17,7 +17,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 class OrderDetailAdmin(admin.ModelAdmin):
     list_display = ('user', 'product', 'quantity',
-                    'price', 'total', 'modified','deliver_time')
+                    'price', 'total', 'modified','deliver_time','color_Choiced','size_Choiced',)
     readonly_fields = ('product', 'quantity', 'price', 'total')
 
 

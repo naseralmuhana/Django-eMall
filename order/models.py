@@ -73,8 +73,8 @@ class OrderDetail(models.Model):
     deliver_time = models.DateField()
     create_at = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    # color_Choiced = models.CharField(max_length=250,blank=True, null=True)
-    # size_Choiced = models.CharField(max_length=250,blank=True, null=True)
+    color_Choiced = models.CharField(max_length=250,blank=True, null=True)
+    size_Choiced = models.CharField(max_length=250,blank=True, null=True)
 
     def __str__(self):
         return self.product.name
