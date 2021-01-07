@@ -5,7 +5,7 @@
 
 
 {% block site_title %}
-
+{% trans "Cartzilla | My Cart" %}
 {% endblock %}
 
 {% block content %}
@@ -14,152 +14,169 @@
 <!-- Page Content-->
 <div class="container">
   <div class="rounded-lg box-shadow-lg mt-4 mb-5">
-    <ul class="nav nav-tabs nav-justified mb-4" role = 'tabpanel'>
-          <li class="nav-item">
-              <a class="nav-link p-4 active" href="#order" data-toggle="tab" role="tab">1. Your order</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link p-4" href="#checkout" id='Checkout' data-toggle="tab" role="tab">2. Checkout
-                  </a>
-          </li>
-      </ul>
-      <div class="px-4 pt-lg-3 pb-3 mb-5">
-          <div class="tab-content px-lg-3">
-              <!-- General info tab-->
-              <div class="tab-pane fade show active" id="order" role="tabpanel">
-               <!-- Sidebar-->
-               <div class="col-lg-4 col-md-5 pt-3 pt-sm-4" style="float:right;">
-                <div class="rounded-lg bg-secondary px-3 px-sm-4 py-4">
-                  <div class="text-center mb-4 pb-3 border-bottom">
-                    <h3 class="h5 mb-3 pb-1">Total</h3>
-                    <h4 class="font-weight-normal">{{total}}<small> JOD </small></h4>
-                  </div>
-                  <div class="form-group mb-4">
-                    <label class="mb-3" for="order-comments"><span class="badge badge-info font-size-xs mr-2">Note</span><span class="font-weight-medium">Additional comments</span></label>
-                    <textarea class="form-control" rows="4" id="order-comments"></textarea>
-                  </div>
-               
-                </div>
+    <ul class="nav nav-tabs nav-justified mb-4" role='tabpanel'>
+      <li class="nav-item">
+        <a class="nav-link p-4 active" href="#order" data-toggle="tab" role="tab">1. Your order</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link p-4" href="#checkout" id='Checkout' data-toggle="tab" role="tab">2. Checkout
+        </a>
+      </li>
+    </ul>
+    <div class="px-4 pt-lg-3 pb-3 mb-5">
+      <div class="tab-content px-lg-3">
+        <!-- General info tab-->
+        <div class="tab-pane fade show active" id="order" role="tabpanel">
+
+          {% if cart %}
+          <!-- Sidebar-->
+          <div class="col-lg-4 col-md-5 pt-3 pt-sm-4" style="float:right;">
+            <div class="rounded-lg bg-secondary px-3 px-sm-4 py-4">
+              <div class="text-center mb-4 pb-3 border-bottom">
+                <h3 class="h5 mb-3 pb-1">Total</h3>
+                <h4 class="font-weight-normal">{{total}}<small> JOD </small></h4>
               </div>
-            <div class="row">
-                
-              <!-- Items in cart-->
-              <div class="col-lg-8 col-md-7 pt-sm-2">
-                <!-- Item-->
-                {%for product in cart%}
+              <div class="form-group mb-4">
+                <label class="mb-3" for="order-comments"><span
+                    class="badge badge-info font-size-xs mr-2">Note</span><span class="font-weight-medium">Additional
+                    comments</span></label>
+                <textarea class="form-control" rows="4" id="order-comments"></textarea>
+              </div>
+
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="row">
+
+            <!-- Items in cart-->
+            <div class="col-lg-8 col-md-7 pt-sm-2">
+              <!-- Item-->
+              {%for product in cart%}
 
 
-                {% if product.product_cart.color  %}
-                {% if product.color_Choiced %}
-                    choiced color:
-                        <label class="custom-option-label rounded-circle" >
-                          <span class="custom-option-color rounded-circle"
-                              style="background-color: {{ product.color_Choiced }};"></span>
-                      </label>
-                      {% else %}
-                      You didn't choose any 
-                {% endif %}
-                {% endif %}
+              {% if product.product_cart.color %}
+              {% if product.color_Choiced %}
+              choiced color:
+              <label class="custom-option-label rounded-circle">
+                <span class="custom-option-color rounded-circle"
+                  style="background-color: {{ product.color_Choiced }};"></span>
+              </label>
+              {% else %}
+              You didn't choose any
+              {% endif %}
+              {% endif %}
 
-               
-                <div class="d-sm-flex justify-content-between align-items-center mt-3 mb-4 pb-3 border-bottom">
-                 
-                  <div class="media media-ie-fix d-block d-sm-flex align-items-center text-center text-sm-left"><a class="d-inline-block mx-auto mr-sm-4" href="{% url 'core:product_detail' p_store_type=product.product_cart.category.store.storetype.slug store_slug=product.product_cart.category.store.slug  category_slug=product.product_cart.category.slug slug=product.product_cart.slug %}" style="width: 7.5rem;"><img src='/media/{{ product.product_cart.image }}' alt="ppp"></a>
-                    <div class="media-body pt-2">
-                      <h3 class="product-title font-size-base mb-2"><a href="{% url 'core:product_detail' p_store_type=product.product_cart.category.store.storetype.slug store_slug=product.product_cart.category.store.slug category_slug=product.product_cart.category.slug slug=product.product_cart.slug %}">{{product.product_cart.name}}</a></h3>
+
+              <div class="d-sm-flex justify-content-between align-items-center mt-3 mb-4 pb-3 border-bottom">
+
+                <div class="media media-ie-fix d-block d-sm-flex align-items-center text-center text-sm-left"><a
+                    class="d-inline-block mx-auto mr-sm-4"
+                    href="{% url 'core:product_detail' p_store_type=product.product_cart.category.store.storetype.slug store_slug=product.product_cart.category.store.slug  category_slug=product.product_cart.category.slug slug=product.product_cart.slug %}"
+                    style="width: 7.5rem;"><img src='/media/{{ product.product_cart.image }}' alt="ppp"></a>
+                  <div class="media-body pt-2">
+                    <h3 class="product-title font-size-base mb-2"><a
+                        href="{% url 'core:product_detail' p_store_type=product.product_cart.category.store.storetype.slug store_slug=product.product_cart.category.store.slug category_slug=product.product_cart.category.slug slug=product.product_cart.slug %}">{{product.product_cart.name}}</a>
+                    </h3>
+                    {% if product.product_cart.discount_price %}
+                    <span class="badge badge-danger badge-shadow">Sale</span>
+                    {% endif %}
+                    <div class="font-size-lg text-accent pt-2">
                       {% if product.product_cart.discount_price %}
-                      <span class="badge badge-danger badge-shadow">Sale</span>
+                      <span class="text-accent"> {{product.product_cart.discount_price}} <small>JOD</small></span>
+                      <del class="font-size-sm text-muted">{{ product.price }}</del>
+                      {% else %}
+
+                      <span class="text-accent">{{ product.price }}<small>JOD</small> </span>
                       {% endif %}
-                      <div class="font-size-lg text-accent pt-2">
-                        {% if product.product_cart.discount_price %}
-                        <span class="text-accent"> {{product.product_cart.discount_price}} <small>JOD</small></span>
-                        <del class="font-size-sm text-muted">{{ product.price }}</del>
-                        {% else %}
 
-                        <span class="text-accent">{{ product.price }}<small>JOD</small> </span>
-                        {% endif %}
 
-                      
-                      
-                      
-                      </div>
                     </div>
                   </div>
-                  <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 9rem;">
-                    <div class="form-group mb-0">
+                </div>
+                <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 9rem;">
+                  <div class="form-group mb-0">
 
-                      <form action="{% url 'order:updatefromcart' product.id %}"  method="POST" novalidate>
-                        {% csrf_token %}
+                    <form action="{% url 'order:updatefromcart' product.id %}" method="POST" novalidate>
+                      {% csrf_token %}
 
-                        
-                        {% if product.product_cart.color %}
-                    
-                        {% for color in product.product_cart.color %}
-                        <div class="custom-control custom-option custom-control-inline mb-2">
-                          <input class="custom-control-input" type="radio" name="color_Choiced"
-                              id="color{{product.id}}" data-label="colorOption" value="{{ color }}"
-                              checked>
-                          <label class="custom-option-label rounded-circle" for="color{{ product.id}}">
-                              <span class="custom-option-color rounded-circle"
-                                  style="background-color: {{ color }};"></span>
-                          </label>
+
+                      {% if product.product_cart.color %}
+
+                      {% for color in product.product_cart.color %}
+                      <div class="custom-control custom-option custom-control-inline mb-2">
+                        <input class="custom-control-input" type="radio" name="color_Choiced" id="color{{product.id}}"
+                          data-label="colorOption" value="{{ color }}" checked>
+                        <label class="custom-option-label rounded-circle" for="color{{ product.id}}">
+                          <span class="custom-option-color rounded-circle"
+                            style="background-color: {{ color }};"></span>
+                        </label>
                       </div>
-                        {% endfor %}
-                        {% else %}
-                        <div class="custom-control custom-option custom-control-inline mb-2"></div>
-                        {% endif %}
+                      {% endfor %}
+                      {% else %}
+                      <div class="custom-control custom-option custom-control-inline mb-2"></div>
+                      {% endif %}
 
-                        {% if product.product_cart.size %}
-                        <div class="form-group">
-                            <div class="d-flex justify-content-between align-items-center pb-1">
-                                <label class="font-weight-medium" for="product-size">Size:</label>
-                            </div>
-                            <select class="custom-select" required id="product-size"  name = "size_Choiced">
-                                <option value={{product.size_Choiced}}>{{product.size_Choiced}}</option>
-                                {% for size in product.product_cart.size %}
-                                <option value="{{ size }}">{{ size }}</option>
-                                {% endfor %}
-                            </select>
+                      {% if product.product_cart.size %}
+                      <div class="form-group">
+                        <div class="d-flex justify-content-between align-items-center pb-1">
+                          <label class="font-weight-medium" for="product-size">Size:</label>
                         </div>
-                        {% endif %}
+                        <select class="custom-select" required id="product-size" name="size_Choiced">
+                          <option value={{product.size_Choiced}}>{{product.size_Choiced}}</option>
+                          {% for size in product.product_cart.size %}
+                          <option value="{{ size }}">{{ size }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      {% endif %}
 
                       <label class="font-weight-medium" for="quantity1">Quantity</label>
-                      <input class="form-control" type="number" id="quantity1" name = "quantity" min = '1' max='10' value="{{product.quantity}}">
-                      <button class = "btn btn-light px-0"  type="submit" onclick="return confirm('Update order on!\n{{product.product_cart.name }}\nAre you Sure?')">
-                      <span title="Update quantity"></span>
-                      <i class="fas fa-edit"></i>
+                      <input class="form-control" type="number" id="quantity1" name="quantity" min='1' max='10'
+                        value="{{product.quantity}}">
+                      <button class="btn btn-light px-0" type="submit"
+                        onclick="return confirm('Update order on!\n{{product.product_cart.name }}\nAre you Sure?')">
+                        <span title="Update quantity"></span>
+                        <i class="fas fa-edit"></i>
 
-                  </button>
-                </form>
+                      </button>
+                    </form>
 
-                    </div>
-                    <form action="/order/deletefromcart/{{product.id}}">
-                    <button class="btn btn-link px-0 " type="submit" onclick="return confirm('Delete!\n{{product.product_cart.name }}\nAre you Sure?')"><i class="fas fa-trash-alt"></i><span class="font-size-sm">Remove</span></button>
-                        </form>
                   </div>
+                  <form action="/order/deletefromcart/{{product.id}}">
+                    <button class="btn btn-link px-0 " type="submit"
+                      onclick="return confirm('Delete!\n{{product.product_cart.name }}\nAre you Sure?')"><i
+                        class="fas fa-trash-alt"></i><span class="font-size-sm">Remove</span></button>
+                  </form>
+                </div>
               </div>
-                
-                <!-- Item-->
-                {%endfor%}
-             
-             
+
+              <!-- Item-->
+              {%endfor%}
+
+
 
             </div>
 
           </div>
-        
+
         </div>
-         
-          <div class="tab-pane fade" id="checkout" role="tabpanel">
-            {% include "components/checkout.html" %}
-          </div>
+
+        <div class="tab-pane fade" id="checkout" role="tabpanel">
+
+
+          {% if cart %}
+          {% include "components/checkout.html" %}
+          {% endif %}
+
         </div>
       </div>
-      
-    </div> 
+    </div>
+
   </div>
+</div>
 
 </div>
 
 
-      {% endblock %}      
+{% endblock %}

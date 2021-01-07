@@ -200,7 +200,6 @@ def favourite_product(request, slug):
         product.favourite.remove(request.user)
     else:
         product.favourite.add(request.user)
-
     return HttpResponseRedirect(url)
 
 
