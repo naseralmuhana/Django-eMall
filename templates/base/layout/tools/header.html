@@ -4,7 +4,7 @@
 {% if messages %}
 {% for message in messages %}
 <div class="alert alert-{{message.tags}}" role='alert'>
-{{ message }}
+    {{ message }}
 </div>
 {% endfor %}
 {% endif %}
@@ -156,15 +156,17 @@
                                                 </h6>
                                                 <div class="widget-product-meta">
                                                     {% if product.product_cart.discount_price %}
-                                                    <span class="text-accent"> {{product.product_cart.discount_price}} <small>JOD  </small> <span
-                                                       class="text-muted"> x {{product.quantity}}</span></span>
-                                                                   <del class="font-size-sm text-muted">{{ product.price }}</del>
-                                                                                       {% else %}
-   
-                                                       <span class="text-accent">{{ product.price }}<small> JOD </small><span
-                                                           class="text-muted"> x {{product.quantity}}</span></span>
-                                                       {% endif %}
-                                                       
+                                                    <span class="text-accent"> {{product.product_cart.discount_price}}
+                                                        <small>JOD </small> <span class="text-muted"> x
+                                                            {{product.quantity}}</span></span>
+                                                    <del class="font-size-sm text-muted">{{ product.price }}</del>
+                                                    {% else %}
+
+                                                    <span class="text-accent">{{ product.price }}<small> JOD
+                                                        </small><span class="text-muted"> x
+                                                            {{product.quantity}}</span></span>
+                                                    {% endif %}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -177,8 +179,8 @@
                                         <span class="text-muted">Subtotal:</span><span
                                             class="text-accent font-size-base ml-1">{{total}}<small>JOD</small></span>
                                     </div>
-                                    <a class="btn btn-outline-secondary btn-sm" href="{% url 'order:shopcart' %}">Expand cart<i
-                                            class="czi-arrow-right ml-1 mr-n1"></i></a>
+                                    <a class="btn btn-outline-secondary btn-sm" href="{% url 'order:shopcart' %}">Expand
+                                        cart<i class="czi-arrow-right ml-1 mr-n1"></i></a>
                                 </div>
                                 <a class="btn btn-primary btn-sm btn-block" href="{% url 'order:shopcart' %}">
                                     <i class="czi-card mr-2 font-size-base align-middle"></i>Checkout</a>
@@ -234,81 +236,35 @@
                     </ul>
                     <!-- Primary menu-->
                     <ul class="navbar-nav">
-                        <li class="nav-item dropdown active">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Home</a>
+                        <li class="nav-item dropdown {% if home_page %}active{%endif%}">
+                            <a class="nav-link dropdown-toggle" href="{% url 'core:index' %}">Home</a>
+                        </li>
+                        <li class="nav-item dropdown {% if category_products or store_products %}active{%endif%}">
+                            <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">Shops</a>
                             <ul class="dropdown-menu">
-                                <li class="dropdown position-static mb-0">
-                                    <a class="dropdown-item py-2 border-bottom" href="home-fashion-store-v1.html"><span
-                                            class="d-block text-heading">Fashion Store v.1</span><small
-                                            class="d-block text-muted">Classic shop layout</small></a>
-                                    <div class="dropdown-menu h-100 animation-0 mt-0 p-3">
-                                        <a class="d-block" href="home-fashion-store-v1.html" style="width: 250px"><img
-                                                src="{% static 'img/home/preview/th01.jpg' %}"
-                                                alt="Fashion Store v.1" /></a>
-                                    </div>
+                                {% for store in all_stores %}
+                                <li class="dropdown">
+                                    <a class="dropdown-item dropdown-toggle"
+                                        href="{% url 'core:store_products_list' slug=store.slug type_slug=store.storetype.slug %}">
+                                        {{ store }}
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        {% for category in all_category %}
+                                        {% if category.store.name == store.name %}
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{% url 'core:category_products_list' c_store_type=category.store.storetype.slug store_slug=category.store.slug slug=category.slug %}">
+                                                {{ category }}
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
                                 </li>
-                                <li class="dropdown position-static mb-0">
-                                    <a class="dropdown-item py-2 border-bottom" href="home-electronics-store.html"><span
-                                            class="d-block text-heading">Electronics Store</span><small
-                                            class="d-block text-muted">Slider + Promo banners</small></a>
-                                    <div class="dropdown-menu h-100 animation-0 mt-0 p-3">
-                                        <a class="d-block" href="home-electronics-store.html" style="width: 250px"><img
-                                                src="{% static 'img/home/preview/th03.jpg' %}"
-                                                alt="Electronics Store" /></a>
-                                    </div>
-                                </li>
-                                <li class="dropdown position-static mb-0">
-                                    <a class="dropdown-item py-2 border-bottom" href="home-marketplace.html"><span
-                                            class="d-block text-heading">Marketplace</span><small
-                                            class="d-block text-muted">Multi-vendor, digital goods</small></a>
-                                    <div class="dropdown-menu h-100 animation-0 mt-0 p-3">
-                                        <a class="d-block" href="home-marketplace.html" style="width: 250px"><img
-                                                src="{% static 'img/home/preview/th04.jpg' %}" alt="Marketplace" /></a>
-                                    </div>
-                                </li>
-                                <li class="dropdown position-static mb-0">
-                                    <a class="dropdown-item py-2 border-bottom" href="home-grocery-store.html"><span
-                                            class="d-block text-heading">Grocery Store</span><small
-                                            class="d-block text-muted">Full width + Side menu</small></a>
-                                    <div class="dropdown-menu h-100 animation-0 mt-0 p-3">
-                                        <a class="d-block" href="home-grocery-store.html" style="width: 250px"><img
-                                                src="{% static 'img/home/preview/th06.jpg' %}"
-                                                alt="Grocery Store" /></a>
-                                    </div>
-                                </li>
-                                <li class="dropdown position-static mb-0">
-                                    <a class="dropdown-item py-2 border-bottom" href="home-food-delivery.html"><span
-                                            class="d-block text-heading">Food Delivery Service</span><small
-                                            class="d-block text-muted">Food &amp; Beverages delivery</small></a>
-                                    <div class="dropdown-menu h-100 animation-0 mt-0 p-3">
-                                        <a class="d-block" href="home-food-delivery.html" style="width: 250px"><img
-                                                src="{% static 'img/home/preview/th07.jpg' %}"
-                                                alt="Food Delivery Service" /></a>
-                                    </div>
-                                </li>
-                                <li class="dropdown position-static mb-0">
-                                    <a class="dropdown-item py-2 border-bottom" href="home-fashion-store-v2.html"><span
-                                            class="d-block text-heading">Fashion Store v.2</span><small
-                                            class="d-block text-muted">Slider + Featured categories</small></a>
-                                    <div class="dropdown-menu h-100 animation-0 mt-0 p-3">
-                                        <a class="d-block" href="home-fashion-store-v2.html" style="width: 250px"><img
-                                                src="{% static 'img/home/preview/th02.jpg' %}"
-                                                alt="Fashion Store v.2" /></a>
-                                    </div>
-                                </li>
-                                <li class="dropdown position-static mb-0">
-                                    <a class="dropdown-item py-2" href="home-single-store.html"><span
-                                            class="d-block text-heading">Single Product Store</span><small
-                                            class="d-block text-muted">Single product / mono brand</small></a>
-                                    <div class="dropdown-menu h-100 animation-0 mt-0 p-3">
-                                        <a class="d-block" href="home-single-store.html" style="width: 250px"><img
-                                                src="{% static 'img/home/preview/th05.jpg' %}"
-                                                alt="Single Product / Brand Store" /></a>
-                                    </div>
-                                </li>
+                                {% endfor %}
                             </ul>
                         </li>
-                        <li class="nav-item dropdown">
+                        <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Shop</a>
                             <div class="dropdown-menu p-0">
                                 <div class="d-flex flex-wrap flex-md-nowrap px-2">
@@ -347,7 +303,8 @@
                                             <ul class="widget-list">
                                                 <li class="widget-list-item pb-1">
                                                     <a class="widget-list-link"
-                                                        href="marketplace-category.html">Category Page</a>
+                                                        href="marketplace-category.html">Category
+                                                        Page</a>
                                                 </li>
                                                 <li class="widget-list-item pb-1">
                                                     <a class="widget-list-link" href="marketplace-single.html">Single
@@ -440,7 +397,8 @@
                                             <ul class="widget-list">
                                                 <li class="widget-list-item pb-1">
                                                     <a class="widget-list-link"
-                                                        href="food-delivery-category.html">Category Page</a>
+                                                        href="food-delivery-category.html">Category
+                                                        Page</a>
                                                 </li>
                                                 <li class="widget-list-item pb-1">
                                                     <a class="widget-list-link" href="food-delivery-single.html">Single
@@ -452,7 +410,8 @@
                                                 </li>
                                                 <li class="widget-list-item pb-1">
                                                     <a class="widget-list-link"
-                                                        href="food-delivery-checkout.html">Checkout (Address &amp;
+                                                        href="food-delivery-checkout.html">Checkout
+                                                        (Address &amp;
                                                         Payment)</a>
                                                 </li>
                                             </ul>
@@ -460,7 +419,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
+                        </li> -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Account</a>
                             <ul class="dropdown-menu">
@@ -569,15 +528,15 @@
                                             <a class="dropdown-item" href="home-grocery-store.html">Side Menu
                                                 (Grocery)</a>
                                         </li>
-                                        
+
                                         {% if owner %}
                                         <li>
-                                            <a class="dropdown-item" href="{% url 'owner:add_product' %}">Add Product</a>
+                                            <a class="dropdown-item" href="{% url 'owner:add_product' %}">Add
+                                                Product</a>
                                         </li>
-                                        
                                         {% endif %}
-                                            
-                                       
+
+
                                     </ul>
                                 </li>
                                 <li class="dropdown-divider"></li>
@@ -617,110 +576,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Blog</a>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown">
-                                    <a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown">Blog List
-                                        Layouts</a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" href="blog-list-sidebar.html">List with Sidebar</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="blog-list.html">List no Sidebar</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown">
-                                    <a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown">Blog Grid
-                                        Layouts</a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" href="blog-grid-sidebar.html">Grid with Sidebar</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="blog-grid.html">Grid no Sidebar</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown">
-                                    <a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown">Single Post
-                                        Layouts</a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" href="blog-single-sidebar.html">Article with
-                                                Sidebar</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="blog-single.html">Article no Sidebar</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Docs / Components</a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="docs/dev-setup.html">
-                                        <div class="d-flex">
-                                            <div class="lead text-muted pt-1">
-                                                <i class="czi-book"></i>
-                                            </div>
-                                            <div class="ml-2">
-                                                <span class="d-block text-heading">Documentation</span><small
-                                                    class="d-block text-muted">Kick-start customization</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item" href="components/typography.html">
-                                        <div class="d-flex">
-                                            <div class="lead text-muted pt-1">
-                                                <i class="czi-server"></i>
-                                            </div>
-                                            <div class="ml-2">
-                                                <span class="d-block text-heading">Components<span
-                                                        class="badge badge-info ml-2">40+</span></span><small
-                                                    class="d-block text-muted">Faster page building</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item" href="docs/changelog.html">
-                                        <div class="d-flex">
-                                            <div class="lead text-muted pt-1">
-                                                <i class="czi-edit"></i>
-                                            </div>
-                                            <div class="ml-2">
-                                                <span class="d-block text-heading">Changelog<span
-                                                        class="badge badge-success ml-2">v1.4</span></span><small
-                                                    class="d-block text-muted">Regular updates</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item" href="mailto:contact@createx.studio">
-                                        <div class="d-flex">
-                                            <div class="lead text-muted pt-1">
-                                                <i class="czi-help"></i>
-                                            </div>
-                                            <div class="ml-2">
-                                                <span class="d-block text-heading">Support</span><small
-                                                    class="d-block text-muted">contact@createx.studio</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+
                     </ul>
                 </div>
             </div>

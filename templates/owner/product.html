@@ -261,6 +261,7 @@
             <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
                 <div class="pt-2 px-4 pl-lg-0 pr-xl-5">
                     <!-- Title-->
+
                     <div class="d-sm-flex flex-wrap justify-content-between align-items-center border-bottom">
                         <h2 class="h3 py-2 mr-2 text-center text-sm-left">Total
                             <span class="badge badge-secondary text-body align-middle ml-2">
@@ -268,16 +269,18 @@
                             </span>
                         </h2>
                     </div>
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <button class="btn btn-primary btn-block" type="submit">
-                            <i class="czi-cloud-upload font-size-lg mr-2"></i>Update
-                        </button>
-                    </form>
+                    <div class="owner-width">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button class="btn btn-primary btn-block" type="submit">
+                                <i class="czi-cloud-upload font-size-lg mr-2"></i>Update
+                            </button>
+                        </form>
+                    </div>
+
                     <div class="table-responsive font-size-md">
                         {% for order in order_details %}
-
                         <!-- Product-->
                         <div class="media d-block d-sm-flex align-items-center py-4 border-bottom">
                             <a class="d-block mb-3 mb-sm-0 mr-sm-4 mx-auto"
@@ -306,8 +309,37 @@
                                 </div>
                             </div>
                         </div>
-
                         {% endfor %}
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Username</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>City</th>
+                                    <th>Address</th>
+                                    <th>Zip Code</th>
+                                    <th>Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{ order_details.0.user.username }}</th>
+                                    <td>{{ order_details.0.order.first_name }}</td>
+                                    <td>{{ order_details.0.order.last_name }}</td>
+                                    <td>{{ order_details.0.order.email }}</td>
+                                    <td>{{ order_details.0.order.phone }}</td>
+                                    <td>{{ order_details.0.order.city }}</td>
+                                    <td>{{ order_details.0.order.address }}</td>
+                                    <td>{{ order_details.0.order.zip_code }}</td>
+                                    <td>{{ order_details.0.order.note }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>

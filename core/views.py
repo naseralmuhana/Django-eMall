@@ -21,7 +21,7 @@ class IndexPageView(TemplateView):
             check_user = self.request.user
         else:
             check_user = ''
-
+        context['home_page'] = 'true'
         context.update(needed_everywhere(check_user))
         return context
 
@@ -380,6 +380,7 @@ def needed_everywhere(check_user):
     
     context['all_stores']=all_stores
     context['all_products']=all_products
+    context['all_category']=core_models.Category.objects.all()
     context['store_types']=core_models.StoreType.objects.all()
 
     return context

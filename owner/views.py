@@ -79,7 +79,7 @@ def order_details(request, id):
         store_join_date = owner_check.store.create_at
         store_image = owner_check.store.image
 
-        order = order_models.Order.objects.get(id = id)
+        order = order_models.Order.objects.get(id=id)
         if request.method == "POST":
             form = owner_forms.OrderForm(request.POST, instance=order)
             if form.is_valid():
@@ -103,7 +103,6 @@ def order_details(request, id):
             for order in order_details:
                 total += order.total
             return total
-
 
         context = {
             'form': form,
