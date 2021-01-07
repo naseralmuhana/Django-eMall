@@ -14,5 +14,7 @@ urlpatterns = [
     path('update-product/<slug>', owner_views.update_product, name="update_product"),
     path('delete-product/<slug>', owner_views.delete_product, name="delete_product"),
     path('products/', owner_views.product_list, name="product_list"),
+    path('orders/', owner_views.orders_list, name="orders_list"),
+    path('orders/<int:id>/', owner_views.order_details, name="order_details"),
      
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

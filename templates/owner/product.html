@@ -15,6 +15,8 @@
 {% trans "Cartzilla | Add Brand" %}
 {% elif product_list %}
 {% trans "Cartzilla | Products" %}
+{% elif orders_list or order_details %}
+{% trans "Cartzilla | Orders" %}
 {% endif %}
 
 {% endblock %}
@@ -61,6 +63,13 @@
                                     href="{% url 'owner:product_list' %}">
                                     <i class="czi-package opacity-60 mr-2"></i>Products
                                     <span class="font-size-sm text-muted ml-auto">{{ product_count }}</span>
+                                </a>
+                            </li>
+                            <li class="border-bottom mb-0">
+                                <a class="nav-link-style d-flex align-items-center px-4 py-3 {% if orders_list or order_details %}active{% endif %}"
+                                    href="{% url 'owner:orders_list' %}">
+                                    <i class="czi-package opacity-60 mr-2"></i>Orders
+                                    <span class="font-size-sm text-muted ml-auto">{{ orders_count }}</span>
                                 </a>
                             </li>
                             <li class="border-bottom mb-0">
@@ -200,6 +209,140 @@
                     {% endfor %}
                     {% endif %}
 
+                </div>
+            </section>
+            {% elif orders_list %}
+            <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+                <div class="pt-2 px-4 pl-lg-0 pr-xl-5">
+                    <!-- Title-->
+                    <div class="d-sm-flex flex-wrap justify-content-between align-items-center border-bottom">
+                        <h2 class="h3 py-2 mr-2 text-center text-sm-left">Your Orders
+                            <span class="badge badge-secondary font-size-sm text-body align-middle ml-2">
+                                {{ orders_count }}
+                            </span>
+                        </h2>
+                    </div>
+                    <div class="table-responsive font-size-md">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Date Purchased</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+
+                                <tr>
+                                    <td class="py-3">
+                                        <a class="nav-link-style font-weight-medium font-size-sm"
+                                            href="{% url 'owner:order_details' order.id %}">
+                                            {{ order.id }}
+                                        </a>
+                                    </td>
+                                    <td class="py-3">{{ order.create_at }}</td>
+                                    <td class="py-3">
+                                        <span class="badge badge-{% if order.status == 'In Progress' %}info{% elif order.status == 'Delayed' %}warning{% elif order.status == 'Canceled' %}danger{% else %}success{% endif %}
+                                             m-0">
+                                            {{ order.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            {% elif order_details %}
+            <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+                <div class="pt-2 px-4 pl-lg-0 pr-xl-5">
+                    <!-- Title-->
+
+                    <div class="d-sm-flex flex-wrap justify-content-between align-items-center border-bottom">
+                        <h2 class="h3 py-2 mr-2 text-center text-sm-left">Total
+                            <span class="badge badge-secondary text-body align-middle ml-2">
+                                {{ total_price }} JOD
+                            </span>
+                        </h2>
+                    </div>
+                    <div class="owner-width">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button class="btn btn-primary btn-block" type="submit">
+                                <i class="czi-cloud-upload font-size-lg mr-2"></i>Update
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="table-responsive font-size-md">
+                        {% for order in order_details %}
+                        <!-- Product-->
+                        <div class="media d-block d-sm-flex align-items-center py-4 border-bottom">
+                            <a class="d-block mb-3 mb-sm-0 mr-sm-4 mx-auto"
+                                href="{% url 'core:product_detail' p_store_type=order.product.category.store.storetype.slug store_slug=order.product.category.store.slug category_slug=order.product.category.slug slug=order.product.slug %}"
+                                style="width: 12.5rem;"><img class="rounded-lg" src="/media/{{ order.product.image }}"
+                                    alt="Product"></a>
+                            <div class="media-body text-center text-sm-left">
+                                <h3 class="h6 product-title mb-2">
+                                    <a
+                                        href="{% url 'core:product_detail' p_store_type=order.product.category.store.storetype.slug store_slug=order.product.category.store.slug category_slug=order.product.category.slug slug=order.product.slug %}">
+                                        {{ order.product.name }}</a>
+                                </h3>
+                                <h6>
+                                    Quantity: {{ order.quantity }}
+                                </h6>
+                                <div class="d-inline-block text-accent">
+                                    {% if order.product.discount_price %}
+                                    <span class="text-accent"><small>JOD</small>
+                                        {{ order.product.discount_price}}
+                                    </span>
+                                    <del class="font-size-sm text-muted">{{ order.product.price }}</del>
+                                    {% else %}
+                                    <span class="text-accent"><small>JOD</small>
+                                        {{ order.product.price }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Username</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>City</th>
+                                    <th>Address</th>
+                                    <th>Zip Code</th>
+                                    <th>Note</th>
+                                    <th>deliver Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{ order_details.0.user.username }}</th>
+                                    <td>{{ order_details.0.order.first_name }}</td>
+                                    <td>{{ order_details.0.order.last_name }}</td>
+                                    <td>{{ order_details.0.order.email }}</td>
+                                    <td>{{ order_details.0.order.phone }}</td>
+                                    <td>{{ order_details.0.order.city }}</td>
+                                    <td>{{ order_details.0.order.address }}</td>
+                                    <td>{{ order_details.0.order.zip_code }}</td>
+                                    <td>{{ order_details.0.order.note }}</td>
+                                    <td>{{ order_details.0.deliver_time }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
             {% endif %}

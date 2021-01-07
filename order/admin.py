@@ -10,8 +10,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('user', 'first_name', 'last_name',
                     'phone', 'address', 'total', 'status')
     list_filter = ('status', 'create_at')
-    readonly_fields = ('first_name', 'last_name', 'email', 'phone', 'zip_code',
-                       'address', 'city',  'total', 'user')
+    # readonly_fields = ('first_name', 'last_name', 'email', 'phone', 'zip_code',
+    #                    'address', 'city',  'total', 'user')
 
 
 
