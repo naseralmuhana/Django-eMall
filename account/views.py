@@ -34,6 +34,23 @@ def register_view(request):
     return render(request, 'account/register.html', {'form': form})
 
 
+# def login_view(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         user = authenticate(username=username, password=password)
+#         if user is not None:
+#             if user.is_active:
+#                 login(request, user)
+#         if 'next' in request.POST:
+#             messages.success(
+#                 request, f"Welcome back, Mr.{username}.")
+#             return HttpResponseRedirect(request.POST.get('next'))
+#         else:
+#             messages.success(
+#                 request, f"Welcome back, Mr.{username}.")
+#             return redirect('core:index')
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -42,18 +59,12 @@ def login_view(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-        else:
-            messages.warning(
-                request, "Something went wrong, check your information. Or Register if you don't have an account.")
-            return redirect('core:index')
         if 'next' in request.POST:
-            messages.success(
-                request, f"Welcome back, Mr.{username}.")
             return HttpResponseRedirect(request.POST.get('next'))
         else:
-            messages.success(
-                request, f"Welcome back, Mr.{username}.")
             return redirect('core:index')
+    else:
+        return render(request, 'account/login.html')
 
 
 @login_required(login_url='/accounts/login/')
