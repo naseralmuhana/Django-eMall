@@ -29,20 +29,13 @@
         <div class="tab-pane fade show active" id="order" role="tabpanel">
           {% if cart %}
           <!-- Sidebar-->
-          <div class="col-lg-3 col-md-4 pt-3 pt-sm-4" style="float:right;">
-            <div class="rounded-lg bg-secondary px-3 px-sm-4 py-4">
-              <div class="text-center mb-4 pb-3 border-bottom">
-                <h3 class="h5 mb-3 pb-1">Total</h3>
-                <h4 class="font-weight-normal">{{total}}<small> JOD </small></h4>
-              </div>
-            </div>
-          </div>
+
           {% else %}
           No Product Yet.
           {% endif %}
           <div class="row">
             <!-- Items in cart-->
-            <div class="col-lg-9 col-md-8 pt-sm-2">
+            <div class="col-lg-8 col-md-8 pt-sm-2">
               <!-- Item-->
               {%for product in cart%}
               <div class="d-sm-flex justify-content-between align-items-center mt-3 mb-4 pb-3 border-bottom">
@@ -75,12 +68,12 @@
                       </label>
                     </div>
                     {% else %}
-                    <h4 class="product-title font-size-base mb-2" >You didn't choose color</h4>
+                    <h4 class="product-title font-size-base mb-2">You didn't choose color</h4>
                     {% endif %}
                     {% endif %}
                   </div>
                 </div>
-                <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 9rem;">
+                <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-8 text-center text-sm-left" style="max-width: 11rem;">
                   <div class="form-group mb-0">
                     <div>
                       <form action="{% url 'order:updatefromcart' product.id %}" method="POST" novalidate>
@@ -91,9 +84,10 @@
                         </div>
                         {% for color in product.product_cart.color %}
                         <div class="custom-control custom-option custom-control-inline mb-2">
-                          <input class="custom-control-input" type="radio" name="color_Choiced" id="color{{product.id}}"
-                            data-label="colorOption"  value="{{ color }}" checked>
-                          <label class="custom-option-label rounded-circle" for="color{{ product.id}}">
+                          <input class="custom-control-input" type="radio" name="color_Choiced"
+                            id="color{{product.id}}{{ color }}" data-label="colorOption" value="{{ color }}"
+                            {% if color == product.color_Choiced %}checked{% endif %}>
+                          <label class="custom-option-label rounded-circle" for="color{{ product.id}}{{ color }}">
                             <span class="custom-option-color rounded-circle"
                               style="background-color: {{ color }};"></span>
                           </label>
@@ -138,6 +132,19 @@
               </div>
               <!-- Item-->
               {%endfor%}
+            </div>
+            <div class="col-lg-4 col-md-4 pt-3 pt-sm-4" style="float:right;">
+              <div class="rounded-lg bg-secondary px-3 px-sm-4 py-4">
+                <div class="text-center mb-4 pb-3 border-bottom">
+                  <h3 class="h5 mb-3 pb-1">Total</h3>
+                  <h4 class="font-weight-normal">{{total}}<small> JOD </small></h4>
+                </div>
+                <div class="form-group mb-4">
+                  <label class="mb-3" for="order-comments"><span class="badge badge-info font-size-xs mr-2">Note</span><span
+                      class="font-weight-medium">Additional comments</span></label>
+                  <textarea class="form-control" rows="4" id="order-comments"></textarea>
+                </div>
+              </div>
             </div>
           </div>
         </div>

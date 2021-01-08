@@ -97,10 +97,6 @@ def addtoshpcart(request,id):
     return HttpResponseRedirect(url)
 
 
-# def addtocart (request,id):
-#     return HttpResponse(str(id))
-
-
 @login_required(login_url='/accounts/login/')
 def shopcart(request):
     current_user = request.user
