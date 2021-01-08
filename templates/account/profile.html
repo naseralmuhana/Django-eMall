@@ -74,7 +74,9 @@
                     <i class="czi-sign-out mr-2"></i>Sign out
                 </a>
             </div>
-            <!-- Wishlist-->
+
+
+            {% if wishlist_list %}
             {% for product in wishlist_list %}
             <!-- Item-->
             <div class="d-sm-flex justify-content-between mt-lg-4 mb-4 pb-3 pb-sm-2 border-bottom">
@@ -118,6 +120,9 @@
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+            No Products Yet.
+            {% endif %}
 
         </section>
         {% elif orders_exist %}
@@ -141,6 +146,8 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                        {% if orders_list %}
                         {% for order in orders_list %}
                         <tr>
                             <td class="py-3"><a class="nav-link-style font-weight-medium font-size-sm"
@@ -148,13 +155,19 @@
                             <td class="py-3">{{ order.create_at }}</td>
                             <td class="py-3">
                                 <span class="badge badge-{% if order.status == 'In Progress' %}info{% elif order.status == 'Delayed' %}warning{% elif order.status == 'Canceled' %}danger{% else %}success{% endif %}
-                                m-0">
+                                    m-0">
                                     {{ order.status }}
                                 </span>
                             </td>
                             <td class="py-3">{{ order.total }} JOD</td>
                         </tr>
                         {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td>No Orders Yet.</td>
+                        </tr>
+                        {% endif %}
+
                     </tbody>
                 </table>
             </div>
@@ -164,14 +177,16 @@
             <!-- Toolbar-->
             <div class="d-none d-lg-flex justify-content-between align-items-center pt-lg-3 pb-4 pb-lg-5 mb-lg-3">
                 <h6 class="font-size-base text-light mb-0">List of your Orders:</h6>
+                <h6 class="font-size-base text-light mb-0">Total: {{ order_details.0.order.total }} <small>JOD</small>
+                </h6>
                 <a class="btn btn-primary btn-sm" href="{% url 'account:logout' %}">
                     <i class="czi-sign-out mr-2"></i>Sign out
                 </a>
             </div>
+
             <!-- Orders -->
             <div class="table-responsive font-size-md">
                 {% for order in order_details %}
-
                 <!-- Product-->
                 <div class="media d-block d-sm-flex align-items-center py-4 border-bottom">
                     <a class="d-block mb-3 mb-sm-0 mr-sm-4 mx-auto"
@@ -187,6 +202,20 @@
                         <h6>
                             Quantity: {{ order.quantity }}
                         </h6>
+                        {% if order.size_Choiced %}
+                        <h6>
+                            Size: {{ order.size_Choiced }}
+                        </h6>
+                        {% endif %}
+                        {% if order.color_Choiced %}
+                        <h6>
+                            <div class="pb-2">Color:</div>
+                            <label class="custom-option-label rounded-circle">
+                                <span class="custom-option-color rounded-circle"
+                                    style="background-color: {{ order.color_Choiced }};"></span>
+                            </label>
+                        </h6>
+                        {% endif %}
                         <div class="d-inline-block text-accent">
                             {% if order.product.discount_price %}
                             <span class="text-accent"><small>JOD</small>
@@ -198,9 +227,22 @@
                                 {{ order.product.price }}</span>
                             {% endif %}
                         </div>
+                        <h6 class="pt-5">
+                            Subtotal:
+                            {% if order.product.discount_price %}
+                            <span class="text-dark">
+                                <small>{{ order.product.discount_price}}</small>
+                            </span>
+                            {% else %}
+                            <span class="text-dark">
+                                <small>{{ order.product.price }}</small>
+                            </span>
+                            {% endif %} * <small>{{ order.quantity }}</small> =
+                            <span class="text-accent">{{ order.total }} <small>JOD</small></span>
+
+                        </h6>
                     </div>
                 </div>
-
                 {% endfor %}
             </div>
         </section>

@@ -188,7 +188,22 @@
                                     href="{% url 'core:product_detail' p_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug category_slug=product.category.slug slug=product.slug %}">
                                     {{ product.name }}</a>
                             </h3>
-                            <div class="d-inline-block text-accent">$18.<small>00</small></div>
+                            <div>Category:
+                                <a
+                                    href="{% url 'core:category_products_list' c_store_type=product.category.store.storetype.slug store_slug=product.category.store.slug slug=product.category.slug %}" class="text-dark">
+                                    {{ product.category.name|title }}</a>
+                            </div>
+                            <div class="d-inline-block text-accent pt-2">
+                                {% if product.discount_price %}
+                                <span class="text-accent"><small>JOD</small>
+                                    {{ product.discount_price}}
+                                </span>
+                                <del class="font-size-sm text-muted">{{ product.price }}</del>
+                                {% else %}
+                                <span class="text-accent"><small>JOD</small>
+                                    {{ product.price }}</span>
+                                {% endif %}
+                            </div>
                             <div class="d-flex justify-content-center justify-content-sm-start pt-3">
                                 <a class="btn bg-faded-info btn-icon mr-2"
                                     href="{% url 'owner:update_product' product.slug %}" title="Edit">
@@ -199,10 +214,6 @@
                                     onclick="return confirm('Delete!\n{{ product.name }}\nAre you Sure?')">
                                     <i class="czi-trash text-danger"></i>
                                 </a>
-                                <!-- <button class="btn bg-faded-danger btn-icon" type="button" data-toggle="tooltip"
-                                    title="Delete">
-                                    <i class="czi-trash text-danger"></i>
-                                </button> -->
                             </div>
                         </div>
                     </div>
@@ -261,7 +272,6 @@
             <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
                 <div class="pt-2 px-4 pl-lg-0 pr-xl-5">
                     <!-- Title-->
-
                     <div class="d-sm-flex flex-wrap justify-content-between align-items-center border-bottom">
                         <h2 class="h3 py-2 mr-2 text-center text-sm-left">Total
                             <span class="badge badge-secondary text-body align-middle ml-2">
@@ -285,8 +295,9 @@
                         <div class="media d-block d-sm-flex align-items-center py-4 border-bottom">
                             <a class="d-block mb-3 mb-sm-0 mr-sm-4 mx-auto"
                                 href="{% url 'core:product_detail' p_store_type=order.product.category.store.storetype.slug store_slug=order.product.category.store.slug category_slug=order.product.category.slug slug=order.product.slug %}"
-                                style="width: 12.5rem;"><img class="rounded-lg" src="/media/{{ order.product.image }}"
-                                    alt="Product"></a>
+                                style="width: 12.5rem; text-align: center;">
+                                <img class="rounded-lg" src="/media/{{ order.product.image }}" alt="Product"
+                                    style="height: 273px;"></a>
                             <div class="media-body text-center text-sm-left">
                                 <h3 class="h6 product-title mb-2">
                                     <a
@@ -296,6 +307,20 @@
                                 <h6>
                                     Quantity: {{ order.quantity }}
                                 </h6>
+                                {% if order.size_Choiced %}
+                                <h6>
+                                    Size: {{ order.size_Choiced }}
+                                </h6>
+                                {% endif %}
+                                {% if order.color_Choiced %}
+                                <h6>
+                                    <div class="pb-2">Color:</div>
+                                    <label class="custom-option-label rounded-circle">
+                                        <span class="custom-option-color rounded-circle"
+                                            style="background-color: {{ order.color_Choiced }};"></span>
+                                    </label>
+                                </h6>
+                                {% endif %}
                                 <div class="d-inline-block text-accent">
                                     {% if order.product.discount_price %}
                                     <span class="text-accent"><small>JOD</small>
@@ -307,6 +332,23 @@
                                         {{ order.product.price }}</span>
                                     {% endif %}
                                 </div>
+                                <h6 class="pt-5">
+                                    Subtotal:
+                                    {% if order.product.discount_price %}
+                                    <span class="text-dark">
+                                        <small>{{ order.product.discount_price}}</small>
+                                    </span>
+                                    {% else %}
+                                    <span class="text-dark">
+                                        <small>{{ order.product.price }}</small>
+                                    </span>
+                                    {% endif %} * <small>{{ order.quantity }}</small> =
+                                    <span class="text-accent">
+                                        {{ order.total }}
+                                        <small>JOD</small>
+                                    </span>
+
+                                </h6>
                             </div>
                         </div>
                         {% endfor %}
