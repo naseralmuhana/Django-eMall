@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from account import forms as account_forms
 from account import models as account_models
@@ -25,6 +26,8 @@ def register_view(request):
             password2 = form.cleaned_data.get('password2')
             user = authenticate(username=username, password=password1)
             login(request, user)
+            messages.success(
+                request, f"Welcome Mr.{username}.")
             return redirect('core:index')
     else:
         form = account_forms.UserRegistrationForm()
@@ -39,12 +42,18 @@ def login_view(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
+        else:
+            messages.warning(
+                request, "Something went wrong, check your information. Or Register if you don't have an account.")
+            return redirect('core:index')
         if 'next' in request.POST:
+            messages.success(
+                request, f"Welcome back, Mr.{username}.")
             return HttpResponseRedirect(request.POST.get('next'))
         else:
+            messages.success(
+                request, f"Welcome back, Mr.{username}.")
             return redirect('core:index')
-    else:
-        return render(request, 'account/login.html')
 
 
 @login_required(login_url='/accounts/login/')
@@ -113,7 +122,6 @@ def orders_view(request):
     }
     context.update(core_views.needed_everywhere(request.user))
     return render(request, 'account/profile.html', context)
-
 
 
 @login_required(login_url='/accounts/login/')

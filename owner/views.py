@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
+from django.contrib import messages
 
 from core import models as core_models
 from order import models as order_models
@@ -102,7 +103,7 @@ def order_details(request, id):
             total = 0
             for order in order_details:
                 total += order.total
-            return total
+            return round(total, 2)
 
         context = {
             'form': form,
@@ -136,6 +137,8 @@ def add_product(request):
                 store_name, request.POST, request.FILES)
             if form.is_valid():
                 form.save()
+            messages.success(
+                request, f"Product has been Added.")
             return HttpResponseRedirect(url)
         else:
             form = owner_forms.ProductForm(store_name)
@@ -170,6 +173,8 @@ def update_product(request, slug):
                 store_name, request.POST, request.FILES, instance=product)
             if form.is_valid():
                 form.save()
+            messages.success(
+                request, f"'{product.name}' has been Updated.")
             return HttpResponseRedirect(url)
         else:
             form = owner_forms.ProductForm(store_name, instance=product)
@@ -197,6 +202,8 @@ def delete_product(request, slug):
         product_name = core_models.Product.objects.filter(
             slug=slug)[0]
         core_models.Product.objects.filter(slug=slug).delete()
+        messages.warning(
+                request, f"'{product_name.name}' has been Deleted.")
         return HttpResponseRedirect(url)
     else:
         return HttpResponse('<h1>Post Not Found</h1>')
@@ -216,6 +223,8 @@ def add_category(request):
                 store_name, request.POST, request.FILES)
             if form.is_valid():
                 form.save()
+            messages.success(
+                request, f"Category has been Added.")
             return HttpResponseRedirect(url)
         else:
             form = owner_forms.CategoryForm(store_name)
@@ -248,6 +257,8 @@ def add_brand(request):
             form = owner_forms.BrandForm(request.POST)
             if form.is_valid():
                 form.save()
+            messages.success(
+                request, f"Brand has been Added.")
             return HttpResponseRedirect(url)
         else:
             form = owner_forms.BrandForm()
@@ -273,7 +284,7 @@ def overall_sales(store_name):
         product__category__store__name=store_name)
     for order in orders:
         sum += order.total
-    return sum
+    return round(sum, 2)
 
 
 def product_count(store_name):

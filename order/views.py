@@ -115,7 +115,7 @@ def shopcart(request):
         total += product.amount
 
     context = {'cart': cart,
-               'total': total,
+               'total': round(total,2),
                'form': form,
                'userInfo':  userInfo, }
 
@@ -256,9 +256,6 @@ def checkout(request):
             return render(request,"order/checkout_review.html",context )
 
 
-
-    
-
     # context.update(views.total_price_items(request.user.id))
     return render(request, 'order/cart.html')
 
@@ -276,7 +273,7 @@ def checkout_complete(request, id):
     context = {
         'order_details': order_details,
         'order_product_details': order_product_details,
-        'total_order': total,
+        'total_order': round(total,2),
         
     }
     # context.update(views.total_price_items(request.user.id))
