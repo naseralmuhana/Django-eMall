@@ -410,44 +410,59 @@ def paginate_view(request, products):
     return products_paginator
 
 
-def Quick_View(request):
-
+def Quick_View (request):
+    current_user = request.user
+    
     if request.is_ajax():
-
+        
         name_product = request.GET.get("product_name")
-        print(f'product.name = {name_product}')
-        product = core_models.Product.objects.filter(name=name_product)
+        
+        product = core_models.Product.objects.filter(name = name_product)
+        product_id = product[0].id
+
         product_name = product[0].name
-        image = product[0].image
+        image =product[0].image
         description = product[0].description
         price = product[0].price
-        discount_price = product[0].discount_price
+        discount_price=product[0].discount_price
         color = product[0].color
         size = product[0].size
         c_store_type = product[0].category.store.storetype.slug
         category_slug = product[0].category.slug
-        slug = product[0].slug
+        slug=product[0].slug
         store_slug = product[0].category.store.slug
+        fav = product[0].favourite.all()
 
-        slug_product = ("/{c_store_type}-type/{store_slug}/{category_slug}/{slug}/").format(
-            c_store_type=c_store_type, store_slug=store_slug, category_slug=category_slug, slug=slug)
+        if  current_user in fav:
+           favourite =True
+        else:
+            favourite = False   
 
+        slug_product = ("/{c_store_type}-type/{store_slug}/{category_slug}/{slug}/").format(c_store_type=c_store_type, store_slug=store_slug, category_slug=category_slug, slug=slug)
+
+        favourite_slag = ('/favourite-product/{slug}/').format(slug = slug)
+        add_product_herf = ('/order/addtoshpcart/{id}/').format(id = product_id )
         image = str(image)
         slug_product = str(slug_product)
-        print(slug_product)
+        
         context = {
-            'product_name': product_name,
-            'image': image,
-            'description': description,
-            'price': price,
-            'discount_price': discount_price,
-            'color': color,
-            'size': size,
-            'slug': slug_product,
+                'product_name': product_name,
+                'image': image,
+                'description':description,
+                'price': price,
+                'discount_price': discount_price,
+                'color': color,
+                'size': size,
+                'slug':slug_product,
+                'id':product_id,
+                'favourite': favourite,
+                'favourite_slag':favourite_slag,
+                'add':add_product_herf,
 
 
-        }
+            }
         return JsonResponse(context)
 
-    else:
-        print('product.name')
+
+
+ 

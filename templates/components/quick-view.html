@@ -11,11 +11,13 @@
                     <a id="product_name" href="" data-toggle="tooltip" data-placement="right" title="Go to product page">Sports Hooded
                         Sweatshirt<i class="czi-arrow-right font-size-lg ml-2"></i></a>
                 </h4>
+             
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+               
                 <div class="row">
                     <!-- Product gallery-->
                     <div class="col-lg-7 pr-lg-0">
@@ -33,71 +35,44 @@
                     <!-- Product details-->
                     <div class="col-lg-5 pt-4 pt-lg-0 cz-image-zoom-pane">
                         <div class="product-details ml-auto pb-3">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <a href="">
-                                    <div class="star-rating">
-                                        <i class="sr-star czi-star-filled active"></i><i
-                                            class="sr-star czi-star-filled active"></i><i
-                                            class="sr-star czi-star-filled active"></i><i
-                                            class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i>
-                                    </div>
-                                    <span name='reviews'
-                                        class="d-inline-block font-size-sm text-body align-middle mt-1 ml-1">74
-                                        Reviews</span>
-                                </a>
+                           
 
-                                <button class="btn-wishlist" type="button" data-toggle="tooltip"
-                                    title="Add to wishlist">
-                                    <i class="czi-heart"></i>
-                                </button>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                              
+                               
+
+                                <a id = 'remove_fav' class="btn-wishlist btn-sm"
+                                    href="" data-toggle="tooltip"
+                                    data-placement="right" data-original-title="Remove from wishlist" style="display:none;">
+                                    <i class="fa fa-heart"></i></a>
+                            
+                                <a id ='fav' class="btn-wishlist btn-sm"
+                                    href="" data-toggle="tooltip"
+                                    data-placement="right" data-original-title="Add to wishlist" style="display:none;">
+                                    <i class="czi-heart"></i></a>
+
+                                    <div class="product-badge product-available mt-n1">
+                                        <i class="czi-security-check"></i>Product available
+                                    </div>
+                               
                             </div>
                             <div class="mb-3">
-                                <span id='Sale'
-                                    class="h3 font-weight-normal text-accent mr-1">00<small>JOD</small></span>
-                                <del id='price' class="text-muted font-size-lg mr-3"><small>JOD</small></del><span
-                                    class="badge badge-danger badge-shadow align-middle mt-n2">Sale</span>
+                                <span id='price'
+                                    class="h3 font-weight-normal text-accent mr-1" >00</span> <small>JOD</small>
+                                <del id='sale' class="text-muted font-size-lg mr-3" style="display:none;" ><small>JOD</small></del><span id='sale_tag'
+                                    class="badge badge-danger badge-shadow align-middle mt-n2" style="display:none;">Sale</span>
+                                    
+                                 
                             </div>
-                            <div class="font-size-sm mb-4">
-                                <span class="text-heading font-weight-medium mr-1">Color:</span><span
-                                    class="text-muted">Red/Dark blue/White</span>
+                            
+                               
                             </div>
-                            <div class="position-relative mr-n4 mb-3">
-                                <div class="custom-control custom-option custom-control-inline mb-2">
-                                    <input class="custom-control-input" type="radio" name="color" id="color1" checked />
-                                    <label class="custom-option-label rounded-circle" for="color1"><span
-                                            class="custom-option-color rounded-circle" style="
-                          background-image: url(img/shop/single/color-opt-1.png);
-                        "></span></label>
-                                </div>
-                                <div class="custom-control custom-option custom-control-inline mb-2">
-                                    <input class="custom-control-input" type="radio" name="color" id="color2" />
-                                    <label class="custom-option-label rounded-circle" for="color2"><span
-                                            class="custom-option-color rounded-circle" style="
-                          background-image: url(img/shop/single/color-opt-2.png);
-                        "></span></label>
-                                </div>
-                                <div class="custom-control custom-option custom-control-inline mb-2">
-                                    <input class="custom-control-input" type="radio" name="color" id="color3" />
-                                    <label class="custom-option-label rounded-circle" for="color3"><span
-                                            class="custom-option-color rounded-circle" style="
-                          background-image: url(img/shop/single/color-opt-3.png);
-                        "></span></label>
-                                </div>
-                                <div class="product-badge product-available mt-n1">
-                                    <i class="czi-security-check"></i>Product available
-                                </div>
-                            </div>
-                            <form class="mb-grid-gutter">
+                            <form id = 'form_add' class="mb-grid-gutter" method="POST" action="" >
+                                {%csrf_token%}
                                 <div class="form-group">
-                                    <label class="font-weight-medium pb-1" for="product-size">Size:</label>
-                                    <select class="custom-select" required id="product-size">
-                                        <option value="">Select size</option>
-                                        <option value="xs">XS</option>
-
-                                    </select>
-                                </div>
+                                    
                                 <div class="form-group d-flex align-items-center">
-                                    <select class="custom-select mr-3" style="width: 5rem">
+                                    <select class="custom-select mr-3" min='1' name = 'quantity' style="width: 5rem">
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -178,8 +153,38 @@
         $('#modal_img_1').attr('src', '/media/' + product_data.image);
         $('#modal_img_1').attr('data-zoom', '/media/' + product_data.image);
         $('#description1').text(product_data.description);
-        $('#price').text(product_data.price);
-        $('#sale').text(product_data.discount_price);
+        
+        if (product_data.discount_price != 0){
+            $('#sale_tag').attr('style', "display:visible;");
+            $('#sale').attr('style', "display:visible;");
+            $('#price').text(product_data.discount_price);
+            $('#sale').text(product_data.price);
+
+
+        }
+        else{
+            
+            $('#sale_tag').attr('style', "display:none;");
+            $('#sale').attr('style', "display:none;");
+            $('#price').text(product_data.price);
+        }
+
+        if (product_data.favourite){
+            $('#remove_fav').attr('style', "display:visible;");
+            $('#fav').attr('style', "display:none;");
+            $('#remove_fav').attr('href', product_data.favourite_slag);
+            
+        }
+
+        else{
+
+            $('#fav').attr('style', "display:visible;");
+            $('#remove_fav').attr('style', "display:none;");
+            $('#fav').attr('href', product_data.favourite_slag);
+
+        }
+        
+        $('#form_add').attr('action', product_data.add);
         $('#product_name').attr('href', product_data.slug);
         $('#quick-view').modal('show');
     } ((jQuery));

@@ -75,7 +75,7 @@
                       </label>
                     </div>
                     {% else %}
-                    You didn't choose any
+                    <h4 class="product-title font-size-base mb-2" >You didn't choose color</h4>
                     {% endif %}
                     {% endif %}
                   </div>
@@ -91,9 +91,9 @@
                         </div>
                         {% for color in product.product_cart.color %}
                         <div class="custom-control custom-option custom-control-inline mb-2">
-                          <input class="custom-control-input" type="radio" name="color_Choiced" id="color{{color}}"
-                            data-label="colorOption" value="{{ color }}">
-                          <label class="custom-option-label rounded-circle" for="color{{ color}}">
+                          <input class="custom-control-input" type="radio" name="color_Choiced" id="color{{product.id}}"
+                            data-label="colorOption"  value="{{ color }}" checked>
+                          <label class="custom-option-label rounded-circle" for="color{{ product.id}}">
                             <span class="custom-option-color rounded-circle"
                               style="background-color: {{ color }};"></span>
                           </label>

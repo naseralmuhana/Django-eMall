@@ -66,7 +66,6 @@ def login_view(request):
     else:
         return render(request, 'account/login.html')
 
-
 @login_required(login_url='/accounts/login/')
 def profile(request):
     if request.method == 'POST':
