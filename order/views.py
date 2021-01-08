@@ -16,9 +16,7 @@ from datetime import datetime, timedelta
 def addtoshpcart(request,id):
     url = request.META.get('HTTP_REFERER') # GET LAST URL
     current_user = request.user # access user session information
-
     controller = True
-
     checkproduct = ShopCart.objects.filter(product_cart_id=id, user_id = current_user)
     print(checkproduct)
    
@@ -52,9 +50,7 @@ def addtoshpcart(request,id):
                     data.size_Choiced = form.cleaned_data['size_Choiced']
                     data.color_Choiced = form.cleaned_data['color_Choiced']
                     data.quantity = form.cleaned_data['quantity']
-                    data.save()
-
-                    
+                    data.save()    
             else:
                 data = ShopCart()
                 data.user_id_id = current_user.id 
@@ -78,15 +74,12 @@ def addtoshpcart(request,id):
                     data.quantity +=1
                     data.save()
                     controller = False
-
             if controller:
-
                 data = ShopCart()
                 data.user_id_id = current_user.id 
                 data.product_cart_id = id 
                 data.quantity = 1
                 data.save() 
-
         else: 
             data = ShopCart()
             data.user_id_id = current_user.id 
